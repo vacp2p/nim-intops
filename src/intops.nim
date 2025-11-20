@@ -1,6 +1,12 @@
 import intops/pure
 import intops/native
 
+template overflowingAdd*[T: SomeUnsignedInt](a, b: T): (T, bool) =
+  when nimvm:
+    pure.overflowingAdd(a, b)
+  else:
+    native.overflowingAdd(a, b)
+
 template carryingAdd*[T: SomeUnsignedInt](a, b: T, carryIn: bool): (T, bool) =
   ## Primitive: Add with Carry (ADC)
   ## Logic: a + b + carryIn
@@ -17,6 +23,12 @@ func saturatingAdd*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
     return high(T)
 
   return res
+
+template overflowingSub*[T: SomeUnsignedInt](a, b: T): (T, bool) =
+  when nimvm:
+    pure.overflowingSub(a, b)
+  else:
+    native.overflowingSub(a, b)
 
 template borrowingSub*[T: SomeUnsignedInt](a, b: T, borrowIn: bool): (T, bool) =
   ## Primitive: Subtract with Borrow (SBB)

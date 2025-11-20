@@ -2,20 +2,84 @@ import std/unittest
 
 import intops
 
-suite "Compile time, pure Nim implementations":
+suite "Compile time, pure Nim implementation":
+  test "Overflowing addition, unsigned":
+    template testOverflowingAdd[T: SomeUnsignedInt]() =
+      static:
+        assert overflowingAdd(T(1), T(1)) == (T(2), false)
+        assert overflowingAdd(high(T), T(0)) == (high(T), false)
+        assert overflowingAdd(high(T), T(1)) == (T(0), true)
+        assert overflowingAdd(high(T) - T(5), T(10)) == (T(4), true)
+
+    testOverflowingAdd[uint8]()
+    testOverflowingAdd[uint16]()
+    testOverflowingAdd[uint32]()
+    testOverflowingAdd[uint64]()
+
   test "Carrying addition (ADC), unsigned":
-    static:
-      assert carryingAdd(high(uint8), low(uint8), true) == (low(uint8), true)
-      assert carryingAdd(high(uint16), low(uint16), true) == (low(uint16), true)
-      assert carryingAdd(high(uint32), low(uint32), true) == (low(uint32), true)
-      assert carryingAdd(high(uint64), low(uint64), true) == (low(uint64), true)
+    template testCarryingAdd[T: SomeUnsignedInt]() =
+      static:
+        assert carryingAdd(high(T), low(T), true) == (low(T), true)
+        assert carryingAdd(high(T), low(T), false) == (high(T), false)
+        assert carryingAdd(high(T), high(T), true) == (high(T), true)
+        assert carryingAdd(high(T), high(T), false) == (high(T) - T(1), true)
+
+    testCarryingAdd[uint8]()
+    testCarryingAdd[uint16]()
+    testCarryingAdd[uint32]()
+    testCarryingAdd[uint64]()
+
+  test "Saturating addition, unsigned":
+    template testSaturatingAdd[T: SomeUnsignedInt]() =
+      static:
+        assert saturatingAdd(T(10), T(20)) == T(30)
+        assert saturatingAdd(high(T) - T(1), T(1)) == high(T)
+        assert saturatingAdd(high(T), T(1)) == high(T)
+        assert saturatingAdd(high(T), high(T)) == high(T)
+  
+    testSaturatingAdd[uint8]()
+    testSaturatingAdd[uint16]()
+    testSaturatingAdd[uint32]()
+    testSaturatingAdd[uint64]()
+
+  test "Overflowing subtraction, unsigned":
+    template testOverflowingSub[T: SomeUnsignedInt]() =
+      static:
+        assert overflowingSub(T(2), T(1)) == (T(1), false)
+        assert overflowingSub(T(5), T(0)) == (T(5), false)
+        assert overflowingSub(T(0), T(1)) == (high(T), true)
+        assert overflowingSub(T(10), T(20)) == (high(T) - T(9), true)
+
+    testOverflowingSub[uint8]()
+    testOverflowingSub[uint16]()
+    testOverflowingSub[uint32]()
+    testOverflowingSub[uint64]()
 
   test "Borrowing subtraction (SBB), unsigned":
-    static:
-      assert borrowingSub(low(uint8), low(uint8), true) == (high(uint8), true)
-      assert borrowingSub(low(uint16), low(uint16), true) == (high(uint16), true)
-      assert borrowingSub(low(uint32), low(uint32), true) == (high(uint32), true)
-      assert borrowingSub(low(uint64), low(uint64), true) == (high(uint64), true)
+    template testBorrowingSub[T: SomeUnsignedInt]() =
+      static:
+        assert borrowingSub(low(T), low(T), true) == (high(T), true)
+        assert borrowingSub(low(T), low(T), false) == (low(T), false)
+        assert borrowingSub(low(T), high(T), true) == (low(T), true)
+        assert borrowingSub(low(T), high(T), false) == (low(T) + T(1), true)
+
+    testBorrowingSub[uint8]()
+    testBorrowingSub[uint16]()
+    testBorrowingSub[uint32]()
+    testBorrowingSub[uint64]()
+
+  test "Saturating subtraction, unsigned":
+    template testSaturatingSub[T: SomeUnsignedInt]() =
+      static:
+        assert saturatingSub(T(30), T(20)) == T(10)
+        assert saturatingSub(low(T) + T(1), T(1)) == low(T)
+        assert saturatingSub(low(T), T(1)) == low(T)
+        assert saturatingSub(low(T), high(T)) == low(T)
+  
+    testSaturatingSub[uint8]()
+    testSaturatingSub[uint16]()
+    testSaturatingSub[uint32]()
+    testSaturatingSub[uint64]()
 
   test "Widening multiplication, unsigned":
     static:

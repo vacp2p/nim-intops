@@ -3,6 +3,18 @@ import std/unittest
 import intops
 
 suite "Run time, intrinsics implementation":
+  test "Overflowing addition, unsigned":
+    template testOverflowingAdd[T: SomeUnsignedInt]() =
+      check overflowingAdd(T(1), T(1)) == (T(2), false)
+      check overflowingAdd(high(T), T(0)) == (high(T), false)
+      check overflowingAdd(high(T), T(1)) == (T(0), true)
+      check overflowingAdd(high(T) - T(5), T(10)) == (T(4), true)
+
+    testOverflowingAdd[uint8]()
+    testOverflowingAdd[uint16]()
+    testOverflowingAdd[uint32]()
+    testOverflowingAdd[uint64]()
+
   test "Carrying addition (ADC), unsigned":
     template testCarryingAdd[T: SomeUnsignedInt]() =
       check carryingAdd(high(T), low(T), true) == (low(T), true)
@@ -26,6 +38,18 @@ suite "Run time, intrinsics implementation":
     testSaturatingAdd[uint16]()
     testSaturatingAdd[uint32]()
     testSaturatingAdd[uint64]()
+
+  test "Overflowing subtraction, unsigned":
+    template testOverflowingSub[T: SomeUnsignedInt]() =
+      check overflowingSub(T(2), T(1)) == (T(1), false)
+      check overflowingSub(T(5), T(0)) == (T(5), false)
+      check overflowingSub(T(0), T(1)) == (high(T), true)
+      check overflowingSub(T(10), T(20)) == (high(T) - T(9), true)
+
+    testOverflowingSub[uint8]()
+    testOverflowingSub[uint16]()
+    testOverflowingSub[uint32]()
+    testOverflowingSub[uint64]()
 
   test "Borrowing subtraction (SBB), unsigned":
     template testBorrowingSub[T: SomeUnsignedInt]() =

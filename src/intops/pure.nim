@@ -1,24 +1,28 @@
-func carryingAdd*[T: SomeUnsignedInt](a, b: T, carryIn: bool): (T, bool) {.inline.} =
-  ## [COMPILE-TIME PATH] Pure Nim
+func overflowingAdd*[T: SomeUnsignedInt](a, b: T): (T, bool) {.inline.} =
+  let res = a + b
+  let didOverflow = res < a 
+  return (res, didOverflow)
 
+func carryingAdd*[T: SomeUnsignedInt](a, b: T, carryIn: bool): (T, bool) {.inline.} =
   let sum = a + b
-  let c1 = sum < a # Did a+b wrap?
+  let c1 = sum < a
   let res = sum + T(carryIn)
-  let c2 = res < sum # Did (a+b)+carry wrap?
+  let c2 = res < sum
   return (res, c1 or c2)
 
-func borrowingSub*[T: SomeUnsignedInt](a, b: T, borrowIn: bool): (T, bool) {.inline.} =
-  ## [COMPILE-TIME PATH] Pure Nim
+func overflowingSub*[T: SomeUnsignedInt](a, b: T): (T, bool) {.inline.} =
+  let res = a - b
+  let didBorrow = a < b
+  return (res, didBorrow)
 
+func borrowingSub*[T: SomeUnsignedInt](a, b: T, borrowIn: bool): (T, bool) {.inline.} =
   let diff = a - b
-  let b1 = a < b # Did a-b wrap?
+  let b1 = a < b
   let res = diff - T(borrowIn)
-  let b2 = diff < T(borrowIn) # Did (a-b)-borrow wrap?
+  let b2 = diff < T(borrowIn)
   return (res, b1 or b2)
 
 func wideningMul*(a, b: uint64): (uint64, uint64) =
-  ## [COMPILE-TIME PATH] Pure Nim
-
   let halfMask = 0xFFFFFFFF'u64
 
   # Split inputs into 32-bit halves

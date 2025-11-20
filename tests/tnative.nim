@@ -4,17 +4,53 @@ import intops
 
 suite "Run time, intrinsics implementation":
   test "Carrying addition (ADC), unsigned":
-    check carryingAdd(high(uint8), 0'u8, true) == (0'u8, true)
-    check carryingAdd(high(uint16), 0'u16, true) == (0'u16, true)
-    check carryingAdd(high(uint32), 0'u32, true) == (0'u32, true)
-    check carryingAdd(high(uint64), 0'u64, true) == (0'u64, true)
+    template testCarryingAdd[T: SomeUnsignedInt]() =
+      check carryingAdd(high(T), low(T), true) == (low(T), true)
+      check carryingAdd(high(T), low(T), false) == (high(T), false)
+      check carryingAdd(high(T), high(T), true) == (high(T), true)
+      check carryingAdd(high(T), high(T), false) == (high(T) - T(1), true)
+
+    testCarryingAdd[uint8]()
+    testCarryingAdd[uint16]()
+    testCarryingAdd[uint32]()
+    testCarryingAdd[uint64]()
+
+  test "Saturating addition, unsigned":
+    template testSaturatingAdd[T: SomeUnsignedInt]() =
+      check saturatingAdd(T(10), T(20)) == T(30)
+      check saturatingAdd(high(T) - T(1), T(1)) == high(T)
+      check saturatingAdd(high(T), T(1)) == high(T)
+      check saturatingAdd(high(T), high(T)) == high(T)
+  
+    testSaturatingAdd[uint8]()
+    testSaturatingAdd[uint16]()
+    testSaturatingAdd[uint32]()
+    testSaturatingAdd[uint64]()
 
   test "Borrowing subtraction (SBB), unsigned":
-    check borrowingSub(0'u8, 0'u8, true) == (high(uint8), true)
-    check borrowingSub(0'u16, 0'u16, true) == (high(uint16), true)
-    check borrowingSub(0'u32, 0'u32, true) == (high(uint32), true)
-    check borrowingSub(0'u64, 0'u64, true) == (high(uint64), true)
+    template testBorrowingSub[T: SomeUnsignedInt]() =
+      check borrowingSub(low(T), low(T), true) == (high(T), true)
+      check borrowingSub(low(T), low(T), false) == (low(T), false)
+      check borrowingSub(low(T), high(T), true) == (low(T), true)
+      check borrowingSub(low(T), high(T), false) == (low(T) + T(1), true)
 
+    testBorrowingSub[uint8]()
+    testBorrowingSub[uint16]()
+    testBorrowingSub[uint32]()
+    testBorrowingSub[uint64]()
+
+  test "Saturating subtraction, unsigned":
+    template testSaturatingSub[T: SomeUnsignedInt]() =
+      check saturatingSub(T(30), T(20)) == T(10)
+      check saturatingSub(low(T) + T(1), T(1)) == low(T)
+      check saturatingSub(low(T), T(1)) == low(T)
+      check saturatingSub(low(T), high(T)) == low(T)
+  
+    testSaturatingSub[uint8]()
+    testSaturatingSub[uint16]()
+    testSaturatingSub[uint32]()
+    testSaturatingSub[uint64]()
+    
   test "Widening multiplication, unsigned":
     let maxU = 0xFFFFFFFFFFFFFFFF'u64
 

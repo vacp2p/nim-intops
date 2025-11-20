@@ -3,19 +3,19 @@ import std/unittest
 import intops
 
 suite "Compile time, pure Nim implementations":
-  test "Carrying addition (ADC), u8":
+  test "Carrying addition (ADC), unsigned":
     static:
-      assert carryingAdd(high(uint8), 0'u8, true) == (0'u8, true)
-      assert carryingAdd(high(uint16), 0'u16, true) == (0'u16, true)
-      assert carryingAdd(high(uint32), 0'u32, true) == (0'u32, true)
-      assert carryingAdd(high(uint64), 0'u64, true) == (0'u64, true)
+      assert carryingAdd(high(uint8), low(uint8), true) == (low(uint8), true)
+      assert carryingAdd(high(uint16), low(uint16), true) == (low(uint16), true)
+      assert carryingAdd(high(uint32), low(uint32), true) == (low(uint32), true)
+      assert carryingAdd(high(uint64), low(uint64), true) == (low(uint64), true)
 
-  test "Borrowing subtraction (SBB), u8":
+  test "Borrowing subtraction (SBB), unsigned":
     static:
-      assert borrowingSub(0'u8, 0'u8, true) == (high(uint8), true)
-      assert borrowingSub(0'u16, 0'u16, true) == (high(uint16), true)
-      assert borrowingSub(0'u32, 0'u32, true) == (high(uint32), true)
-      assert borrowingSub(0'u64, 0'u64, true) == (high(uint64), true)
+      assert borrowingSub(low(uint8), low(uint8), true) == (high(uint8), true)
+      assert borrowingSub(low(uint16), low(uint16), true) == (high(uint16), true)
+      assert borrowingSub(low(uint32), low(uint32), true) == (high(uint32), true)
+      assert borrowingSub(low(uint64), low(uint64), true) == (high(uint64), true)
 
   test "Widening multiplication, unsigned":
     static:

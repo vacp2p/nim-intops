@@ -8,21 +8,16 @@ template overflowingAdd*[T: SomeUnsignedInt](a, b: T): (T, bool) =
     native.overflowingAdd(a, b)
 
 template carryingAdd*[T: SomeUnsignedInt](a, b: T, carryIn: bool): (T, bool) =
-  ## Primitive: Add with Carry (ADC)
-  ## Logic: a + b + carryIn
-
   when nimvm:
     pure.carryingAdd(a, b, carryIn)
   else:
     native.carryingAdd(a, b, carryIn)
 
-func saturatingAdd*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
-  let (res, didOverflow) = intops.carryingAdd(a, b, false)
-
-  if unlikely(didOverflow):
-    return high(T)
-
-  return res
+template saturatingAdd*[T: SomeUnsignedInt](a, b: T): T =
+  when nimvm:
+    pure.saturatingAdd(a, b)
+  else:
+    native.saturatingAdd(a, b)
 
 template overflowingSub*[T: SomeUnsignedInt](a, b: T): (T, bool) =
   when nimvm:
@@ -31,25 +26,18 @@ template overflowingSub*[T: SomeUnsignedInt](a, b: T): (T, bool) =
     native.overflowingSub(a, b)
 
 template borrowingSub*[T: SomeUnsignedInt](a, b: T, borrowIn: bool): (T, bool) =
-  ## Primitive: Subtract with Borrow (SBB)
-  ## Logic: a - b - borrowIn
-
   when nimvm:
     pure.borrowingSub(a, b, borrowIn)
   else:
     native.borrowingSub(a, b, borrowIn)
 
-func saturatingSub*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
-  let (res, didBorrow) = intops.borrowingSub(a, b, false)
-
-  if unlikely(didBorrow):
-    return low(T)
-
-  return res
+template saturatingSub*[T: SomeUnsignedInt](a, b: T): T =
+  when nimvm:
+    pure.saturatingSub(a, b)
+  else:
+    native.saturatingSub(a, b)
 
 template wideningMul*(a, b: uint64): (uint64, uint64) =
-  ## Primitive: Widening multiplication
-
   when nimvm:
     pure.wideningMul(a, b)
   else:

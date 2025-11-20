@@ -11,6 +11,14 @@ func carryingAdd*[T: SomeUnsignedInt](a, b: T, carryIn: bool): (T, bool) {.inlin
   let c2 = intrinsics.overflowingAdd(t1, T(carryIn), final)
   return (final, c1 or c2)
 
+func saturatingAdd*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
+  let (res, didOverflow) = carryingAdd(a, b, false)
+
+  if unlikely(didOverflow):
+    return high(T)
+
+  return res
+
 func overflowingSub*[T: SomeUnsignedInt](a, b: T): (T, bool) {.inline.} =
   var res: T
   let didBorrow = intrinsics.overflowingSub(a, b, res)
@@ -21,6 +29,14 @@ func borrowingSub*[T: SomeUnsignedInt](a, b: T, borrowIn: bool): (T, bool) {.inl
   let b1 = intrinsics.overflowingSub(a, b, t1)
   let b2 = intrinsics.overflowingSub(t1, T(borrowIn), final)
   return (final, b1 or b2)
+
+func saturatingSub*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
+  let (res, didBorrow) = borrowingSub(a, b, false)
+
+  if unlikely(didBorrow):
+    return low(T)
+
+  return res
 
 func wideningMul*(a, b: uint64): (uint64, uint64) {.inline.} =
   var hi, lo: uint64

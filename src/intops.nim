@@ -18,3 +18,11 @@ template borrowingSub*[T: SomeUnsignedInt](a, b: T, borrowIn: bool): (T, bool) =
     pure.borrowingSub(a, b, borrowIn)
   else:
     native.borrowingSub(a, b, borrowIn)
+
+template wideningMul*(a, b: uint64): (uint64, uint64) =
+  ## Primitive: Widening multiplication
+
+  when nimvm:
+    pure.wideningMul(a, b)
+  else:
+    native.wideningMul(a, b)

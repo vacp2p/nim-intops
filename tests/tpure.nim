@@ -16,6 +16,19 @@ suite "Compile time, pure Nim implementation":
     testOverflowingAdd[uint32]()
     testOverflowingAdd[uint64]()
 
+  test "Overflowing addition, signed":
+    template testOverflowingAdd[T: SomeSignedInt]() =
+      static:
+        assert overflowingAdd(T(1), T(1)) == (T(2), false)
+        assert overflowingAdd(high(T), T(-1)) == (high(T) - T(1), false)
+        assert overflowingAdd(high(T), T(1)) == (low(T), true)
+        assert overflowingAdd(low(T), T(-1)) == (high(T), true)
+
+    testOverflowingAdd[int8]()
+    testOverflowingAdd[int16]()
+    testOverflowingAdd[int32]()
+    testOverflowingAdd[int64]()
+
   test "Carrying addition (ADC), unsigned":
     template testCarryingAdd[T: SomeUnsignedInt]() =
       static:
@@ -54,6 +67,22 @@ suite "Compile time, pure Nim implementation":
     testOverflowingSub[uint16]()
     testOverflowingSub[uint32]()
     testOverflowingSub[uint64]()
+
+  test "Overflowing subtraction, signed":
+    template testOverflowingSub[T: SomeSignedInt]() =
+      static:
+        assert overflowingSub(T(5), T(2)) == (T(3), false)
+        assert overflowingSub(T(-5), T(-2)) == (T(-3), false)
+        assert overflowingSub(T(10), T(-10)) == (T(20), false)
+        assert overflowingSub(low(T), T(1)) == (high(T), true)
+        assert overflowingSub(low(T), T(10)) == (high(T) - T(9), true)
+        assert overflowingSub(high(T), T(-1)) == (low(T), true)
+        assert overflowingSub(T(0), low(T)) == (low(T), true)
+
+    testOverflowingSub[int8]()
+    testOverflowingSub[int16]()
+    testOverflowingSub[int32]()
+    testOverflowingSub[int64]()
 
   test "Borrowing subtraction (SBB), unsigned":
     template testBorrowingSub[T: SomeUnsignedInt]() =

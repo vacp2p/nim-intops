@@ -1,7 +1,6 @@
-import intops/pure
-import intops/native
+import intops/[pure, native]
 
-template overflowingAdd*[T: SomeUnsignedInt](a, b: T): (T, bool) =
+template overflowingAdd*[T: SomeUnsignedInt | SomeSignedInt](a, b: T): (T, bool) =
   when nimvm:
     pure.overflowingAdd(a, b)
   else:
@@ -19,7 +18,7 @@ template saturatingAdd*[T: SomeUnsignedInt](a, b: T): T =
   else:
     native.saturatingAdd(a, b)
 
-template overflowingSub*[T: SomeUnsignedInt](a, b: T): (T, bool) =
+template overflowingSub*[T: SomeUnsignedInt | SomeSignedInt](a, b: T): (T, bool) =
   when nimvm:
     pure.overflowingSub(a, b)
   else:

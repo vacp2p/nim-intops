@@ -15,6 +15,18 @@ suite "Run time, intrinsics implementation":
     testOverflowingAdd[uint32]()
     testOverflowingAdd[uint64]()
 
+  test "Overflowing addition, signed":
+    template testOverflowingAdd[T: SomeSignedInt]() =
+      check overflowingAdd(T(1), T(1)) == (T(2), false)
+      check overflowingAdd(high(T), T(-1)) == (high(T) - T(1), false)
+      check overflowingAdd(high(T), T(1)) == (low(T), true)
+      check overflowingAdd(low(T), T(-1)) == (high(T), true)
+
+    testOverflowingAdd[int8]()
+    testOverflowingAdd[int16]()
+    testOverflowingAdd[int32]()
+    testOverflowingAdd[int64]()
+
   test "Carrying addition (ADC), unsigned":
     template testCarryingAdd[T: SomeUnsignedInt]() =
       check carryingAdd(high(T), low(T), true) == (low(T), true)
@@ -50,6 +62,21 @@ suite "Run time, intrinsics implementation":
     testOverflowingSub[uint16]()
     testOverflowingSub[uint32]()
     testOverflowingSub[uint64]()
+
+  test "Overflowing subtraction, signed":
+    template testOverflowingSub[T: SomeSignedInt]() =
+      check overflowingSub(T(5), T(2)) == (T(3), false)
+      check overflowingSub(T(-5), T(-2)) == (T(-3), false)
+      check overflowingSub(T(10), T(-10)) == (T(20), false)
+      check overflowingSub(low(T), T(1)) == (high(T), true)
+      check overflowingSub(low(T), T(10)) == (high(T) - T(9), true)
+      check overflowingSub(high(T), T(-1)) == (low(T), true)
+      check overflowingSub(T(0), low(T)) == (low(T), true)
+
+    testOverflowingSub[int8]()
+    testOverflowingSub[int16]()
+    testOverflowingSub[int32]()
+    testOverflowingSub[int64]()
 
   test "Borrowing subtraction (SBB), unsigned":
     template testBorrowingSub[T: SomeUnsignedInt]() =

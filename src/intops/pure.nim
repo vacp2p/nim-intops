@@ -1,14 +1,25 @@
 func overflowingAdd*[T: SomeUnsignedInt](a, b: T): (T, bool) {.inline.} =
-  let res = a + b
-  let didOverflow = res < a 
-  return (res, didOverflow)
+  let
+    res = a + b
+    didOverflow = res < a
+
+  (res, didOverflow)
+
+func overflowingAdd*[T: SomeSignedInt](a, b: T): (T, bool) {.inline.} =
+  let
+    res = T(a +% b)
+    didOverflow = ((a xor b) >= 0) and ((a xor res) < 0)
+
+  (res, didOverflow)
 
 func carryingAdd*[T: SomeUnsignedInt](a, b: T, carryIn: bool): (T, bool) {.inline.} =
-  let sum = a + b
-  let c1 = sum < a
-  let res = sum + T(carryIn)
-  let c2 = res < sum
-  return (res, c1 or c2)
+  let
+    sum = a + b
+    c1 = sum < a
+    res = sum + T(carryIn)
+    c2 = res < sum
+
+  (res, c1 or c2)
 
 func saturatingAdd*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
   let (res, didOverflow) = carryingAdd(a, b, false)
@@ -16,19 +27,30 @@ func saturatingAdd*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
   if unlikely(didOverflow):
     return high(T)
 
-  return res
+  res
 
 func overflowingSub*[T: SomeUnsignedInt](a, b: T): (T, bool) {.inline.} =
-  let res = a - b
-  let didBorrow = a < b
-  return (res, didBorrow)
+  let
+    res = a - b
+    didBorrow = a < b
+
+  (res, didBorrow)
+
+func overflowingSub*[T: SomeSignedInt](a, b: T): (T, bool) {.inline.} =
+  let
+    res = T(a -% b)
+    didOverflow = ((a xor b) < 0) and ((a xor res) < 0)
+  
+  (res, didOverflow)
 
 func borrowingSub*[T: SomeUnsignedInt](a, b: T, borrowIn: bool): (T, bool) {.inline.} =
-  let diff = a - b
-  let b1 = a < b
-  let res = diff - T(borrowIn)
-  let b2 = diff < T(borrowIn)
-  return (res, b1 or b2)
+  let
+    diff = a - b
+    b1 = a < b
+    res = diff - T(borrowIn)
+    b2 = diff < T(borrowIn)
+
+  (res, b1 or b2)
 
 func saturatingSub*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
   let (res, didBorrow) = borrowingSub(a, b, false)
@@ -38,6 +60,7 @@ func saturatingSub*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
 
   return res
 
+# TODO: polish this function.
 func wideningMul*(a, b: uint64): (uint64, uint64) =
   let halfMask = 0xFFFFFFFF'u64
 

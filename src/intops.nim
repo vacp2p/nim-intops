@@ -6,7 +6,7 @@ template overflowingAdd*[T: SomeUnsignedInt | SomeSignedInt](a, b: T): (T, bool)
   else:
     native.overflowingAdd(a, b)
 
-template carryingAdd*[T: SomeUnsignedInt](a, b: T, carryIn: bool): (T, bool) =
+template carryingAdd*[T: SomeUnsignedInt | SomeSignedInt](a, b: T, carryIn: bool): (T, bool) =
   when nimvm:
     pure.carryingAdd(a, b, carryIn)
   else:
@@ -24,7 +24,7 @@ template overflowingSub*[T: SomeUnsignedInt | SomeSignedInt](a, b: T): (T, bool)
   else:
     native.overflowingSub(a, b)
 
-template borrowingSub*[T: SomeUnsignedInt](a, b: T, borrowIn: bool): (T, bool) =
+template borrowingSub*[T: SomeUnsignedInt | SomeSignedInt](a, b: T, borrowIn: bool): (T, bool) =
   when nimvm:
     pure.borrowingSub(a, b, borrowIn)
   else:

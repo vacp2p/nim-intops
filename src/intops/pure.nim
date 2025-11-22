@@ -21,8 +21,15 @@ func carryingAdd*[T: SomeUnsignedInt](a, b: T, carryIn: bool): (T, bool) {.inlin
 
   (res, c1 or c2)
 
+func carryingAdd*[T: SomeSignedInt](a, b: T, carryIn: bool): (T, bool) {.inline.} =
+  let
+    (sum1, o1) = pure.overflowingAdd(a, b)
+    (final, o2) = pure.overflowingAdd(sum1, T(carryIn))
+
+  (final, o1 or o2)
+
 func saturatingAdd*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
-  let (res, didOverflow) = carryingAdd(a, b, false)
+  let (res, didOverflow) = pure.carryingAdd(a, b, false)
 
   if unlikely(didOverflow):
     return high(T)
@@ -40,7 +47,7 @@ func overflowingSub*[T: SomeSignedInt](a, b: T): (T, bool) {.inline.} =
   let
     res = T(a -% b)
     didOverflow = ((a xor b) < 0) and ((a xor res) < 0)
-  
+
   (res, didOverflow)
 
 func borrowingSub*[T: SomeUnsignedInt](a, b: T, borrowIn: bool): (T, bool) {.inline.} =
@@ -52,8 +59,15 @@ func borrowingSub*[T: SomeUnsignedInt](a, b: T, borrowIn: bool): (T, bool) {.inl
 
   (res, b1 or b2)
 
+func borrowingSub*[T: SomeSignedInt](a, b: T, borrowIn: bool): (T, bool) {.inline.} =
+  let
+    (diff1, o1) = pure.overflowingSub(a, b)
+    (final, o2) = pure.overflowingSub(diff1, T(borrowIn))
+
+  (final, o1 or o2)
+
 func saturatingSub*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
-  let (res, didBorrow) = borrowingSub(a, b, false)
+  let (res, didBorrow) = pure.borrowingSub(a, b, false)
 
   if unlikely(didBorrow):
     return low(T)

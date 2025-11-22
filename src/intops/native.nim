@@ -1,4 +1,4 @@
-import intrinsics
+import intrinsics, pure
 
 func overflowingAdd*[T: SomeUnsignedInt](a, b: T): (T, bool) {.inline.} =
   var res: T
@@ -8,11 +8,7 @@ func overflowingAdd*[T: SomeUnsignedInt](a, b: T): (T, bool) {.inline.} =
   (res, didOverflow)
 
 func overflowingAdd*[T: SomeSignedInt](a, b: T): (T, bool) {.inline.} =
-  let
-    res = T(a +% b)
-    didOverflow = ((a xor b) >= 0) and ((a xor res) < 0)
-
-  (res, didOverflow)
+  pure.overflowingAdd(a, b)
 
 func carryingAdd*[T: SomeUnsignedInt](a, b: T, carryIn: bool): (T, bool) {.inline.} =
   var t1, final: T
@@ -24,11 +20,7 @@ func carryingAdd*[T: SomeUnsignedInt](a, b: T, carryIn: bool): (T, bool) {.inlin
   (final, c1 or c2)
 
 func carryingAdd*[T: SomeSignedInt](a, b: T, carryIn: bool): (T, bool) {.inline.} =
-  let
-    (sum1, o1) = native.overflowingAdd(a, b)
-    (final, o2) = native.overflowingAdd(sum1, T(carryIn))
-
-  (final, o1 or o2)
+  pure.carryingAdd(a, b, carryIn)
 
 func saturatingAdd*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
   let (res, didOverflow) = native.carryingAdd(a, b, false)
@@ -46,11 +38,7 @@ func overflowingSub*[T: SomeUnsignedInt](a, b: T): (T, bool) {.inline.} =
   (res, didBorrow)
 
 func overflowingSub*[T: SomeSignedInt](a, b: T): (T, bool) {.inline.} =
-  let
-    res = T(a -% b)
-    didOverflow = ((a xor b) < 0) and ((a xor res) < 0)
-
-  (res, didOverflow)
+  pure.overflowingSub(a, b)
 
 func borrowingSub*[T: SomeUnsignedInt](a, b: T, borrowIn: bool): (T, bool) {.inline.} =
   var t1, final: T
@@ -62,11 +50,7 @@ func borrowingSub*[T: SomeUnsignedInt](a, b: T, borrowIn: bool): (T, bool) {.inl
   (final, b1 or b2)
 
 func borrowingSub*[T: SomeSignedInt](a, b: T, borrowIn: bool): (T, bool) {.inline.} =
-  let
-    (diff1, o1) = native.overflowingSub(a, b)
-    (final, o2) = native.overflowingSub(diff1, T(borrowIn))
-
-  (final, o1 or o2)
+  pure.borrowingSub(a, b, borrowIn)
 
 func saturatingSub*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
   let (res, didBorrow) = native.borrowingSub(a, b, false)

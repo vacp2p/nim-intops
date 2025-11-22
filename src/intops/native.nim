@@ -1,16 +1,13 @@
 import intrinsics, pure
 
-func overflowingAdd*[T: SomeUnsignedInt](a, b: T): (T, bool) {.inline.} =
+func overflowingAdd*[T: SomeUnsignedInt | SomeSignedInt](a, b: T): (T, bool) {.inline.} =
   var res: T
 
   let didOverflow = intrinsics.overflowingAdd(a, b, res)
 
   (res, didOverflow)
 
-func overflowingAdd*[T: SomeSignedInt](a, b: T): (T, bool) {.inline.} =
-  pure.overflowingAdd(a, b)
-
-func carryingAdd*[T: SomeUnsignedInt](a, b: T, carryIn: bool): (T, bool) {.inline.} =
+func carryingAdd*[T: SomeUnsignedInt | SomeSignedInt](a, b: T, carryIn: bool): (T, bool) {.inline.} =
   var t1, final: T
 
   let
@@ -18,9 +15,6 @@ func carryingAdd*[T: SomeUnsignedInt](a, b: T, carryIn: bool): (T, bool) {.inlin
     c2 = intrinsics.overflowingAdd(t1, T(carryIn), final)
 
   (final, c1 or c2)
-
-func carryingAdd*[T: SomeSignedInt](a, b: T, carryIn: bool): (T, bool) {.inline.} =
-  pure.carryingAdd(a, b, carryIn)
 
 func saturatingAdd*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
   let (res, didOverflow) = native.carryingAdd(a, b, false)
@@ -30,17 +24,14 @@ func saturatingAdd*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
 
   res
 
-func overflowingSub*[T: SomeUnsignedInt](a, b: T): (T, bool) {.inline.} =
+func overflowingSub*[T: SomeUnsignedInt | SomeSignedInt](a, b: T): (T, bool) {.inline.} =
   var res: T
 
   let didBorrow = intrinsics.overflowingSub(a, b, res)
 
   (res, didBorrow)
 
-func overflowingSub*[T: SomeSignedInt](a, b: T): (T, bool) {.inline.} =
-  pure.overflowingSub(a, b)
-
-func borrowingSub*[T: SomeUnsignedInt](a, b: T, borrowIn: bool): (T, bool) {.inline.} =
+func borrowingSub*[T: SomeUnsignedInt | SomeSignedInt](a, b: T, borrowIn: bool): (T, bool) {.inline.} =
   var t1, final: T
 
   let
@@ -48,9 +39,6 @@ func borrowingSub*[T: SomeUnsignedInt](a, b: T, borrowIn: bool): (T, bool) {.inl
     b2 = intrinsics.overflowingSub(t1, T(borrowIn), final)
 
   (final, b1 or b2)
-
-func borrowingSub*[T: SomeSignedInt](a, b: T, borrowIn: bool): (T, bool) {.inline.} =
-  pure.borrowingSub(a, b, borrowIn)
 
 func saturatingSub*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
   let (res, didBorrow) = native.borrowingSub(a, b, false)

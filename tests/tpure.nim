@@ -55,6 +55,18 @@ suite "Compile time, pure Nim implementation":
     testSaturatingAdd[uint32]()
     testSaturatingAdd[uint64]()
 
+  test "Saturating addition, signed":
+    template testSaturatingAdd[T: SomeSignedInt]() =
+      static:
+        assert saturatingAdd(T(10), T(20)) == T(30)
+        assert saturatingAdd(high(T), T(10)) == high(T)
+        assert saturatingAdd(low(T), T(-10)) == low(T)
+
+    testSaturatingAdd[int8]()
+    testSaturatingAdd[int16]()
+    testSaturatingAdd[int32]()
+    testSaturatingAdd[int64]()
+
   test "Overflowing subtraction, unsigned":
     template testOverflowingSub[T: SomeUnsignedInt]() =
       static:
@@ -109,6 +121,17 @@ suite "Compile time, pure Nim implementation":
     testSaturatingSub[uint16]()
     testSaturatingSub[uint32]()
     testSaturatingSub[uint64]()
+
+  test "Saturating subtraction, signed":
+    template testSaturatingSub[T: SomeSignedInt]() =
+      static:
+        assert saturatingSub(high(T), T(-10)) == high(T)
+        assert saturatingSub(low(T), T(10)) == low(T)
+  
+    testSaturatingSub[int8]()
+    testSaturatingSub[int16]()
+    testSaturatingSub[int32]()
+    testSaturatingSub[int64]()
 
   test "Widening multiplication, unsigned":
     static:

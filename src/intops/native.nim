@@ -1,13 +1,17 @@
 import intrinsics, pure
 
-func overflowingAdd*[T: SomeUnsignedInt | SomeSignedInt](a, b: T): (T, bool) {.inline.} =
+func overflowingAdd*[T: SomeUnsignedInt | SomeSignedInt](
+    a, b: T
+): (T, bool) {.inline.} =
   var res: T
 
   let didOverflow = intrinsics.overflowingAdd(a, b, res)
 
   (res, didOverflow)
 
-func carryingAdd*[T: SomeUnsignedInt | SomeSignedInt](a, b: T, carryIn: bool): (T, bool) {.inline.} =
+func carryingAdd*[T: SomeUnsignedInt | SomeSignedInt](
+    a, b: T, carryIn: bool
+): (T, bool) {.inline.} =
   var t1, final: T
 
   let
@@ -17,21 +21,40 @@ func carryingAdd*[T: SomeUnsignedInt | SomeSignedInt](a, b: T, carryIn: bool): (
   (final, c1 or c2)
 
 func saturatingAdd*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
-  let (res, didOverflow) = native.carryingAdd(a, b, false)
+  var res: T
+
+  let didOverflow = intrinsics.overflowingAdd(a, b, res)
 
   if unlikely(didOverflow):
     return high(T)
 
   res
 
-func overflowingSub*[T: SomeUnsignedInt | SomeSignedInt](a, b: T): (T, bool) {.inline.} =
+func saturatingAdd*[T: SomeSignedInt](a, b: T): T {.inline.} =
+  var res: T
+
+  let didOverflow = intrinsics.overflowingAdd(a, b, res)
+
+  if unlikely(didOverflow):
+    if a < 0:
+      return low(T)
+    else:
+      return high(T)
+
+  res
+
+func overflowingSub*[T: SomeUnsignedInt | SomeSignedInt](
+    a, b: T
+): (T, bool) {.inline.} =
   var res: T
 
   let didBorrow = intrinsics.overflowingSub(a, b, res)
 
   (res, didBorrow)
 
-func borrowingSub*[T: SomeUnsignedInt | SomeSignedInt](a, b: T, borrowIn: bool): (T, bool) {.inline.} =
+func borrowingSub*[T: SomeUnsignedInt | SomeSignedInt](
+    a, b: T, borrowIn: bool
+): (T, bool) {.inline.} =
   var t1, final: T
 
   let
@@ -41,10 +64,25 @@ func borrowingSub*[T: SomeUnsignedInt | SomeSignedInt](a, b: T, borrowIn: bool):
   (final, b1 or b2)
 
 func saturatingSub*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
-  let (res, didBorrow) = native.borrowingSub(a, b, false)
+  var res: T
+
+  let didBorrow = intrinsics.overflowingSub(a, b, res)
 
   if unlikely(didBorrow):
     return low(T)
+
+  res
+
+func saturatingSub*[T: SomeSignedInt](a, b: T): T {.inline.} =
+  var res: T
+
+  let didOverflow = intrinsics.overflowingSub(a, b, res)
+
+  if unlikely(didOverflow):
+    if a < 0:
+      return low(T)
+    else:
+      return high(T)
 
   res
 

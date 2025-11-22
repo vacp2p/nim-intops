@@ -29,10 +29,21 @@ func carryingAdd*[T: SomeSignedInt](a, b: T, carryIn: bool): (T, bool) {.inline.
   (final, o1 or o2)
 
 func saturatingAdd*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
-  let (res, didOverflow) = pure.carryingAdd(a, b, false)
+  let (res, didOverflow) = pure.overflowingAdd(a, b)
 
   if unlikely(didOverflow):
     return high(T)
+
+  res
+
+func saturatingAdd*[T: SomeSignedInt](a, b: T): T {.inline.} =
+  let (res, didOverflow) = pure.overflowingAdd(a, b)
+
+  if unlikely(didOverflow):
+    if a < 0:
+      return low(T)
+    else:
+      return high(T)
 
   res
 
@@ -67,12 +78,23 @@ func borrowingSub*[T: SomeSignedInt](a, b: T, borrowIn: bool): (T, bool) {.inlin
   (final, o1 or o2)
 
 func saturatingSub*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
-  let (res, didBorrow) = pure.borrowingSub(a, b, false)
+  let (res, didBorrow) = pure.overflowingSub(a, b)
 
   if unlikely(didBorrow):
     return low(T)
 
-  return res
+  res
+
+func saturatingSub*[T: SomeSignedInt](a, b: T): T {.inline.} =
+  let (res, didOverflow) = pure.overflowingSub(a, b)
+
+  if unlikely(didOverflow):
+    if a < 0:
+      return low(T)
+    else:
+      return high(T)
+
+  res
 
 # TODO: polish this function.
 func wideningMul*(a, b: uint64): (uint64, uint64) =

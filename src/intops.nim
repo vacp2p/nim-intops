@@ -12,7 +12,7 @@ template carryingAdd*[T: SomeUnsignedInt | SomeSignedInt](a, b: T, carryIn: bool
   else:
     native.carryingAdd(a, b, carryIn)
 
-template saturatingAdd*[T: SomeUnsignedInt](a, b: T): T =
+template saturatingAdd*[T: SomeUnsignedInt | SomeSignedInt](a, b: T): T =
   when nimvm:
     pure.saturatingAdd(a, b)
   else:
@@ -30,7 +30,7 @@ template borrowingSub*[T: SomeUnsignedInt | SomeSignedInt](a, b: T, borrowIn: bo
   else:
     native.borrowingSub(a, b, borrowIn)
 
-template saturatingSub*[T: SomeUnsignedInt](a, b: T): T =
+template saturatingSub*[T: SomeUnsignedInt | SomeSignedInt] (a, b: T): T =
   when nimvm:
     pure.saturatingSub(a, b)
   else:

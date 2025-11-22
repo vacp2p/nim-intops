@@ -55,11 +55,22 @@ suite "Run time, intrinsics implementation":
       check saturatingAdd(high(T) - T(1), T(1)) == high(T)
       check saturatingAdd(high(T), T(1)) == high(T)
       check saturatingAdd(high(T), high(T)) == high(T)
-  
+
     testSaturatingAdd[uint8]()
     testSaturatingAdd[uint16]()
     testSaturatingAdd[uint32]()
     testSaturatingAdd[uint64]()
+
+  test "Saturating addition, signed":
+    template testSaturatingAdd[T: SomeSignedInt]() =
+      check saturatingAdd(T(10), T(20)) == T(30)
+      check saturatingAdd(high(T), T(10)) == high(T)
+      check saturatingAdd(low(T), T(-10)) == low(T)
+
+    testSaturatingAdd[int8]()
+    testSaturatingAdd[int16]()
+    testSaturatingAdd[int32]()
+    testSaturatingAdd[int64]()
 
   test "Overflowing subtraction, unsigned":
     template testOverflowingSub[T: SomeUnsignedInt]() =
@@ -116,12 +127,22 @@ suite "Run time, intrinsics implementation":
       check saturatingSub(low(T) + T(1), T(1)) == low(T)
       check saturatingSub(low(T), T(1)) == low(T)
       check saturatingSub(low(T), high(T)) == low(T)
-  
+
     testSaturatingSub[uint8]()
     testSaturatingSub[uint16]()
     testSaturatingSub[uint32]()
     testSaturatingSub[uint64]()
-    
+
+  test "Saturating subtraction, signed":
+    template testSaturatingSub[T: SomeSignedInt]() =
+      check saturatingSub(high(T), T(-10)) == high(T)
+      check saturatingSub(low(T), T(10)) == low(T)
+
+    testSaturatingSub[int8]()
+    testSaturatingSub[int16]()
+    testSaturatingSub[int32]()
+    testSaturatingSub[int64]()
+
   test "Widening multiplication, unsigned":
     let maxU = 0xFFFFFFFFFFFFFFFF'u64
 

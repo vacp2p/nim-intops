@@ -16,7 +16,8 @@ Multiplication is represented with its widening flavor.
 
 All operations can be used during runtime and compile time. Runtime operations use C intrinsics, whereas compile-time operations are implemented in pure Nim.
 
-Only unsigned integers are supported now.
+Both unsigned and signed integers are supported.
+
 
 ## Usage
 

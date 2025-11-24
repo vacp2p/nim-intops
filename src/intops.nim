@@ -41,3 +41,9 @@ template wideningMul*(a, b: uint64): (uint64, uint64) =
     pure.wideningMul(a, b)
   else:
     native.wideningMul(a, b)
+
+template wideningMul*(a, b: int64): (int64, uint64) =
+  when nimvm:
+    pure.wideningMul(a, b)
+  else:
+    native.wideningMul(a, b)

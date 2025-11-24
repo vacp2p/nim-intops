@@ -104,3 +104,24 @@ func wideningMul*(a, b: uint64): (uint64, uint64) {.inline.} =
   .}
 
   (hi, lo)
+
+func wideningMul*(a, b: int64): (int64, uint64) {.inline.} =
+  var
+    hi: int64
+    lo: uint64
+
+  {.
+    emit:
+      """
+    /* 1. Cast inputs to native C __int128 (Signed) */
+    __int128 res = ((__int128)`a`) * ((__int128)`b`);
+
+    /* 2. Extract High Word (Arithmetic Shift Right preserves sign) */
+    `hi` = (long long)(res >> 64);
+
+    /* 3. Extract Low Word (Cast to unsigned long long) */
+    `lo` = (unsigned long long)(res);
+  """
+  .}
+
+  (hi, lo)

@@ -96,15 +96,15 @@ func saturatingSub*[T: SomeSignedInt](a, b: T): T {.inline.} =
 
   res
 
-# TODO: polish this function.
 func wideningMul*(a, b: uint64): (uint64, uint64) =
-  let halfMask = 0xFFFFFFFF'u64
+  const halfMask = 0xFFFFFFFF'u64
 
-  # Split inputs into 32-bit halves
-  let al = a and halfMask
-  let ah = a shr 32
-  let bl = b and halfMask
-  let bh = b shr 32
+  let
+    # Split inputs into 32-bit halves
+    al = a and halfMask
+    ah = a shr 32
+    bl = b and halfMask
+    bh = b shr 32
 
   # 1. Low parts multiply
   let ll = al * bl
@@ -132,4 +132,32 @@ func wideningMul*(a, b: uint64): (uint64, uint64) =
   # hh + (mid >> 32) + midCarry + loCarry
   let hiRes = hh + (mid shr 32) + (midCarry shl 32) + loCarry
 
-  return (hiRes, loRes)
+  (hiRes, loRes)
+
+func wideningMul*(a, b: int64): (int64, uint64) {.inline.} =
+  let isNegative = (a < 0) xor (b < 0)
+
+  # Absolute Values (Safe Casts)
+  # We cast to uint64 to strip sign, then do 2's complement negation if needed
+  let uA =
+    if a < 0:
+      (not cast[uint64](a)) + 1
+    else:
+      cast[uint64](a)
+  let uB =
+    if b < 0:
+      (not cast[uint64](b)) + 1
+    else:
+      cast[uint64](b)
+
+  # Unsigned Multiply (from your unsigned module)
+  var (uHi, uLo) = pure.wideningMul(uA, uB)
+
+  # Apply Sign to 128-bit result if needed
+  if isNegative:
+    uLo = (not uLo) + 1
+    uHi = (not uHi)
+    if uLo == 0:
+      uHi = uHi + 1 # Carry propagation
+
+  (cast[int64](uHi), uLo)

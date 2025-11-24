@@ -1,5 +1,3 @@
-type uint128* {.importc: "unsigned __int128", nodecl.} = object
-
 func overflowingAdd*[T](
   a, b: T, res: var T
 ): bool {.importc: "__builtin_add_overflow", nodecl.}

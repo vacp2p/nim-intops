@@ -134,13 +134,19 @@ suite "Compile time, pure Nim implementation":
     testSaturatingSub[int64]()
 
   test "Widening multiplication, unsigned":
-    static:
-      let maxU = 0xFFFFFFFFFFFFFFFF'u64
+    template testWideningMul[T: uint64]() =
+      static:
+        assert wideningMul(high(T), high(T)) == (high(T) - T(1), T(1))
 
-      let (hi, lo) = wideningMul(maxU, maxU)
+    testWideningMul[uint64]()
 
-      const expectedHi = 0xFFFFFFFFFFFFFFFE'u64
-      const expectedLo = 1'u64
+  test "Widening multiplication, signed":
+    template testWideningMul[S: int64, U: uint64]() =
+      static:
+        assert wideningMul(high(S), S(1)) == (S(0), U(high(S)))
+        assert wideningMul(S(2), S(-1)) == (S(-1), high(U) - U(1))
+        assert wideningMul(S(-1), S(-1)) == (S(0), U(1))
+        assert wideningMul(S(-1), S(-1)) == (S(0), U(1))
+        assert wideningMul(low(S), S(-1)) == (S(0), U(high(S)) + U(1))
 
-      assert hi == expectedHi
-      assert lo == expectedLo
+    testWideningMul[int64, uint64]()

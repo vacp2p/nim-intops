@@ -1,4 +1,4 @@
-# (WIP) intops
+# intops
 
 `intops` is a Nim library with ready-to-use core primitives for CPU-sized integers.
 

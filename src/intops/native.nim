@@ -1,3 +1,8 @@
+##[ Intrinsics-based implementations of arithmetic operations for integers.
+
+See the operation descriptions in `intops <../intops.html>`_ module.
+]##
+
 import intrinsics
 
 func overflowingAdd*[T: SomeUnsignedInt | SomeSignedInt](

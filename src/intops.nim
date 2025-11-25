@@ -1,3 +1,9 @@
+##[ Core arithmetic operations for integers:
+- addition: overflowing, carrying, saturating
+- subtraction: overflowing. borrowing, saturating
+- multiplication: widening
+]##
+
 import intops/[pure, native]
 
 template overflowingAdd*[T: SomeUnsignedInt | SomeSignedInt](

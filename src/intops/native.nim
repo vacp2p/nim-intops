@@ -1,4 +1,4 @@
-import intrinsics, pure
+import intrinsics
 
 func overflowingAdd*[T: SomeUnsignedInt | SomeSignedInt](
     a, b: T

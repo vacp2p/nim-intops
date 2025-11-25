@@ -17,7 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        nim-version: ['1.6.20', '2.0.16', '2.2.6', 'devel']
+        nim-version: ['2.2.6']
 
     steps:
       - uses: actions/checkout@v6

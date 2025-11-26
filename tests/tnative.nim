@@ -1,10 +1,10 @@
 import std/unittest
 
-import intops
+import intops/native
 
 suite "Run time, intrinsics implementation":
   test "Overflowing addition, unsigned":
-    proc testOverflowingAdd[T: SomeUnsignedInt] =
+    proc testOverflowingAdd[T: SomeUnsignedInt]() =
       check overflowingAdd(T(1), T(1)) == (T(2), false)
       check overflowingAdd(high(T), T(0)) == (high(T), false)
       check overflowingAdd(high(T), T(1)) == (T(0), true)
@@ -16,7 +16,7 @@ suite "Run time, intrinsics implementation":
     testOverflowingAdd[uint64]()
 
   test "Overflowing addition, signed":
-    proc testOverflowingAdd[T: SomeSignedInt] =
+    proc testOverflowingAdd[T: SomeSignedInt]() =
       check overflowingAdd(T(1), T(1)) == (T(2), false)
       check overflowingAdd(high(T), T(-1)) == (high(T) - T(1), false)
       check overflowingAdd(high(T), T(1)) == (low(T), true)
@@ -28,7 +28,7 @@ suite "Run time, intrinsics implementation":
     testOverflowingAdd[int64]()
 
   test "Carrying addition (ADC), unsigned":
-    proc testCarryingAdd[T: SomeUnsignedInt] =
+    proc testCarryingAdd[T: SomeUnsignedInt]() =
       check carryingAdd(high(T), low(T), true) == (low(T), true)
       check carryingAdd(high(T), low(T), false) == (high(T), false)
       check carryingAdd(high(T), high(T), true) == (high(T), true)
@@ -40,7 +40,7 @@ suite "Run time, intrinsics implementation":
     testCarryingAdd[uint64]()
 
   test "Carrying addition (ADC), signed":
-    proc testCarryingAdd[T: SomeSignedInt] =
+    proc testCarryingAdd[T: SomeSignedInt]() =
       check carryingAdd(high(T), T(0), true) == (low(T), true)
       check carryingAdd(high(T), high(T), true) == (T(-1), true)
 
@@ -50,7 +50,7 @@ suite "Run time, intrinsics implementation":
     testCarryingAdd[int64]()
 
   test "Saturating addition, unsigned":
-    proc testSaturatingAdd[T: SomeUnsignedInt] =
+    proc testSaturatingAdd[T: SomeUnsignedInt]() =
       check saturatingAdd(T(10), T(20)) == T(30)
       check saturatingAdd(high(T) - T(1), T(1)) == high(T)
       check saturatingAdd(high(T), T(1)) == high(T)
@@ -62,7 +62,7 @@ suite "Run time, intrinsics implementation":
     testSaturatingAdd[uint64]()
 
   test "Saturating addition, signed":
-    proc testSaturatingAdd[T: SomeSignedInt] =
+    proc testSaturatingAdd[T: SomeSignedInt]() =
       check saturatingAdd(T(10), T(20)) == T(30)
       check saturatingAdd(high(T), T(10)) == high(T)
       check saturatingAdd(low(T), T(-10)) == low(T)
@@ -73,7 +73,7 @@ suite "Run time, intrinsics implementation":
     testSaturatingAdd[int64]()
 
   test "Overflowing subtraction, unsigned":
-    proc testOverflowingSub[T: SomeUnsignedInt] =
+    proc testOverflowingSub[T: SomeUnsignedInt]() =
       check overflowingSub(T(2), T(1)) == (T(1), false)
       check overflowingSub(T(5), T(0)) == (T(5), false)
       check overflowingSub(T(0), T(1)) == (high(T), true)
@@ -85,7 +85,7 @@ suite "Run time, intrinsics implementation":
     testOverflowingSub[uint64]()
 
   test "Overflowing subtraction, signed":
-    proc testOverflowingSub[T: SomeSignedInt] =
+    proc testOverflowingSub[T: SomeSignedInt]() =
       check overflowingSub(T(5), T(2)) == (T(3), false)
       check overflowingSub(T(-5), T(-2)) == (T(-3), false)
       check overflowingSub(T(10), T(-10)) == (T(20), false)
@@ -100,7 +100,7 @@ suite "Run time, intrinsics implementation":
     testOverflowingSub[int64]()
 
   test "Borrowing subtraction (SBB), unsigned":
-    proc testBorrowingSub[T: SomeUnsignedInt] =
+    proc testBorrowingSub[T: SomeUnsignedInt]() =
       check borrowingSub(low(T), low(T), true) == (high(T), true)
       check borrowingSub(low(T), low(T), false) == (low(T), false)
       check borrowingSub(low(T), high(T), true) == (low(T), true)
@@ -112,7 +112,7 @@ suite "Run time, intrinsics implementation":
     testBorrowingSub[uint64]()
 
   test "Borrowing subtraction (SBB), signed":
-    proc testBorrowingSub[T: SomeSignedInt] =
+    proc testBorrowingSub[T: SomeSignedInt]() =
       check borrowingSub(low(T), T(0), true) == (high(T), true)
       check borrowingSub(T(10), T(5), true) == (T(4), false)
 
@@ -122,7 +122,7 @@ suite "Run time, intrinsics implementation":
     testBorrowingSub[int64]()
 
   test "Saturating subtraction, unsigned":
-    proc testSaturatingSub[T: SomeUnsignedInt] =
+    proc testSaturatingSub[T: SomeUnsignedInt]() =
       check saturatingSub(T(30), T(20)) == T(10)
       check saturatingSub(low(T) + T(1), T(1)) == low(T)
       check saturatingSub(low(T), T(1)) == low(T)
@@ -134,7 +134,7 @@ suite "Run time, intrinsics implementation":
     testSaturatingSub[uint64]()
 
   test "Saturating subtraction, signed":
-    proc testSaturatingSub[T: SomeSignedInt] =
+    proc testSaturatingSub[T: SomeSignedInt]() =
       check saturatingSub(high(T), T(-10)) == high(T)
       check saturatingSub(low(T), T(10)) == low(T)
 
@@ -144,13 +144,13 @@ suite "Run time, intrinsics implementation":
     testSaturatingSub[int64]()
 
   test "Widening multiplication, unsigned":
-    proc testWideningMul[T: uint64] =
+    proc testWideningMul[T: uint64]() =
       check wideningMul(high(T), high(T)) == (high(T) - T(1), T(1))
 
     testWideningMul[uint64]()
 
   test "Widening multiplication, signed":
-    proc testWideningMul[S: int64, U: uint64] =
+    proc testWideningMul[S: int64, U: uint64]() =
       check wideningMul(high(S), S(1)) == (S(0), U(high(S)))
       check wideningMul(S(2), S(-1)) == (S(-1), high(U) - U(1))
       check wideningMul(S(-1), S(-1)) == (S(0), U(1))
@@ -160,7 +160,7 @@ suite "Run time, intrinsics implementation":
     testWideningMul[int64, uint64]()
 
   test "Chaining addition, carry propagation, unsigned":
-    proc testChainingAdd[T: SomeUnsignedInt] =
+    proc testChainingAdd[T: SomeUnsignedInt]() =
       let
         a = [high(T), high(T), high(T)]
         b = [T(1), T(0), T(0)]
@@ -182,7 +182,7 @@ suite "Run time, intrinsics implementation":
     testChainingAdd[uint64]()
 
   test "Chaining addition, carry kill, unsigned":
-    proc testChainingAdd[T: SomeUnsignedInt] =
+    proc testChainingAdd[T: SomeUnsignedInt]() =
       let
         a = [high(T), T(0), T(0)]
         b = [T(1), T(0), T(0)]
@@ -204,7 +204,7 @@ suite "Run time, intrinsics implementation":
     testChainingAdd[uint64]()
 
   test "Chaining subtraction, borrow propagation, unsigned":
-    proc testChainingSub[T: SomeUnsignedInt] =
+    proc testChainingSub[T: SomeUnsignedInt]() =
       let
         a = [low(T), low(T), low(T)]
         b = [T(1), T(0), T(0)]
@@ -226,7 +226,7 @@ suite "Run time, intrinsics implementation":
     testChainingSub[uint64]()
 
   test "Chaining subtraction, borrow absorption, unsigned":
-    proc testChainingSub[T: SomeUnsignedInt] =
+    proc testChainingSub[T: SomeUnsignedInt]() =
       let
         a = [T(0), T(1), T(0)]
         b = [T(1), T(0), T(0)]

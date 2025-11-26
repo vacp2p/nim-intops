@@ -1,10 +1,10 @@
 import std/unittest
 
-import intops
+import intops/pure
 
 suite "Compile time, pure Nim implementation":
   test "Overflowing addition, unsigned":
-    proc testOverflowingAdd[T: SomeUnsignedInt] =
+    proc testOverflowingAdd[T: SomeUnsignedInt]() =
       static:
         assert overflowingAdd(T(1), T(1)) == (T(2), false)
         assert overflowingAdd(high(T), T(0)) == (high(T), false)
@@ -17,7 +17,7 @@ suite "Compile time, pure Nim implementation":
     testOverflowingAdd[uint64]()
 
   test "Overflowing addition, signed":
-    proc testOverflowingAdd[T: SomeSignedInt] =
+    proc testOverflowingAdd[T: SomeSignedInt]() =
       static:
         assert overflowingAdd(T(1), T(1)) == (T(2), false)
         assert overflowingAdd(high(T), T(-1)) == (high(T) - T(1), false)
@@ -30,7 +30,7 @@ suite "Compile time, pure Nim implementation":
     testOverflowingAdd[int64]()
 
   test "Carrying addition (ADC), unsigned":
-    proc testCarryingAdd[T: SomeUnsignedInt] =
+    proc testCarryingAdd[T: SomeUnsignedInt]() =
       static:
         assert carryingAdd(high(T), low(T), true) == (low(T), true)
         assert carryingAdd(high(T), low(T), false) == (high(T), false)
@@ -43,20 +43,20 @@ suite "Compile time, pure Nim implementation":
     testCarryingAdd[uint64]()
 
   test "Saturating addition, unsigned":
-    proc testSaturatingAdd[T: SomeUnsignedInt] =
+    proc testSaturatingAdd[T: SomeUnsignedInt]() =
       static:
         assert saturatingAdd(T(10), T(20)) == T(30)
         assert saturatingAdd(high(T) - T(1), T(1)) == high(T)
         assert saturatingAdd(high(T), T(1)) == high(T)
         assert saturatingAdd(high(T), high(T)) == high(T)
-  
+
     testSaturatingAdd[uint8]()
     testSaturatingAdd[uint16]()
     testSaturatingAdd[uint32]()
     testSaturatingAdd[uint64]()
 
   test "Saturating addition, signed":
-    proc testSaturatingAdd[T: SomeSignedInt] =
+    proc testSaturatingAdd[T: SomeSignedInt]() =
       static:
         assert saturatingAdd(T(10), T(20)) == T(30)
         assert saturatingAdd(high(T), T(10)) == high(T)
@@ -68,7 +68,7 @@ suite "Compile time, pure Nim implementation":
     testSaturatingAdd[int64]()
 
   test "Overflowing subtraction, unsigned":
-    proc testOverflowingSub[T: SomeUnsignedInt] =
+    proc testOverflowingSub[T: SomeUnsignedInt]() =
       static:
         assert overflowingSub(T(2), T(1)) == (T(1), false)
         assert overflowingSub(T(5), T(0)) == (T(5), false)
@@ -81,7 +81,7 @@ suite "Compile time, pure Nim implementation":
     testOverflowingSub[uint64]()
 
   test "Overflowing subtraction, signed":
-    proc testOverflowingSub[T: SomeSignedInt] =
+    proc testOverflowingSub[T: SomeSignedInt]() =
       static:
         assert overflowingSub(T(5), T(2)) == (T(3), false)
         assert overflowingSub(T(-5), T(-2)) == (T(-3), false)
@@ -97,7 +97,7 @@ suite "Compile time, pure Nim implementation":
     testOverflowingSub[int64]()
 
   test "Borrowing subtraction (SBB), unsigned":
-    proc testBorrowingSub[T: SomeUnsignedInt] =
+    proc testBorrowingSub[T: SomeUnsignedInt]() =
       static:
         assert borrowingSub(low(T), low(T), true) == (high(T), true)
         assert borrowingSub(low(T), low(T), false) == (low(T), false)
@@ -110,38 +110,38 @@ suite "Compile time, pure Nim implementation":
     testBorrowingSub[uint64]()
 
   test "Saturating subtraction, unsigned":
-    proc testSaturatingSub[T: SomeUnsignedInt] =
+    proc testSaturatingSub[T: SomeUnsignedInt]() =
       static:
         assert saturatingSub(T(30), T(20)) == T(10)
         assert saturatingSub(low(T) + T(1), T(1)) == low(T)
         assert saturatingSub(low(T), T(1)) == low(T)
         assert saturatingSub(low(T), high(T)) == low(T)
-  
+
     testSaturatingSub[uint8]()
     testSaturatingSub[uint16]()
     testSaturatingSub[uint32]()
     testSaturatingSub[uint64]()
 
   test "Saturating subtraction, signed":
-    proc testSaturatingSub[T: SomeSignedInt] =
+    proc testSaturatingSub[T: SomeSignedInt]() =
       static:
         assert saturatingSub(high(T), T(-10)) == high(T)
         assert saturatingSub(low(T), T(10)) == low(T)
-  
+
     testSaturatingSub[int8]()
     testSaturatingSub[int16]()
     testSaturatingSub[int32]()
     testSaturatingSub[int64]()
 
   test "Widening multiplication, unsigned":
-    proc testWideningMul[T: uint64] =
+    proc testWideningMul[T: uint64]() =
       static:
         assert wideningMul(high(T), high(T)) == (high(T) - T(1), T(1))
 
     testWideningMul[uint64]()
 
   test "Widening multiplication, signed":
-    proc testWideningMul[S: int64, U: uint64] =
+    proc testWideningMul[S: int64, U: uint64]() =
       static:
         assert wideningMul(high(S), S(1)) == (S(0), U(high(S)))
         assert wideningMul(S(2), S(-1)) == (S(-1), high(U) - U(1))
@@ -150,9 +150,9 @@ suite "Compile time, pure Nim implementation":
         assert wideningMul(low(S), S(-1)) == (S(0), U(high(S)) + U(1))
 
     testWideningMul[int64, uint64]()
-    
+
   test "Chaining addition, carry propagation, unsigned":
-    proc testChainingAddition[T: SomeUnsignedInt] =
+    proc testChainingAddition[T: SomeUnsignedInt]() =
       static:
         let
           a = [high(T), high(T), high(T)]
@@ -175,7 +175,7 @@ suite "Compile time, pure Nim implementation":
     testChainingAddition[uint64]()
 
   test "Chaining addition, carry kill, unsigned":
-    proc testChainingAdd[T: SomeUnsignedInt] =
+    proc testChainingAdd[T: SomeUnsignedInt]() =
       static:
         let
           a = [high(T), T(0), T(0)]
@@ -198,7 +198,7 @@ suite "Compile time, pure Nim implementation":
     testChainingAdd[uint64]()
 
   test "Chaining subtraction, borrow propagation, unsigned":
-    proc testChainingSub[T: SomeUnsignedInt] =
+    proc testChainingSub[T: SomeUnsignedInt]() =
       static:
         let
           a = [low(T), low(T), low(T)]
@@ -221,7 +221,7 @@ suite "Compile time, pure Nim implementation":
     testChainingSub[uint64]()
 
   test "Chaining subtraction, borrow absorption, unsigned":
-    proc testChainingSub[T: SomeUnsignedInt] =
+    proc testChainingSub[T: SomeUnsignedInt]() =
       static:
         let
           a = [T(0), T(1), T(0)]

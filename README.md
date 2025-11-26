@@ -53,3 +53,10 @@ let didOverflow = overflowingAdd(12, 34, res)
 ```shell
 $ nimble test
 ```
+
+
+## Building the docs
+
+```shell
+$ nimble docs
+```

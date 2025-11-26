@@ -10,3 +10,7 @@ srcDir        = "src"
 # Dependencies
 
 requires "nim >= 2.2.6"
+
+
+task docs, "Generate API docs":
+  exec "nimble doc --outdir:docs/apidocs --project --index:on src/intops.nim"

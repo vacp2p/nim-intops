@@ -4,7 +4,7 @@ import intops
 
 suite "Compile time, pure Nim implementation":
   test "Overflowing addition, unsigned":
-    template testOverflowingAdd[T: SomeUnsignedInt]() =
+    proc testOverflowingAdd[T: SomeUnsignedInt] =
       static:
         assert overflowingAdd(T(1), T(1)) == (T(2), false)
         assert overflowingAdd(high(T), T(0)) == (high(T), false)
@@ -17,7 +17,7 @@ suite "Compile time, pure Nim implementation":
     testOverflowingAdd[uint64]()
 
   test "Overflowing addition, signed":
-    template testOverflowingAdd[T: SomeSignedInt]() =
+    proc testOverflowingAdd[T: SomeSignedInt] =
       static:
         assert overflowingAdd(T(1), T(1)) == (T(2), false)
         assert overflowingAdd(high(T), T(-1)) == (high(T) - T(1), false)
@@ -30,7 +30,7 @@ suite "Compile time, pure Nim implementation":
     testOverflowingAdd[int64]()
 
   test "Carrying addition (ADC), unsigned":
-    template testCarryingAdd[T: SomeUnsignedInt]() =
+    proc testCarryingAdd[T: SomeUnsignedInt] =
       static:
         assert carryingAdd(high(T), low(T), true) == (low(T), true)
         assert carryingAdd(high(T), low(T), false) == (high(T), false)
@@ -43,7 +43,7 @@ suite "Compile time, pure Nim implementation":
     testCarryingAdd[uint64]()
 
   test "Saturating addition, unsigned":
-    template testSaturatingAdd[T: SomeUnsignedInt]() =
+    proc testSaturatingAdd[T: SomeUnsignedInt] =
       static:
         assert saturatingAdd(T(10), T(20)) == T(30)
         assert saturatingAdd(high(T) - T(1), T(1)) == high(T)
@@ -56,7 +56,7 @@ suite "Compile time, pure Nim implementation":
     testSaturatingAdd[uint64]()
 
   test "Saturating addition, signed":
-    template testSaturatingAdd[T: SomeSignedInt]() =
+    proc testSaturatingAdd[T: SomeSignedInt] =
       static:
         assert saturatingAdd(T(10), T(20)) == T(30)
         assert saturatingAdd(high(T), T(10)) == high(T)
@@ -68,7 +68,7 @@ suite "Compile time, pure Nim implementation":
     testSaturatingAdd[int64]()
 
   test "Overflowing subtraction, unsigned":
-    template testOverflowingSub[T: SomeUnsignedInt]() =
+    proc testOverflowingSub[T: SomeUnsignedInt] =
       static:
         assert overflowingSub(T(2), T(1)) == (T(1), false)
         assert overflowingSub(T(5), T(0)) == (T(5), false)
@@ -81,7 +81,7 @@ suite "Compile time, pure Nim implementation":
     testOverflowingSub[uint64]()
 
   test "Overflowing subtraction, signed":
-    template testOverflowingSub[T: SomeSignedInt]() =
+    proc testOverflowingSub[T: SomeSignedInt] =
       static:
         assert overflowingSub(T(5), T(2)) == (T(3), false)
         assert overflowingSub(T(-5), T(-2)) == (T(-3), false)
@@ -97,7 +97,7 @@ suite "Compile time, pure Nim implementation":
     testOverflowingSub[int64]()
 
   test "Borrowing subtraction (SBB), unsigned":
-    template testBorrowingSub[T: SomeUnsignedInt]() =
+    proc testBorrowingSub[T: SomeUnsignedInt] =
       static:
         assert borrowingSub(low(T), low(T), true) == (high(T), true)
         assert borrowingSub(low(T), low(T), false) == (low(T), false)
@@ -110,7 +110,7 @@ suite "Compile time, pure Nim implementation":
     testBorrowingSub[uint64]()
 
   test "Saturating subtraction, unsigned":
-    template testSaturatingSub[T: SomeUnsignedInt]() =
+    proc testSaturatingSub[T: SomeUnsignedInt] =
       static:
         assert saturatingSub(T(30), T(20)) == T(10)
         assert saturatingSub(low(T) + T(1), T(1)) == low(T)
@@ -123,7 +123,7 @@ suite "Compile time, pure Nim implementation":
     testSaturatingSub[uint64]()
 
   test "Saturating subtraction, signed":
-    template testSaturatingSub[T: SomeSignedInt]() =
+    proc testSaturatingSub[T: SomeSignedInt] =
       static:
         assert saturatingSub(high(T), T(-10)) == high(T)
         assert saturatingSub(low(T), T(10)) == low(T)
@@ -134,14 +134,14 @@ suite "Compile time, pure Nim implementation":
     testSaturatingSub[int64]()
 
   test "Widening multiplication, unsigned":
-    template testWideningMul[T: uint64]() =
+    proc testWideningMul[T: uint64] =
       static:
         assert wideningMul(high(T), high(T)) == (high(T) - T(1), T(1))
 
     testWideningMul[uint64]()
 
   test "Widening multiplication, signed":
-    template testWideningMul[S: int64, U: uint64]() =
+    proc testWideningMul[S: int64, U: uint64] =
       static:
         assert wideningMul(high(S), S(1)) == (S(0), U(high(S)))
         assert wideningMul(S(2), S(-1)) == (S(-1), high(U) - U(1))
@@ -150,3 +150,95 @@ suite "Compile time, pure Nim implementation":
         assert wideningMul(low(S), S(-1)) == (S(0), U(high(S)) + U(1))
 
     testWideningMul[int64, uint64]()
+    
+  test "Chaining addition, carry propagation, unsigned":
+    proc testChainingAddition[T: SomeUnsignedInt] =
+      static:
+        let
+          a = [high(T), high(T), high(T)]
+          b = [T(1), T(0), T(0)]
+
+        var
+          res: array[3, T]
+          carry: bool
+
+        (res[0], carry) = carryingAdd(a[0], b[0], carry)
+        (res[1], carry) = carryingAdd(a[1], b[1], carry)
+        (res[2], carry) = carryingAdd(a[2], b[2], carry)
+
+        assert res == [T(0), T(0), T(0)]
+        assert carry == true
+
+    testChainingAddition[uint8]()
+    testChainingAddition[uint16]()
+    testChainingAddition[uint32]()
+    testChainingAddition[uint64]()
+
+  test "Chaining addition, carry kill, unsigned":
+    proc testChainingAdd[T: SomeUnsignedInt] =
+      static:
+        let
+          a = [high(T), T(0), T(0)]
+          b = [T(1), T(0), T(0)]
+
+        var
+          res: array[3, T]
+          carry: bool
+
+        (res[0], carry) = carryingAdd(a[0], b[0], carry)
+        (res[1], carry) = carryingAdd(a[1], b[1], carry)
+        (res[2], carry) = carryingAdd(a[2], b[2], carry)
+
+        assert res == [T(0), T(1), T(0)]
+        assert carry == false
+
+    testChainingAdd[uint8]()
+    testChainingAdd[uint16]()
+    testChainingAdd[uint32]()
+    testChainingAdd[uint64]()
+
+  test "Chaining subtraction, borrow propagation, unsigned":
+    proc testChainingSub[T: SomeUnsignedInt] =
+      static:
+        let
+          a = [low(T), low(T), low(T)]
+          b = [T(1), T(0), T(0)]
+
+        var
+          res: array[3, T]
+          borrow: bool
+
+        (res[0], borrow) = borrowingSub(a[0], b[0], borrow)
+        (res[1], borrow) = borrowingSub(a[1], b[1], borrow)
+        (res[2], borrow) = borrowingSub(a[2], b[2], borrow)
+
+        assert res == [high(T), high(T), high(T)]
+        assert borrow == true
+
+    testChainingSub[uint8]()
+    testChainingSub[uint16]()
+    testChainingSub[uint32]()
+    testChainingSub[uint64]()
+
+  test "Chaining subtraction, borrow absorption, unsigned":
+    proc testChainingSub[T: SomeUnsignedInt] =
+      static:
+        let
+          a = [T(0), T(1), T(0)]
+          b = [T(1), T(0), T(0)]
+
+        var
+          res: array[3, T]
+          borrow: bool
+
+        (res[0], borrow) = borrowingSub(a[0], b[0], borrow)
+        (res[1], borrow) = borrowingSub(a[1], b[1], borrow)
+        (res[2], borrow) = borrowingSub(a[2], b[2], borrow)
+
+        assert res == [high(T), T(0), T(0)]
+        assert borrow == false
+
+    testChainingSub[uint8]()
+    testChainingSub[uint16]()
+    testChainingSub[uint32]()
+    testChainingSub[uint64]()

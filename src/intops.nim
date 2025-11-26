@@ -33,7 +33,7 @@ template carryingAdd*[T: SomeUnsignedInt | SomeSignedInt](
   Takes two integers and returns their sum along with the carrying flag (CF): 
   ``true`` means the previous addition had overflown, ``false`` means it hadn't.
 
-  Useful for chaining operations.
+  Useful for chaining operations in BigInt limb-wise addition implementations.
 
   See also:
   - `borrowingSub`_
@@ -84,7 +84,7 @@ template borrowingSub*[T: SomeUnsignedInt | SomeSignedInt](
   Takes two integers and returns their difference along with the borrow flag (BF): 
   ``true`` means the previous subtraction had overflown, ``false`` means it hadn't.
 
-  Useful for chaining operations.
+  Useful for chaining operations in BigInt limb-wise subtraction implementations.
 
   See also:
   - `borrowingSub`_

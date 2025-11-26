@@ -19,6 +19,11 @@ All operations can be used during runtime and compile time. Runtime operations u
 Both unsigned and signed integers are supported.
 
 
+## API Docs
+
+[API Docs](https://vacp2p.github.io/nim-intops/apidocs/theindex.html)
+
+
 ## Usage
 
 Operations are available in the top-level `intops` module:

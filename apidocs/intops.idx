@@ -1,0 +1,10 @@
+nimTitle	intops	intops.html	module src/intops		0
+nim	overflowingAdd	intops.html#overflowingAdd.t,T,T	template overflowingAdd[T: SomeUnsignedInt | SomeSignedInt](a, b: T): tuple[res: T,\n    didOverflow: bool]		9
+nim	carryingAdd	intops.html#carryingAdd.t,T,T,bool	template carryingAdd[T: SomeUnsignedInt | SomeSignedInt](a, b: T; carryIn: bool): tuple[\n    res: T, carryOut: bool]		28
+nim	saturatingAdd	intops.html#saturatingAdd.t,T,T	template saturatingAdd[T: SomeUnsignedInt | SomeSignedInt](a, b: T): T		47
+nim	overflowingSub	intops.html#overflowingSub.t,T,T	template overflowingSub[T: SomeUnsignedInt | SomeSignedInt](a, b: T): (T, bool)		62
+nim	borrowingSub	intops.html#borrowingSub.t,T,T,bool	template borrowingSub[T: SomeUnsignedInt | SomeSignedInt](a, b: T; borrowIn: bool): (T,\n    bool)		79
+nim	saturatingSub	intops.html#saturatingSub.t,T,T	template saturatingSub[T: SomeUnsignedInt | SomeSignedInt](a, b: T): T		98
+nim	wideningMul	intops.html#wideningMul.t,uint64,uint64	template wideningMul(a, b: uint64): tuple[hi: uint64, lo: uint64]		113
+nim	wideningMul	intops.html#wideningMul.t,int64,int64	template wideningMul(a, b: int64): tuple[hi: int64, lo: uint64]		125
+nimgrp	wideningmul	intops.html#wideningMul-templates-all	template		113

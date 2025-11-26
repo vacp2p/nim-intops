@@ -21,7 +21,7 @@ Both unsigned and signed integers are supported.
 
 ## API Docs
 
-[API Docs](https://vacp2p.github.io/nim-intops/apidocs/theindex.html)
+[API Docs](https://vacp2p.github.io/nim-intops/apidocs/intops.html)
 
 
 ## Usage

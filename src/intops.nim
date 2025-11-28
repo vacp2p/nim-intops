@@ -110,7 +110,7 @@ template saturatingSub*[T: SomeUnsignedInt | SomeSignedInt](a, b: T): T =
   else:
     native.saturatingSub(a, b)
 
-template wideningMul*(a, b: uint32|uint64): tuple[hi: uint64, lo: uint64] =
+template wideningMul*(a, b: uint32 | uint64): tuple[hi: uint64, lo: uint64] =
   ##[ Widening multiplication for unsigned integers.
 
   Takes two unsigned 64-bit integers and returns their product as a pair of unsigned 64-bit ints:
@@ -122,7 +122,7 @@ template wideningMul*(a, b: uint32|uint64): tuple[hi: uint64, lo: uint64] =
   else:
     native.wideningMul(a, b)
 
-template wideningMul*(a, b: uint32|int64): tuple[hi: int64, lo: uint64] =
+template wideningMul*(a, b: uint32 | int64): tuple[hi: int64, lo: uint64] =
   ##[ Widening multiplication for signed integers.
 
   Takes two signed 64-bit integers and returns their product as a pair

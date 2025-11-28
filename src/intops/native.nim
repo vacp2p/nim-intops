@@ -92,41 +92,69 @@ func saturatingSub*[T: SomeSignedInt](a, b: T): T {.inline.} =
   res
 
 func wideningMul*(a, b: uint64): (uint64, uint64) {.inline.} =
-  var hi, lo: uint64
+  when sizeof(int) == 8:
+    var hi, lo: uint64
 
-  {.
-    emit:
-      """
-    /* 1. Cast inputs to 128-bit and multiply */
-    unsigned __int128 res = ((unsigned __int128)`a`) * ((unsigned __int128)`b`);
+    {.
+      emit:
+        """
+      /* 1. Cast inputs to 128-bit and multiply */
+      unsigned __int128 res = ((unsigned __int128)`a`) * ((unsigned __int128)`b`);
     
-    /* 2. Extract high 64 bits (shift right) */
-    `hi` = (unsigned long long)(res >> 64);
+      /* 2. Extract high 64 bits (shift right) */
+      `hi` = (unsigned long long)(res >> 64);
     
-    /* 3. Extract low 64 bits (cast/truncate) */
-    `lo` = (unsigned long long)(res);
-  """
-  .}
+      /* 3. Extract low 64 bits (cast/truncate) */
+      `lo` = (unsigned long long)(res);
+    """
+    .}
 
-  (hi, lo)
+    (hi, lo)
+  else:
+    raise newException(
+      ArithmeticDefect,
+      "Widening multiplication on 64-bit integers is not available on this platform.",
+    )
+
+func wideningMul*(a, b: uint32): (uint32, uint32) {.inline.} =
+  let
+    res = uint64(a) * uint64(b)
+    hi = uint32(res shr 32)
+    lo = uint32(res)
+
+  return (hi, lo)
 
 func wideningMul*(a, b: int64): (int64, uint64) {.inline.} =
-  var
-    hi: int64
-    lo: uint64
+  when sizeof(int) == 8:
+    var
+      hi: int64
+      lo: uint64
 
-  {.
-    emit:
-      """
-    /* 1. Cast inputs to native C __int128 (Signed) */
-    __int128 res = ((__int128)`a`) * ((__int128)`b`);
+    {.
+      emit:
+        """
+      /* 1. Cast inputs to native C __int128 (Signed) */
+      __int128 res = ((__int128)`a`) * ((__int128)`b`);
 
-    /* 2. Extract High Word (Arithmetic Shift Right preserves sign) */
-    `hi` = (long long)(res >> 64);
+      /* 2. Extract High Word (Arithmetic Shift Right preserves sign) */
+      `hi` = (long long)(res >> 64);
 
-    /* 3. Extract Low Word (Cast to unsigned long long) */
-    `lo` = (unsigned long long)(res);
-  """
-  .}
+      /* 3. Extract Low Word (Cast to unsigned long long) */
+      `lo` = (unsigned long long)(res);
+    """
+    .}
 
-  (hi, lo)
+    (hi, lo)
+  else:
+    raise newException(
+      ArithmeticDefect,
+      "Widening multiplication on 64-bit integers is not available on this platform.",
+    )
+
+func wideningMul*(a, b: int32): (int32, uint32) {.inline.} =
+  let
+    res = int64(a) * int64(b)
+    hi = int32(res shr 32)
+    lo = uint32(res and 0xFFFFFFFF)
+
+  return (hi, lo)

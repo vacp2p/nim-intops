@@ -134,19 +134,34 @@ suite "Compile time, pure Nim implementation":
     testSaturatingSub[int64]()
 
   test "Widening multiplication, unsigned":
-    template testWideningMul[T: uint64]() =
+    template testWideningMul[T: uint32|uint64]() =
       static:
-        assert wideningMul(high(T), high(T)) == (high(T) - T(1), T(1))
+        when sizeof(int) == 8 or sizeof(T) == 4:
+          assert wideningMul(high(T), high(T)) == (high(T) - T(1), T(1))
+        else:
+          try:
+            discard wideningMul(high(T), high(T))
+          except ArithmeticDefect:
+            assert true
 
+    testWideningMul[uint32]()
     testWideningMul[uint64]()
 
   test "Widening multiplication, signed":
-    template testWideningMul[S: int64, U: uint64]() =
-      static:
-        assert wideningMul(high(S), S(1)) == (S(0), U(high(S)))
-        assert wideningMul(S(2), S(-1)) == (S(-1), high(U) - U(1))
-        assert wideningMul(S(-1), S(-1)) == (S(0), U(1))
-        assert wideningMul(S(-1), S(-1)) == (S(0), U(1))
-        assert wideningMul(low(S), S(-1)) == (S(0), U(high(S)) + U(1))
+    template testWideningMul[S: int32|int64, U: uint32|uint64]() =
+      when sizeof(int) == 8 or sizeof(S) == 4:
+        static:
+          assert wideningMul(high(S), S(1)) == (S(0), U(high(S)))
+          assert wideningMul(high(S), S(1)) == (S(0), U(high(S)))
+          assert wideningMul(S(2), S(-1)) == (S(-1), high(U) - U(1))
+          assert wideningMul(S(-1), S(-1)) == (S(0), U(1))
+          assert wideningMul(S(-1), S(-1)) == (S(0), U(1))
+          assert wideningMul(low(S), S(-1)) == (S(0), U(high(S)) + U(1))
+      else:
+        try:
+          discard wideningMul(high(S), S(1))
+        except ArithmeticDefect:
+          assert true
 
+    testWideningMul[int32, uint32]()
     testWideningMul[int64, uint64]()

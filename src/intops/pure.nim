@@ -139,6 +139,14 @@ func wideningMul*(a, b: uint64): (uint64, uint64) =
 
   (hiRes, loRes)
 
+func wideningMul*(a, b: uint32): (uint32, uint32) {.inline.} =
+  let
+    res = uint64(a) * uint64(b)
+    hi = uint32(res shr 32)
+    lo = uint32(res)
+
+  return (hi, lo)
+
 func wideningMul*(a, b: int64): (int64, uint64) {.inline.} =
   let isNegative = (a < 0) xor (b < 0)
 
@@ -165,3 +173,11 @@ func wideningMul*(a, b: int64): (int64, uint64) {.inline.} =
       uHi = uHi + 1 # Carry propagation
 
   (cast[int64](uHi), uLo)
+
+func wideningMul*(a, b: int32): (int32, uint32) {.inline.} =
+  let
+    res = int64(a) * int64(b)
+    hi = int32(res shr 32)
+    lo = uint32(res and 0xFFFFFFFF)
+
+  return (hi, lo)

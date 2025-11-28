@@ -167,10 +167,6 @@ suite "Run time, intrinsics implementation":
       else:
         expect ArithmeticDefect:
           discard wideningMul(high(S), S(1))
-          discard wideningMul(S(2), S(-1))
-          discard wideningMul(S(-1), S(-1))
-          discard wideningMul(S(-1), S(-1))
-          discard wideningMul(low(S), S(-1))
 
     testWideningMul[int32, uint32]()
     testWideningMul[int64, uint64]()

@@ -6,10 +6,11 @@ targets:
   - 
     name: Run tests
     paths: [src, tests]
-    commands: [nimble test]
+    commands:
+      - nimble test
+      - nimble --gcc.path:D:\mingw32\bin\ --cpu:i386 test
     extensions: [.nim]
     files: []
     exclude_extensions: []
     exclude_files: []
     once: true
-

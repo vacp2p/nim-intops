@@ -155,8 +155,7 @@ func wideningMul*(a, b: int64): (int64, uint64) {.inline.} =
     else:
       cast[uint64](b)
 
-  # Unsigned Multiply (from your unsigned module)
-  var (uHi, uLo) = pure.wideningMul(uA, uB)
+  var (uHi, uLo) = wideningMul(uA, uB)
 
   # Apply Sign to 128-bit result if needed
   if isNegative:

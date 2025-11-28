@@ -1,6 +1,6 @@
 import std/unittest
 
-import intops
+import intops/pure
 
 suite "Compile time, pure Nim implementation":
   test "Overflowing addition, unsigned":

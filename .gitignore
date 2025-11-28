@@ -11,3 +11,6 @@ docs
 nbook
 
 nimcache/
+
+tests/tnative
+tests/tpure

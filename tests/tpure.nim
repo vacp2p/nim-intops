@@ -42,6 +42,17 @@ suite "Compile time, pure Nim implementation":
     testCarryingAdd[uint32]()
     testCarryingAdd[uint64]()
 
+  test "Carrying addition (ADC), signed":
+    template testCarryingAdd[T: SomeSignedInt]() =
+      static:
+        assert carryingAdd(high(T), T(0), true) == (low(T), true)
+        assert carryingAdd(high(T), high(T), true) == (T(-1), true)
+
+    testCarryingAdd[int8]()
+    testCarryingAdd[int16]()
+    testCarryingAdd[int32]()
+    testCarryingAdd[int64]()
+
   test "Saturating addition, unsigned":
     template testSaturatingAdd[T: SomeUnsignedInt]() =
       static:
@@ -108,6 +119,17 @@ suite "Compile time, pure Nim implementation":
     testBorrowingSub[uint16]()
     testBorrowingSub[uint32]()
     testBorrowingSub[uint64]()
+
+  test "Borrowing subtraction (SBB), signed":
+    template testBorrowingSub[T: SomeSignedInt]() =
+      static:
+        assert borrowingSub(low(T), T(0), true) == (high(T), true)
+        assert borrowingSub(T(10), T(5), true) == (T(4), false)
+
+    testBorrowingSub[int8]()
+    testBorrowingSub[int16]()
+    testBorrowingSub[int32]()
+    testBorrowingSub[int64]()
 
   test "Saturating subtraction, unsigned":
     template testSaturatingSub[T: SomeUnsignedInt]() =

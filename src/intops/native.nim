@@ -91,8 +91,8 @@ func saturatingSub*[T: SomeSignedInt](a, b: T): T {.inline.} =
 
   res
 
-func wideningMul*(a, b: uint64): (uint64, uint64) {.inline.} =
-  when sizeof(int) == 8:
+when sizeof(int) == 8:
+  func wideningMul*(a, b: uint64): (uint64, uint64) {.inline.} =
     var hi, lo: uint64
 
     {.
@@ -110,11 +110,13 @@ func wideningMul*(a, b: uint64): (uint64, uint64) {.inline.} =
     .}
 
     (hi, lo)
-  else:
-    raise newException(
-      ArithmeticDefect,
-      "Widening multiplication on 64-bit integers is not available on this platform.",
-    )
+else:
+  func wideningMul*(
+    a, b: uint64
+  ): (uint64, uint64) {.
+    error:
+      "Widening multiplication on 64-bit integers is not available on this platform."
+  .}
 
 func wideningMul*(a, b: uint32): (uint32, uint32) {.inline.} =
   let
@@ -124,8 +126,8 @@ func wideningMul*(a, b: uint32): (uint32, uint32) {.inline.} =
 
   return (hi, lo)
 
-func wideningMul*(a, b: int64): (int64, uint64) {.inline.} =
-  when sizeof(int) == 8:
+when sizeof(int) == 8:
+  func wideningMul*(a, b: int64): (int64, uint64) {.inline.} =
     var
       hi: int64
       lo: uint64
@@ -145,11 +147,13 @@ func wideningMul*(a, b: int64): (int64, uint64) {.inline.} =
     .}
 
     (hi, lo)
-  else:
-    raise newException(
-      ArithmeticDefect,
-      "Widening multiplication on 64-bit integers is not available on this platform.",
-    )
+else:
+  func wideningMul*(
+    a, b: int64
+  ): (int64, uint64) {.
+    error:
+      "Widening multiplication on 64-bit integers is not available on this platform."
+  .}
 
 func wideningMul*(a, b: int32): (int32, uint32) {.inline.} =
   let

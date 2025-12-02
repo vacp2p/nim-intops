@@ -12,5 +12,8 @@ nbook
 
 nimcache/
 
-tests/tnative
-tests/tpure
+tests/tintops
+
+nimble.develop
+nimble.paths
+nimbledeps

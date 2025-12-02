@@ -147,7 +147,10 @@ template wideningMul*(a, b: int64): tuple[hi: int64, lo: uint64] =
   when nimvm:
     pure.wideningMul(a, b)
   else:
-    native.wideningMul(a, b)
+    when sizeof(int) == 4:
+      pure.wideningMul(a, b)
+    else:
+      native.wideningMul(a, b)
 
 template wideningMul*(a, b: int32): tuple[hi: int32, lo: uint32] =
   ##[ Widening multiplication for signed 32-bit integers.

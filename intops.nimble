@@ -18,8 +18,8 @@ task docs, "Generate API docs":
 
 task test, "Run tests":
   for flags in [
-    "-d:intopsTest -d:unittest2ListTests", "-d:intopsTest -d:unittest2Static",
-    "-d:intopsTestNative -d:unittest2ListTests", "-d:intopsTestPure -d:unittest2Static",
+    "-d:intopsTest", "-d:intopsTest -d:unittest2Static", "-d:intopsTestNative",
+    "-d:intopsTestPure -d:unittest2Static",
   ]:
     echo fmt"[Flags: {flags}]"
     selfExec fmt"r {flags} tests/tintops.nim"

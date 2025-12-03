@@ -12,7 +12,9 @@ nim	borrowingSub	intops/pure.html#borrowingSub,T,T,bool_2	proc borrowingSub[T: S
 nim	saturatingSub	intops/pure.html#saturatingSub,T,T	proc saturatingSub[T: SomeUnsignedInt](a, b: T): T		85
 nim	saturatingSub	intops/pure.html#saturatingSub,T,T_2	proc saturatingSub[T: SomeSignedInt](a, b: T): T		93
 nim	wideningMul	intops/pure.html#wideningMul,uint64,uint64	proc wideningMul(a, b: uint64): (uint64, uint64)		104
-nim	wideningMul	intops/pure.html#wideningMul,int64,int64	proc wideningMul(a, b: int64): (int64, uint64)		142
+nim	wideningMul	intops/pure.html#wideningMul,uint32,uint32	proc wideningMul(a, b: uint32): (uint32, uint32)		142
+nim	wideningMul	intops/pure.html#wideningMul,int64,int64	proc wideningMul(a, b: int64): (int64, uint64)		150
+nim	wideningMul	intops/pure.html#wideningMul,int32,int32	proc wideningMul(a, b: int32): (int32, uint32)		177
 nimgrp	borrowingsub	intops/pure.html#borrowingSub-procs-all	proc		69
 nimgrp	saturatingadd	intops/pure.html#saturatingAdd-procs-all	proc		36
 nimgrp	carryingadd	intops/pure.html#carryingAdd-procs-all	proc		20

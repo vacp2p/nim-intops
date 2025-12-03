@@ -23,7 +23,7 @@ task test, "Run tests":
     archFlagStr = archFlags.join(" ")
 
   for intopsFlagStr in [
-    "-d:intopsTest", "-d:intopsTest -d:unittest2Static", "-d:intopsTestNative",
+    "-d:intopsTest -d:unittest2Static", "-d:intopsTestNative",
     "-d:intopsTestPure -d:unittest2Static",
   ]:
     let flags = [intopsFlagStr, archFlagStr].join(" ")

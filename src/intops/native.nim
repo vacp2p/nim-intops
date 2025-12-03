@@ -164,25 +164,25 @@ func wideningMul*(a, b: int32): (int32, uint32) {.inline.} =
   return (hi, lo)
 
 when sizeof(int) == 8:
-  func carryingMul*(a, b, carryIn: uint64): (uint64, uint64) =
+  func carryingMul*(a, b, carry: uint64): (uint64, uint64) =
     let
       (hi, lo) = wideningMul(a, b)
-      (loFinal, didOverflow) = overflowingAdd(lo, carryIn)
+      (loFinal, didOverflow) = overflowingAdd(lo, carry)
       hiFinal = hi + uint64(didOverflow)
 
     (hiFinal, loFinal)
 else:
   func carryingMul*(
-    a, b, carryIn: uint64
+    a, b, carry: uint64
   ): (uint64, uint64) {.
     error:
       "Carrying multiplication on 64-bit integers is not available on this platform."
   .}
 
-func carryingMul*(a, b, carryIn: uint32): (uint32, uint32) =
+func carryingMul*(a, b, carry: uint32): (uint32, uint32) =
   let
     (hi, lo) = wideningMul(a, b)
-    (loFinal, didOverflow) = overflowingAdd(lo, carryIn)
+    (loFinal, didOverflow) = overflowingAdd(lo, carry)
     hiFinal = hi + uint32(didOverflow)
 
   (hiFinal, loFinal)

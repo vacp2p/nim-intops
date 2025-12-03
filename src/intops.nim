@@ -1,7 +1,7 @@
 ##[ Core arithmetic operations for integers:
 - addition: overflowing, carrying, saturating
 - subtraction: overflowing. borrowing, saturating
-- multiplication: widening
+- multiplication: widening, carrying
 ]##
 
 import intops/[pure, native]
@@ -115,6 +115,8 @@ template wideningMul*(a, b: uint64): tuple[hi, lo: uint64] =
 
   Takes two unsigned integers and returns their product as a pair of unsigned ints:
   the high word and the low word.
+
+  Falls back to pure Nim implementation when invoked on 32-bit architectures.
   ]##
 
   when nimvm:
@@ -142,6 +144,8 @@ template wideningMul*(a, b: int64): tuple[hi: int64, lo: uint64] =
 
   Takes two signed 64-bit integers and returns their product as a pair
   of a signed 64-bit high word and an unsigned 64-bit low word.
+
+  Falls back to pure Nim implementation when invoked on 32-bit architectures.
   ]##
 
   when nimvm:
@@ -165,6 +169,15 @@ template wideningMul*(a, b: int32): tuple[hi: int32, lo: uint32] =
     native.wideningMul(a, b)
 
 template carryingMul*(a, b, carryIn: uint64): tuple[hi, lo: uint64] =
+  ##[ Carrying multiplication for unsigned 64-bit integers.
+
+  Takes two unsigned 64-bit integers and an unsigned 64-bit carry and returns
+  the product of the operands plus the carry as a pair of unsigned ints:
+  the high word and the low word.
+
+  Falls back to pure Nim implementation when invoked on 32-bit architectures.
+  ]##
+
   when nimvm:
     pure.carryingMul(a, b, carryIn)
   else:
@@ -174,6 +187,13 @@ template carryingMul*(a, b, carryIn: uint64): tuple[hi, lo: uint64] =
       native.carryingMul(a, b, carryIn)
 
 template carryingMul*(a, b, carryIn: uint32): tuple[hi, lo: uint32] =
+  ##[ Carrying multiplication for unsigned 32-bit integers.
+
+  Takes two unsigned 32-bit integers and an unsigned 32-bit carry and returns
+  the product of the operands plus the carry as a pair of unsigned ints:
+  the high word and the low word.
+  ]##
+
   when nimvm:
     pure.carryingMul(a, b, carryIn)
   else:

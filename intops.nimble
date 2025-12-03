@@ -18,7 +18,7 @@ task docs, "Generate API docs":
 
 task test, "Run tests":
   for flags in [
-    "-d:intopsTest", "-d:intopsTest -d:unittest2Static", "-d:intopsTestNative",
+    "-d:intopsTest -d:unittest2Static", "-d:intopsTestNative",
     "-d:intopsTestPure -d:unittest2Static",
   ]:
     echo fmt"[Flags: {flags}]"

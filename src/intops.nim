@@ -1,7 +1,7 @@
 ##[ Core arithmetic operations for integers:
 - addition: overflowing, carrying, saturating
 - subtraction: overflowing. borrowing, saturating
-- multiplication: widening, carrying
+- multiplication: widening, carrying, carrying with addition
 ]##
 
 import intops/[pure, native]

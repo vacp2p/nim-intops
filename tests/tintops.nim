@@ -87,6 +87,20 @@ suite "Carrying and borrowing operations":
     testCarryingAdd[int32]()
     testCarryingAdd[int64]()
 
+  test "Carrying multiplication, unsigned 64-bit integers":
+    when sizeof(int) == 4 and defined(intopsTestNative):
+      check not compiles carryingMul(high(uint64), high(uint64))
+    else:
+      check carryingMul(2'u64, 5'u64, 3'u64) == (0'u64, 13'u64)
+      check carryingMul(1'u64, high(uint64), 1'u64) == (1'u64, 0'u64)
+      check carryingMul(high(uint64), high(uint64), high(uint64)) ==
+        (high(uint64), 0'u64)
+
+  test "Carrying multiplication, unsigned 32-bit integers":
+    check carryingMul(2'u32, 5'u32, 3'u32) == (0'u32, 13'u32)
+    check carryingMul(1'u32, high(uint32), 1'u32) == (1'u32, 0'u32)
+    check carryingMul(high(uint32), high(uint32), high(uint32)) == (high(uint32), 0'u32)
+
   test "Borrowing subtraction (SBB), unsigned":
     template testBorrowingSub[T: SomeUnsignedInt]() =
       check borrowingSub(low(T), low(T), true) == (high(T), true)

@@ -164,7 +164,7 @@ func wideningMul*(a, b: int32): (int32, uint32) {.inline.} =
   return (hi, lo)
 
 when sizeof(int) == 8:
-  func carryingMul*(a, b, carry: uint64): (uint64, uint64) =
+  func carryingMul*(a, b, carry: uint64): (uint64, uint64) {.inline.} =
     let
       (hi, lo) = wideningMul(a, b)
       (loFinal, didOverflow) = overflowingAdd(lo, carry)
@@ -179,10 +179,36 @@ else:
       "Carrying multiplication on 64-bit integers is not available on this platform."
   .}
 
-func carryingMul*(a, b, carry: uint32): (uint32, uint32) =
+func carryingMul*(a, b, carry: uint32): (uint32, uint32) {.inline.} =
   let
     (hi, lo) = wideningMul(a, b)
     (loFinal, didOverflow) = overflowingAdd(lo, carry)
     hiFinal = hi + uint32(didOverflow)
+
+  (hiFinal, loFinal)
+
+when sizeof(int) == 8:
+  func carryingMulAdd*(a, b, accumulator, carry: uint64): (uint64, uint64) {.inline.} =
+    let
+      (hi, lo) = wideningMul(a, b)
+      (lo1, didOverFlow1) = overflowingAdd(lo, accumulator)
+      (loFinal, didOverFlow2) = overflowingAdd(lo1, carry)
+      hiFinal = hi + uint64(didOverFlow1) + uint64(didOverFlow2)
+
+    (hiFinal, loFinal)
+else:
+  func carryingMulAdd*(
+    a, b, accumulator, carry: uint64
+  ): (uint64, uint64) {.
+    error:
+      "Carrying multiplication with addition on 64-bit integers is not available on this platform."
+  .}
+
+func carryingMulAdd*(a, b, accumulator, carry: uint32): (uint32, uint32) {.inline.} =
+  let
+    (hi, lo) = wideningMul(a, b)
+    (lo1, didOverFlow1) = overflowingAdd(lo, accumulator)
+    (loFinal, didOverFlow2) = overflowingAdd(lo1, carry)
+    hiFinal = hi + uint32(didOverFlow1) + uint32(didOverFlow2)
 
   (hiFinal, loFinal)

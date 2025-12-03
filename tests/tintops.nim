@@ -89,7 +89,7 @@ suite "Carrying and borrowing operations":
 
   test "Carrying multiplication, unsigned 64-bit integers":
     when sizeof(int) == 4 and defined(intopsTestNative):
-      check not compiles carryingMul(high(uint64), high(uint64))
+      check not compiles carryingMul(high(uint64), high(uint64), high(uint64))
     else:
       check carryingMul(2'u64, 5'u64, 3'u64) == (0'u64, 13'u64)
       check carryingMul(1'u64, high(uint64), 1'u64) == (1'u64, 0'u64)
@@ -100,6 +100,23 @@ suite "Carrying and borrowing operations":
     check carryingMul(2'u32, 5'u32, 3'u32) == (0'u32, 13'u32)
     check carryingMul(1'u32, high(uint32), 1'u32) == (1'u32, 0'u32)
     check carryingMul(high(uint32), high(uint32), high(uint32)) == (high(uint32), 0'u32)
+
+  test "Carrying multiplication with addition, unsigned 64-bit integers":
+    when sizeof(int) == 4 and defined(intopsTestNative):
+      check not compiles carryingMulAdd(
+        high(uint64), high(uint64), high(uint64), high(uint64)
+      )
+    else:
+      check carryingMulAdd(2'u64, 5'u64, 3'u64, 1'u64) == (0'u64, 14'u64)
+      check carryingMulAdd(high(uint64), 1'u64, 2'u64, 0'u64) == (1'u64, 1'u64)
+      check carryingMulAdd(high(uint64), high(uint64), high(uint64), high(uint64)) ==
+        (high(uint64), high(uint64))
+
+  test "Carrying multiplication with addition, unsigned 32-bit integers":
+    check carryingMulAdd(2'u32, 5'u32, 3'u32, 1'u32) == (0'u32, 14'u32)
+    check carryingMulAdd(high(uint32), 1'u32, 2'u32, 0'u32) == (1'u32, 1'u32)
+    check carryingMulAdd(high(uint32), high(uint32), high(uint32), high(uint32)) ==
+      (high(uint32), high(uint32))
 
   test "Borrowing subtraction (SBB), unsigned":
     template testBorrowingSub[T: SomeUnsignedInt]() =

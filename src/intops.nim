@@ -168,7 +168,7 @@ template wideningMul*(a, b: int32): tuple[hi: int32, lo: uint32] =
   else:
     native.wideningMul(a, b)
 
-template carryingMul*(a, b, carryIn: uint64): tuple[hi, lo: uint64] =
+template carryingMul*(a, b, carry: uint64): tuple[hi, lo: uint64] =
   ##[ Carrying multiplication for unsigned 64-bit integers.
 
   Takes two unsigned 64-bit integers and an unsigned 64-bit carry and returns
@@ -179,14 +179,14 @@ template carryingMul*(a, b, carryIn: uint64): tuple[hi, lo: uint64] =
   ]##
 
   when nimvm:
-    pure.carryingMul(a, b, carryIn)
+    pure.carryingMul(a, b, carry)
   else:
     when sizeof(int) == 4:
-      pure.carryingMul(a, b, carryIn)
+      pure.carryingMul(a, b, carry)
     else:
-      native.carryingMul(a, b, carryIn)
+      native.carryingMul(a, b, carry)
 
-template carryingMul*(a, b, carryIn: uint32): tuple[hi, lo: uint32] =
+template carryingMul*(a, b, carry: uint32): tuple[hi, lo: uint32] =
   ##[ Carrying multiplication for unsigned 32-bit integers.
 
   Takes two unsigned 32-bit integers and an unsigned 32-bit carry and returns
@@ -195,6 +195,37 @@ template carryingMul*(a, b, carryIn: uint32): tuple[hi, lo: uint32] =
   ]##
 
   when nimvm:
-    pure.carryingMul(a, b, carryIn)
+    pure.carryingMul(a, b, carry)
   else:
-    native.carryingMul(a, b, carryIn)
+    native.carryingMul(a, b, carry)
+
+template carryingMulAdd*(a, b, accumulator, carry: uint64): tuple[hi, lo: uint64] =
+  ##[ Carrying multiplication with addition for unsigned 64-bit integers.
+
+  Takes two unsigned 64-bit integers, an accumulator (the result of the previous computation),
+  and an unsigned 64-bit carry and returns the product of the operands plus the accumulator
+  plus the carry as a pair of unsigned ints: the high word and the low word.
+
+  Falls back to pure Nim implementation when invoked on 32-bit architectures.
+  ]##
+
+  when nimvm:
+    pure.carryingMulAdd(a, b, accumulator, carry)
+  else:
+    when sizeof(int) == 4:
+      pure.carryingMulAdd(a, b, accumulator, carry)
+    else:
+      native.carryingMulAdd(a, b, accumulator, carry)
+
+template carryingMulAdd*(a, b, accumulator, carry: uint32): tuple[hi, lo: uint32] =
+  ##[ Carrying multiplication with addition for unsigned 32-bit integers.
+
+  Takes two unsigned 32-bit integers, an accumulator (the result of the previous computation),
+  and an unsigned 32-bit carry and returns the product of the operands plus the accumulator
+  plus the carry as a pair of unsigned ints: the high word and the low word.
+  ]##
+
+  when nimvm:
+    pure.carryingMulAdd(a, b, accumulator, carry)
+  else:
+    native.carryingMulAdd(a, b, accumulator, carry)

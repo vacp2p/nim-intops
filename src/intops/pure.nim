@@ -182,10 +182,19 @@ func wideningMul*(a, b: int32): (int32, uint32) {.inline.} =
 
   return (hi, lo)
 
-func carryingMul*[T: uint64 | uint32](a, b, carry: T): (T, T) =
+func carryingMul*[T: uint64 | uint32](a, b, carry: T): (T, T) {.inline.} =
   let
     (hi, lo) = pure.wideningMul(a, b)
     (loFinal, didOverflow) = pure.overflowingAdd(lo, carry)
     hiFinal = hi + T(didOverflow)
+
+  (hiFinal, loFinal)
+
+func carryingMulAdd*[T: uint64 | uint32](a, b, accumulator, carry: T): (T, T) {.inline.} =
+  let
+    (hi, lo) = pure.wideningMul(a, b)
+    (lo1, didOverFlow1) = pure.overflowingAdd(lo, accumulator)
+    (loFinal, didOverFlow2) = pure.overflowingAdd(lo1, carry)
+    hiFinal = hi + T(didOverFlow1) + T(didOverFlow2)
 
   (hiFinal, loFinal)

@@ -163,3 +163,18 @@ template wideningMul*(a, b: int32): tuple[hi: int32, lo: uint32] =
     pure.wideningMul(a, b)
   else:
     native.wideningMul(a, b)
+
+template carryingMul*(a, b, carryIn: uint64): tuple[hi, lo: uint64] =
+  when nimvm:
+    pure.carryingMul(a, b, carryIn)
+  else:
+    when sizeof(int) == 4:
+      pure.carryingMul(a, b, carryIn)
+    else:
+      native.carryingMul(a, b, carryIn)
+
+template carryingMul*(a, b, carryIn: uint32): tuple[hi, lo: uint32] =
+  when nimvm:
+    pure.carryingMul(a, b, carryIn)
+  else:
+    native.carryingMul(a, b, carryIn)

@@ -12,7 +12,7 @@ func overflowingAdd*[T: SomeUnsignedInt](a, b: T): (T, bool) {.inline.} =
 
 func overflowingAdd*[T: SomeSignedInt](a, b: T): (T, bool) {.inline.} =
   let
-    res = T(a +% b)
+    res = a +% b
     didOverflow = ((a xor b) >= 0) and ((a xor res) < 0)
 
   (res, didOverflow)
@@ -181,3 +181,11 @@ func wideningMul*(a, b: int32): (int32, uint32) {.inline.} =
     lo = uint32(res and 0xFFFFFFFF)
 
   return (hi, lo)
+
+func carryingMul*[T: uint64 | uint32](a, b, carryIn: T): (T, T) =
+  let
+    (hi, lo) = pure.wideningMul(a, b)
+    (loFinal, didOverflow) = pure.overflowingAdd(lo, carryIn)
+    hiFinal = hi + T(didOverflow)
+
+  (hiFinal, loFinal)

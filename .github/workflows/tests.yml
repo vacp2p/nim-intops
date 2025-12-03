@@ -10,22 +10,9 @@ on:
 
 jobs:
   tests:
-    timeout-minutes: 30
-
-    name: Nim ${{ matrix.nim-version }}
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        nim-version: ['2.2.6']
-
-    steps:
-      - uses: actions/checkout@v6
-      - uses: jiro4989/setup-nim-action@v2
-        with:
-          nim-version: ${{ matrix.nim-version }}
-
-      - run: nimble install -y nimble && nimble install -y
-
-      - name: Run tests
-        run: nimble test
+    uses: status-im/nimbus-common-workflow/.github/workflows/common.yml@main
+    with:
+      nim-versions: '["version-2-2"]'
+      test-command: |
+        nimble install -y nimble && nimble install -y
+        nimble test

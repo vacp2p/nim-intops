@@ -1,8 +1,18 @@
-import std/unittest
+import unittest2
 
-import intops
+when defined(intopsTestPure):
+  import intops/pure
+elif defined(intopsTestNative):
+  import intops/native
+elif defined(intopsTest):
+  import intops
+else:
+  {.
+    error:
+      "Define one of the following flags: intopsTest, intopsTestPure, or intopsTestNative"
+  .}
 
-suite "Run time, intrinsics implementation":
+suite "Overflowing operations":
   test "Overflowing addition, unsigned":
     template testOverflowingAdd[T: SomeUnsignedInt]() =
       check overflowingAdd(T(1), T(1)) == (T(2), false)
@@ -26,51 +36,6 @@ suite "Run time, intrinsics implementation":
     testOverflowingAdd[int16]()
     testOverflowingAdd[int32]()
     testOverflowingAdd[int64]()
-
-  test "Carrying addition (ADC), unsigned":
-    template testCarryingAdd[T: SomeUnsignedInt]() =
-      check carryingAdd(high(T), low(T), true) == (low(T), true)
-      check carryingAdd(high(T), low(T), false) == (high(T), false)
-      check carryingAdd(high(T), high(T), true) == (high(T), true)
-      check carryingAdd(high(T), high(T), false) == (high(T) - T(1), true)
-
-    testCarryingAdd[uint8]()
-    testCarryingAdd[uint16]()
-    testCarryingAdd[uint32]()
-    testCarryingAdd[uint64]()
-
-  test "Carrying addition (ADC), signed":
-    template testCarryingAdd[T: SomeSignedInt]() =
-      check carryingAdd(high(T), T(0), true) == (low(T), true)
-      check carryingAdd(high(T), high(T), true) == (T(-1), true)
-
-    testCarryingAdd[int8]()
-    testCarryingAdd[int16]()
-    testCarryingAdd[int32]()
-    testCarryingAdd[int64]()
-
-  test "Saturating addition, unsigned":
-    template testSaturatingAdd[T: SomeUnsignedInt]() =
-      check saturatingAdd(T(10), T(20)) == T(30)
-      check saturatingAdd(high(T) - T(1), T(1)) == high(T)
-      check saturatingAdd(high(T), T(1)) == high(T)
-      check saturatingAdd(high(T), high(T)) == high(T)
-
-    testSaturatingAdd[uint8]()
-    testSaturatingAdd[uint16]()
-    testSaturatingAdd[uint32]()
-    testSaturatingAdd[uint64]()
-
-  test "Saturating addition, signed":
-    template testSaturatingAdd[T: SomeSignedInt]() =
-      check saturatingAdd(T(10), T(20)) == T(30)
-      check saturatingAdd(high(T), T(10)) == high(T)
-      check saturatingAdd(low(T), T(-10)) == low(T)
-
-    testSaturatingAdd[int8]()
-    testSaturatingAdd[int16]()
-    testSaturatingAdd[int32]()
-    testSaturatingAdd[int64]()
 
   test "Overflowing subtraction, unsigned":
     template testOverflowingSub[T: SomeUnsignedInt]() =
@@ -99,6 +64,29 @@ suite "Run time, intrinsics implementation":
     testOverflowingSub[int32]()
     testOverflowingSub[int64]()
 
+suite "Carrying and borrowing operations":
+  test "Carrying addition (ADC), unsigned":
+    template testCarryingAdd[T: SomeUnsignedInt]() =
+      check carryingAdd(high(T), low(T), true) == (low(T), true)
+      check carryingAdd(high(T), low(T), false) == (high(T), false)
+      check carryingAdd(high(T), high(T), true) == (high(T), true)
+      check carryingAdd(high(T), high(T), false) == (high(T) - T(1), true)
+
+    testCarryingAdd[uint8]()
+    testCarryingAdd[uint16]()
+    testCarryingAdd[uint32]()
+    testCarryingAdd[uint64]()
+
+  test "Carrying addition (ADC), signed":
+    template testCarryingAdd[T: SomeSignedInt]() =
+      check carryingAdd(high(T), T(0), true) == (low(T), true)
+      check carryingAdd(high(T), high(T), true) == (T(-1), true)
+
+    testCarryingAdd[int8]()
+    testCarryingAdd[int16]()
+    testCarryingAdd[int32]()
+    testCarryingAdd[int64]()
+
   test "Borrowing subtraction (SBB), unsigned":
     template testBorrowingSub[T: SomeUnsignedInt]() =
       check borrowingSub(low(T), low(T), true) == (high(T), true)
@@ -121,6 +109,30 @@ suite "Run time, intrinsics implementation":
     testBorrowingSub[int32]()
     testBorrowingSub[int64]()
 
+suite "Saturating operations":
+  test "Saturating addition, unsigned":
+    template testSaturatingAdd[T: SomeUnsignedInt]() =
+      check saturatingAdd(T(10), T(20)) == T(30)
+      check saturatingAdd(high(T) - T(1), T(1)) == high(T)
+      check saturatingAdd(high(T), T(1)) == high(T)
+      check saturatingAdd(high(T), high(T)) == high(T)
+
+    testSaturatingAdd[uint8]()
+    testSaturatingAdd[uint16]()
+    testSaturatingAdd[uint32]()
+    testSaturatingAdd[uint64]()
+
+  test "Saturating addition, signed":
+    template testSaturatingAdd[T: SomeSignedInt]() =
+      check saturatingAdd(T(10), T(20)) == T(30)
+      check saturatingAdd(high(T), T(10)) == high(T)
+      check saturatingAdd(low(T), T(-10)) == low(T)
+
+    testSaturatingAdd[int8]()
+    testSaturatingAdd[int16]()
+    testSaturatingAdd[int32]()
+    testSaturatingAdd[int64]()
+
   test "Saturating subtraction, unsigned":
     template testSaturatingSub[T: SomeUnsignedInt]() =
       check saturatingSub(T(30), T(20)) == T(10)
@@ -135,26 +147,34 @@ suite "Run time, intrinsics implementation":
 
   test "Saturating subtraction, signed":
     template testSaturatingSub[T: SomeSignedInt]() =
-      check saturatingSub(high(T), T(-10)) == high(T)
-      check saturatingSub(low(T), T(10)) == low(T)
+      check:
+        saturatingSub(high(T), T(-10)) == high(T)
+        saturatingSub(low(T), T(10)) == low(T)
 
     testSaturatingSub[int8]()
     testSaturatingSub[int16]()
     testSaturatingSub[int32]()
     testSaturatingSub[int64]()
 
-  test "Widening multiplication, unsigned":
-    template testWideningMul[T: uint64]() =
-      check wideningMul(high(T), high(T)) == (high(T) - T(1), T(1))
+suite "Widening operations":
+  test "Widening multiplication, unsigned 64-bit integers":
+    when sizeof(int) == 4 and defined(intopsTestNative):
+      check not compiles wideningMul(high(uint64), high(uint64))
+    else:
+      check wideningMul(high(uint64), high(uint64)) == (high(uint64) - 1'u64, 1'u64)
 
-    testWideningMul[uint64]()
+  test "Widening multiplication, unsigned 32-bit integers":
+    check wideningMul(high(uint32), high(uint32)) == (high(uint32) - 1'u32, 1'u32)
 
-  test "Widening multiplication, signed":
-    template testWideningMul[S: int64, U: uint64]() =
-      check wideningMul(high(S), S(1)) == (S(0), U(high(S)))
-      check wideningMul(S(2), S(-1)) == (S(-1), high(U) - U(1))
-      check wideningMul(S(-1), S(-1)) == (S(0), U(1))
-      check wideningMul(S(-1), S(-1)) == (S(0), U(1))
-      check wideningMul(low(S), S(-1)) == (S(0), U(high(S)) + U(1))
+  test "Widening multiplication, signed 64-bit integers":
+    when sizeof(int) == 4 and defined(intopsTestNative):
+      check not compiles wideningMul(high(int64), 1'i64)
+    else:
+      check wideningMul(high(int64), 1'i64) == (0'i64, uint64(high(int64)))
+      check wideningMul(-1'i64, -1'i64) == (0'i64, 1'u64)
+      check wideningMul(2'i64, -1'i64) == (-1'i64, high(uint64) - 1'u64)
 
-    testWideningMul[int64, uint64]()
+  test "Widening multiplication, signed 32-bit integers":
+    check wideningMul(high(int32), 1'i32) == (0'i32, uint32(high(int32)))
+    check wideningMul(-1'i32, -1'i32) == (0'i32, 1'u32)
+    check wideningMul(2'i32, -1'i32) == (-1'i32, high(uint32) - 1'u32)

@@ -1,4 +1,6 @@
-import ../impl/[pure, intrinsics]
+import ../impl/[pure, intrinsics, inlineasm]
+
+import ../consts
 
 template overflowingAdd*[T: SomeUnsignedInt | SomeSignedInt](
     a, b: T
@@ -36,7 +38,11 @@ template carryingAdd*[T: SomeUnsignedInt | SomeSignedInt](
   when nimvm:
     pure.carryingAdd(a, b, carryIn)
   else:
-    intrinsics.carryingAdd(a, b, carryIn)
+    when cpu64Bit and cpuX86 and T is uint64:
+      inlineasm.carryingAdd(a, b, carryIn)
+    else:
+      intrinsics.carryingAdd(a, b, carryIn)
+
 
 template saturatingAdd*[T: SomeUnsignedInt | SomeSignedInt](a, b: T): T =
   ##[ Saturating addition.

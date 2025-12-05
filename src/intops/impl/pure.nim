@@ -1,7 +1,4 @@
-##[ Pure Nim implementations of arithmetic operations for integers.
-
-See the operation descriptions in `intops <../intops.html>`_ module.
-]##
+## Pure Nim implementations of arithmetic operations for integers.
 
 func overflowingAdd*[T: SomeUnsignedInt](a, b: T): (T, bool) {.inline.} =
   let

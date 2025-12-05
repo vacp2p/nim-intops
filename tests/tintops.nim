@@ -1,16 +1,6 @@
 import unittest2
 
-when defined(intopsTestPure):
-  import intops/pure
-elif defined(intopsTestNative):
-  import intops/native
-elif defined(intopsTest):
-  import intops
-else:
-  {.
-    error:
-      "Define one of the following flags: intopsTest, intopsTestPure, or intopsTestNative"
-  .}
+import intops
 
 suite "Overflowing operations":
   test "Overflowing addition, unsigned":
@@ -159,7 +149,7 @@ suite "Saturating operations":
 suite "Widening operations":
   test "Widening multiplication, unsigned 64-bit integers":
     when sizeof(int) == 4 and defined(intopsTestNative):
-      check not compiles wideningMul(high(uint64), high(uint64))
+      check not compiles inlinec.wideningMul(high(uint64), high(uint64))
     else:
       check wideningMul(high(uint64), high(uint64)) == (high(uint64) - 1'u64, 1'u64)
 
@@ -168,7 +158,7 @@ suite "Widening operations":
 
   test "Widening multiplication, signed 64-bit integers":
     when sizeof(int) == 4 and defined(intopsTestNative):
-      check not compiles wideningMul(high(int64), 1'i64)
+      check not compiles inlinec.wideningMul(high(int64), 1'i64)
     else:
       check wideningMul(high(int64), 1'i64) == (0'i64, uint64(high(int64)))
       check wideningMul(-1'i64, -1'i64) == (0'i64, 1'u64)

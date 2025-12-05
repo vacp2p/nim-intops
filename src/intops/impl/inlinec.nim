@@ -1,4 +1,4 @@
-## Arithmetic operations for integers implemented in plain C.
+## Arithmetic operations for integers implemented in C.
 
 import ../consts
 

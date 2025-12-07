@@ -2,12 +2,13 @@
 
 import ../consts
 
-when not (cpu64Bit or compilerGccCompatible):
-  func wideningMul*(a, b: uint64): (uint64, uint64) =
-    {.
-      error:
-        "Widening multiplication on 64-bit integers is not available on this platform."
-    .}
+when not (cpu64Bit and compilerGccCompatible):
+  func wideningMul*(
+    a, b: uint64
+  ): (uint64, uint64) {.
+    error:
+      "Widening multiplication on 64-bit integers is not available on this platform."
+  .}
 else:
   func wideningMul*(a, b: uint64): (uint64, uint64) {.inline.} =
     var hi, lo: uint64
@@ -28,12 +29,13 @@ else:
 
     (hi, lo)
 
-when not (cpu64Bit or compilerGccCompatible):
-  func wideningMul*(a, b: int64): (int64, uint64) =
-    {.
-      error:
-        "Widening multiplication on 64-bit integers is not available on this platform."
-    .}
+when not (cpu64Bit and compilerGccCompatible):
+  func wideningMul*(
+    a, b: int64
+  ): (int64, uint64) {.
+    error:
+      "Widening multiplication on 64-bit integers is not available on this platform."
+  .}
 else:
   func wideningMul*(a, b: int64): (int64, uint64) {.inline.} =
     var

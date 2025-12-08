@@ -21,10 +21,8 @@ template overflowingAdd*[T: SomeUnsignedInt | SomeSignedInt](
   else:
     intrinsics.overflowingAdd(a, b)
 
-template carryingAdd*[T: SomeUnsignedInt | SomeSignedInt](
-    a, b: T, carryIn: bool
-): tuple[res: T, carryOut: bool] =
-  ##[ Carrying addition.
+template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut: bool] =
+  ##[ Carrying addition in unsigned 64-bit integers.
 
   Takes two integers and returns their sum along with the carrying flag (CF): 
   ``true`` means the previous addition had overflown, ``false`` means it hadn't.
@@ -38,11 +36,61 @@ template carryingAdd*[T: SomeUnsignedInt | SomeSignedInt](
   when nimvm:
     pure.carryingAdd(a, b, carryIn)
   else:
-    when cpu64Bit and cpuX86 and T is uint64:
+    when cpu64Bit and cpuX86:
       inlineasm.carryingAdd(a, b, carryIn)
     else:
       intrinsics.carryingAdd(a, b, carryIn)
 
+template carryingAdd*(a, b: uint32, carryIn: bool): tuple[res: uint32, carryOut: bool] =
+  ##[ Carrying addition in unsigned 32-bit integers.
+
+  Takes two integers and returns their sum along with the carrying flag (CF):
+  ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+
+  Useful for chaining operations.
+
+  See also:
+  - `borrowingSub`_
+  ]##
+
+  when nimvm:
+    pure.carryingAdd(a, b, carryIn)
+  else:
+    intrinsics.carryingAdd(a, b, carryIn)
+
+template carryingAdd*(a, b: int64, carryIn: bool): tuple[res: int64, carryOut: bool] =
+  ##[ Carrying addition in signed 64-bit integers.
+
+  Takes two integers and returns their sum along with the carrying flag (CF): 
+  ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+
+  Useful for chaining operations.
+
+  See also:
+  - `borrowingSub`_
+  ]##
+
+  when nimvm:
+    pure.carryingAdd(a, b, carryIn)
+  else:
+    intrinsics.carryingAdd(a, b, carryIn)
+
+template carryingAdd*(a, b: int32, carryIn: bool): tuple[res: int32, carryOut: bool] =
+  ##[ Carrying addition in signed 32-bit integers.
+
+  Takes two integers and returns their sum along with the carrying flag (CF): 
+  ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+
+  Useful for chaining operations.
+
+  See also:
+  - `borrowingSub`_
+  ]##
+
+  when nimvm:
+    pure.carryingAdd(a, b, carryIn)
+  else:
+    intrinsics.carryingAdd(a, b, carryIn)
 
 template saturatingAdd*[T: SomeUnsignedInt | SomeSignedInt](a, b: T): T =
   ##[ Saturating addition.

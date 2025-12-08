@@ -33,6 +33,25 @@ Because there are so many combinations to cover, in order to keep the code maint
 
 ## Library Structure
 
+```
+src
+│   intops.nim              <- entrypoint for the public API
+│
+└───intops
+    │   consts.nim          <- global constants for environment detection
+    │
+    ├───impl                <- optinized implementations of primitives
+    │       inlineasm.nim
+    │       inlinec.nim
+    │       intrinsics.nim
+    │       pure.nim
+    │
+    └───ops                 <- operations; each module contains a family of primitives
+            add.nim
+            mul.nim
+            sub.nim
+```
+
 The entrypoint is the root `intops` module. It exposes all the available primitives.
 
 Each arithmetic operation has its own submodule in `intops/ops`. E.g. `intops/ops/add` is the submodule that contains various addition flavors. These submodules contain the logic to pick the best implementation of the given operation for the given CPU, OS, C compiler, and usage time. I.e., each operation "knows" its best implementation and "decides" which one to expose.
@@ -138,7 +157,9 @@ else:
       "Magic addition on 64-bit integers is not available on this platform."
   .}
 ```
+
 In `ops/add.nim`:
+
 ```nim
 template magicAdd*(a, b: uint64): uint64 =
   ## Magic addition.

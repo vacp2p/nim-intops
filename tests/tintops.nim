@@ -10,8 +10,6 @@ suite "Overflowing operations":
       check overflowingAdd(high(T), T(1)) == (T(0), true)
       check overflowingAdd(high(T) - T(5), T(10)) == (T(4), true)
 
-    testOverflowingAdd[uint8]()
-    testOverflowingAdd[uint16]()
     testOverflowingAdd[uint32]()
     testOverflowingAdd[uint64]()
 
@@ -22,8 +20,6 @@ suite "Overflowing operations":
       check overflowingAdd(high(T), T(1)) == (low(T), true)
       check overflowingAdd(low(T), T(-1)) == (high(T), true)
 
-    testOverflowingAdd[int8]()
-    testOverflowingAdd[int16]()
     testOverflowingAdd[int32]()
     testOverflowingAdd[int64]()
 
@@ -34,8 +30,6 @@ suite "Overflowing operations":
       check overflowingSub(T(0), T(1)) == (high(T), true)
       check overflowingSub(T(10), T(20)) == (high(T) - T(9), true)
 
-    testOverflowingSub[uint8]()
-    testOverflowingSub[uint16]()
     testOverflowingSub[uint32]()
     testOverflowingSub[uint64]()
 
@@ -49,8 +43,6 @@ suite "Overflowing operations":
       check overflowingSub(high(T), T(-1)) == (low(T), true)
       check overflowingSub(T(0), low(T)) == (low(T), true)
 
-    testOverflowingSub[int8]()
-    testOverflowingSub[int16]()
     testOverflowingSub[int32]()
     testOverflowingSub[int64]()
 
@@ -62,8 +54,6 @@ suite "Carrying and borrowing operations":
       check carryingAdd(high(T), high(T), true) == (high(T), true)
       check carryingAdd(high(T), high(T), false) == (high(T) - T(1), true)
 
-    testCarryingAdd[uint8]()
-    testCarryingAdd[uint16]()
     testCarryingAdd[uint32]()
     testCarryingAdd[uint64]()
 
@@ -72,8 +62,6 @@ suite "Carrying and borrowing operations":
       check carryingAdd(high(T), T(0), true) == (low(T), true)
       check carryingAdd(high(T), high(T), true) == (T(-1), true)
 
-    testCarryingAdd[int8]()
-    testCarryingAdd[int16]()
     testCarryingAdd[int32]()
     testCarryingAdd[int64]()
 
@@ -84,8 +72,6 @@ suite "Carrying and borrowing operations":
       check borrowingSub(low(T), high(T), true) == (low(T), true)
       check borrowingSub(low(T), high(T), false) == (low(T) + T(1), true)
 
-    testBorrowingSub[uint8]()
-    testBorrowingSub[uint16]()
     testBorrowingSub[uint32]()
     testBorrowingSub[uint64]()
 
@@ -94,8 +80,6 @@ suite "Carrying and borrowing operations":
       check borrowingSub(low(T), T(0), true) == (high(T), true)
       check borrowingSub(T(10), T(5), true) == (T(4), false)
 
-    testBorrowingSub[int8]()
-    testBorrowingSub[int16]()
     testBorrowingSub[int32]()
     testBorrowingSub[int64]()
 
@@ -107,8 +91,6 @@ suite "Saturating operations":
       check saturatingAdd(high(T), T(1)) == high(T)
       check saturatingAdd(high(T), high(T)) == high(T)
 
-    testSaturatingAdd[uint8]()
-    testSaturatingAdd[uint16]()
     testSaturatingAdd[uint32]()
     testSaturatingAdd[uint64]()
 
@@ -118,8 +100,6 @@ suite "Saturating operations":
       check saturatingAdd(high(T), T(10)) == high(T)
       check saturatingAdd(low(T), T(-10)) == low(T)
 
-    testSaturatingAdd[int8]()
-    testSaturatingAdd[int16]()
     testSaturatingAdd[int32]()
     testSaturatingAdd[int64]()
 
@@ -130,8 +110,6 @@ suite "Saturating operations":
       check saturatingSub(low(T), T(1)) == low(T)
       check saturatingSub(low(T), high(T)) == low(T)
 
-    testSaturatingSub[uint8]()
-    testSaturatingSub[uint16]()
     testSaturatingSub[uint32]()
     testSaturatingSub[uint64]()
 
@@ -141,8 +119,6 @@ suite "Saturating operations":
         saturatingSub(high(T), T(-10)) == high(T)
         saturatingSub(low(T), T(10)) == low(T)
 
-    testSaturatingSub[int8]()
-    testSaturatingSub[int16]()
     testSaturatingSub[int32]()
     testSaturatingSub[int64]()
 

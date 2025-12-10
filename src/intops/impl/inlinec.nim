@@ -2,7 +2,31 @@
 
 import ../consts
 
-when cpu64Bit and compilerGccCompatible:
+when cpu64Bit and compilerGccCompatible and canUseInlineC:
+  func carryingAdd*(a, b: uint64, carryIn: bool): (uint64, bool) {.inline.} =
+    var
+      sum: uint64
+      cOut: uint64 # We capture the carry as a full u64 first
+      cInVal = if carryIn: 1'u64 else: 0'u64
+
+    {.
+      emit:
+        """
+      /* 1. Cast inputs to 128-bit and add */
+      unsigned __int128 res = ((unsigned __int128)`a`) + 
+                              ((unsigned __int128)`b`) + 
+                              ((unsigned __int128)`cInVal`);
+
+      /* 2. Extract the lower 64 bits (The Sum) */
+      `sum` = (unsigned long long)res;
+
+      /* 3. Extract the upper 64 bits (The Carry) */
+      `cOut` = (unsigned long long)(res >> 64);
+    """
+    .}
+
+    (sum, cOut > 0)
+
   func wideningMul*(a, b: uint64): (uint64, uint64) {.inline.} =
     var hi, lo: uint64
 
@@ -21,15 +45,7 @@ when cpu64Bit and compilerGccCompatible:
     .}
 
     (hi, lo)
-else:
-  func wideningMul*(
-    a, b: uint64
-  ): (uint64, uint64) {.
-    error:
-      "Widening multiplication on 64-bit integers is not available on this platform."
-  .}
 
-when cpu64Bit and compilerGccCompatible:
   func wideningMul*(a, b: int64): (int64, uint64) {.inline.} =
     var
       hi: int64
@@ -50,10 +66,3 @@ when cpu64Bit and compilerGccCompatible:
     .}
 
     (hi, lo)
-else:
-  func wideningMul*(
-    a, b: int64
-  ): (int64, uint64) {.
-    error:
-      "Widening multiplication on 64-bit integers is not available on this platform."
-  .}

@@ -1,6 +1,7 @@
 import unittest2
 
 import intops
+from intops/impl/inlinec import nil
 
 suite "Overflowing operations":
   test "Overflowing addition, unsigned":

@@ -8,7 +8,7 @@ targets:
     paths: [src, tests]
     commands:
       - nimble test
-      - nimble --gcc.path:D:\mingw32\bin\ --cpu:i386 test
+      - nimble test --gcc.path:D:\mingw32\bin\ --cpu:i386
     extensions: [.nim]
     files: []
     exclude_extensions: []

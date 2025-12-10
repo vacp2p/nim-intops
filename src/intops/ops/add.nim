@@ -1,10 +1,8 @@
-import ../impl/[pure, intrinsics, inlineasm]
+import ../impl/[pure, intrinsics, inlinec, inlineasm]
 
 import ../consts
 
-template overflowingAdd*[T: SomeUnsignedInt | SomeSignedInt](
-    a, b: T
-): tuple[res: T, didOverflow: bool] =
+template overflowingAdd*[T: SomeInteger](a, b: T): tuple[res: T, didOverflow: bool] =
   ##[ Overflowing addition.
 
   Takes two integers and returns their sum along with the overflow flag (OF):
@@ -19,80 +17,12 @@ template overflowingAdd*[T: SomeUnsignedInt | SomeSignedInt](
   when nimvm:
     pure.overflowingAdd(a, b)
   else:
-    intrinsics.overflowingAdd(a, b)
-
-template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut: bool] =
-  ##[ Carrying addition in unsigned 64-bit integers.
-
-  Takes two integers and returns their sum along with the carrying flag (CF): 
-  ``true`` means the previous addition had overflown, ``false`` means it hadn't.
-
-  Useful for chaining operations.
-
-  See also:
-  - `borrowingSub`_
-  ]##
-
-  when nimvm:
-    pure.carryingAdd(a, b, carryIn)
-  else:
-    when cpu64Bit and cpuX86:
-      inlineasm.carryingAdd(a, b, carryIn)
+    when compilerGccCompatible and canUseIntrinsics:
+      intrinsics.gcc.overflowingAdd(a, b)
     else:
-      intrinsics.carryingAdd(a, b, carryIn)
+      pure.overflowingAdd(a, b)
 
-template carryingAdd*(a, b: uint32, carryIn: bool): tuple[res: uint32, carryOut: bool] =
-  ##[ Carrying addition in unsigned 32-bit integers.
-
-  Takes two integers and returns their sum along with the carrying flag (CF):
-  ``true`` means the previous addition had overflown, ``false`` means it hadn't.
-
-  Useful for chaining operations.
-
-  See also:
-  - `borrowingSub`_
-  ]##
-
-  when nimvm:
-    pure.carryingAdd(a, b, carryIn)
-  else:
-    intrinsics.carryingAdd(a, b, carryIn)
-
-template carryingAdd*(a, b: int64, carryIn: bool): tuple[res: int64, carryOut: bool] =
-  ##[ Carrying addition in signed 64-bit integers.
-
-  Takes two integers and returns their sum along with the carrying flag (CF): 
-  ``true`` means the previous addition had overflown, ``false`` means it hadn't.
-
-  Useful for chaining operations.
-
-  See also:
-  - `borrowingSub`_
-  ]##
-
-  when nimvm:
-    pure.carryingAdd(a, b, carryIn)
-  else:
-    intrinsics.carryingAdd(a, b, carryIn)
-
-template carryingAdd*(a, b: int32, carryIn: bool): tuple[res: int32, carryOut: bool] =
-  ##[ Carrying addition in signed 32-bit integers.
-
-  Takes two integers and returns their sum along with the carrying flag (CF): 
-  ``true`` means the previous addition had overflown, ``false`` means it hadn't.
-
-  Useful for chaining operations.
-
-  See also:
-  - `borrowingSub`_
-  ]##
-
-  when nimvm:
-    pure.carryingAdd(a, b, carryIn)
-  else:
-    intrinsics.carryingAdd(a, b, carryIn)
-
-template saturatingAdd*[T: SomeUnsignedInt | SomeSignedInt](a, b: T): T =
+template saturatingAdd*[T: SomeInteger](a, b: T): T =
   ##[ Saturating addition.
 
   Takes two integers and returns their sum; if the result won't fit within the type,
@@ -105,4 +35,92 @@ template saturatingAdd*[T: SomeUnsignedInt | SomeSignedInt](a, b: T): T =
   when nimvm:
     pure.saturatingAdd(a, b)
   else:
-    intrinsics.saturatingAdd(a, b)
+    when cpuArm64 and compilerGccCompatible and canUseInlineAsm:
+      inlineasm.arm64.saturatingAdd(a, b)
+    elif compilerGccCompatible and canUseIntrinsics:
+      intrinsics.gcc.saturatingAdd(a, b)
+    else:
+      pure.saturatingAdd(a, b)
+
+template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut: bool] =
+  ##[ Carrying addition.
+
+  Takes two integers and returns their sum along with the carrying flag (CF): 
+  ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+
+  Useful for chaining operations.
+
+  See also:
+  - `borrowingSub`_
+  ]##
+
+  when nimvm:
+    pure.carryingAdd(a, b, carryIn)
+  else:
+    when cpuX86 and compilerGccCompatible and canUseInlineAsm:
+      # Use inline ASM for Linux/Mac on x86
+      inlineasm.x86.carryingAdd(a, b, carryIn)
+    elif cpu64Bit and compilerGccCompatible and canUseInlineC:
+      # Use inline C on ARM64 and RISC-V x64
+      inlinec.carryingAdd(a, b, carryIn)
+    elif cpuX86 and canUseIntrinsics:
+      # Use Intel/AMD intrinsics with MSVC as ASM is unavailable
+      intrinsics.x86.carryingAdd(a, b, carryIn)
+    elif compilerGccCompatible and canUseIntrinsics:
+      # Use generic GCC/Clang intrinsics on ARM/Linux
+      intrinsics.gcc.carryingAdd(a, b, carryIn)
+    else:
+      # Universal fallback
+      pure.carryingAdd(a, b, carryIn)
+
+template carryingAdd*(a, b: uint32, carryIn: bool): tuple[res: uint32, carryOut: bool] =
+  ##[ Carrying addition.
+
+  Takes two integers and returns their sum along with the carrying flag (CF): 
+  ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+
+  Useful for chaining operations.
+
+  See also:
+  - `borrowingSub`_
+  ]##
+
+  when nimvm:
+    pure.carryingAdd(a, b, carryIn)
+  else:
+    when cpuX86 and compilerGccCompatible and canUseInlineAsm:
+      # Use inline ASM for Linux/Mac x64
+      inlineasm.x86.carryingAdd(a, b, carryIn)
+    elif cpuX86 and canUseIntrinsics:
+      # Use Intel/AMD intrinsics with MSVC as ASM is unavailable
+      intrinsics.x86.carryingAdd(a, b, carryIn)
+    elif compilerGccCompatible and canUseIntrinsics:
+      # Use generic GCC/Clang intrinsics on ARM/Linux
+      intrinsics.gcc.carryingAdd(a, b, carryIn)
+    else:
+      # Universal fallback
+      pure.carryingAdd(a, b, carryIn)
+
+template carryingAdd*[T: int64 | int32](
+    a, b: T, carryIn: bool
+): tuple[res: T, carryOut: bool] =
+  ##[ Carrying addition.
+
+  Takes two integers and returns their sum along with the carrying flag (CF): 
+  ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+
+  Useful for chaining operations.
+
+  See also:
+  - `borrowingSub`_
+  ]##
+
+  when nimvm:
+    pure.carryingAdd(a, b, carryIn)
+  else:
+    when cpuX86 and compilerGccCompatible and canUseInlineAsm:
+      inlineasm.x86.carryingAdd(a, b, carryIn)
+    elif compilerGccCompatible and canUseIntrinsics:
+      intrinsics.gcc.carryingAdd(a, b, carryIn)
+    else:
+      pure.carryingAdd(a, b, carryIn)

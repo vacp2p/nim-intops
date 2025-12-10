@@ -8,8 +8,8 @@ when cpuArm64 and compilerGccCompatible and canUseInlineAsm:
 
     asm """
       uqadd %0, %1, %2
-      : "=r" (res)
-      : "r" (a), "r" (b)
+      : "=r" (`res`)
+      : "r" (`a`), "r" (`b`)
     """
 
     res
@@ -19,8 +19,8 @@ when cpuArm64 and compilerGccCompatible and canUseInlineAsm:
 
     asm """
       uqadd %w0, %w1, %w2
-      : "=r" (res)
-      : "r" (a), "r" (b)
+      : "=r" (`res`)
+      : "r" (`a`), "r" (`b`)
     """
 
     res
@@ -30,8 +30,8 @@ when cpuArm64 and compilerGccCompatible and canUseInlineAsm:
 
     asm """
       sqadd %0, %1, %2
-      : "=r" (res)
-      : "r" (a), "r" (b)
+      : "=r" (`res`)
+      : "r" (`a`), "r" (`b`)
     """
 
     res
@@ -41,8 +41,8 @@ when cpuArm64 and compilerGccCompatible and canUseInlineAsm:
 
     asm """
       sqadd %w0, %w1, %w2
-      : "=r" (res)
-      : "r" (a), "r" (b)
+      : "=r" (`res`)
+      : "r" (`a`), "r" (`b`)
     """
 
     res

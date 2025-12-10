@@ -37,7 +37,7 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
     """
     (sum, didOverflow > 0)
 
-when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
+when cpuX86 and compilerGccCompatible and canUseInlineAsm:
   func carryingAdd*(a, b: uint32, carryIn: bool): (uint32, bool) {.inline.} =
     var
       sum = a

@@ -57,8 +57,8 @@ template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut:
   when nimvm:
     pure.carryingAdd(a, b, carryIn)
   else:
-    when cpuX86 and compilerGccCompatible and canUseInlineAsm:
-      # Use inline ASM for Linux/Mac on x86
+    when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
+      # Use inline ASM for Linux/Mac on x86 x64
       inlineasm.x86.carryingAdd(a, b, carryIn)
     elif cpu64Bit and compilerGccCompatible and canUseInlineC:
       # Use inline C on ARM64 and RISC-V x64
@@ -89,7 +89,7 @@ template carryingAdd*(a, b: uint32, carryIn: bool): tuple[res: uint32, carryOut:
     pure.carryingAdd(a, b, carryIn)
   else:
     when cpuX86 and compilerGccCompatible and canUseInlineAsm:
-      # Use inline ASM for Linux/Mac x64
+      # Use inline ASM for Linux/Mac on x86
       inlineasm.x86.carryingAdd(a, b, carryIn)
     elif cpuX86 and canUseIntrinsics:
       # Use Intel/AMD intrinsics with MSVC as ASM is unavailable

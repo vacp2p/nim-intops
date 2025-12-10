@@ -101,10 +101,34 @@ template carryingAdd*(a, b: uint32, carryIn: bool): tuple[res: uint32, carryOut:
       # Universal fallback
       pure.carryingAdd(a, b, carryIn)
 
-template carryingAdd*[T: int64 | int32](
-    a, b: T, carryIn: bool
-): tuple[res: T, carryOut: bool] =
-  ##[ Carrying addition for signed 64- and 32-bit integers.
+template carryingAdd*(
+    a, b: int64, carryIn: bool
+): tuple[res: int64, carryOut: bool] =
+  ##[ Carrying addition for signed 64-bit integers.
+
+  Takes two integers and returns their sum along with the carrying flag (CF): 
+  ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+
+  Useful for chaining operations.
+
+  See also:
+  - `borrowingSub`_
+  ]##
+
+  when nimvm:
+    pure.carryingAdd(a, b, carryIn)
+  else:
+    when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
+      inlineasm.x86.carryingAdd(a, b, carryIn)
+    elif compilerGccCompatible and canUseIntrinsics:
+      intrinsics.gcc.carryingAdd(a, b, carryIn)
+    else:
+      pure.carryingAdd(a, b, carryIn)
+
+template carryingAdd*(
+    a, b: int32, carryIn: bool
+): tuple[res: int32, carryOut: bool] =
+  ##[ Carrying addition for signed 32-bit integers.
 
   Takes two integers and returns their sum along with the carrying flag (CF): 
   ``true`` means the previous addition had overflown, ``false`` means it hadn't.

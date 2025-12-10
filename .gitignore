@@ -18,3 +18,4 @@ tests/tintops
 nimble.develop
 nimble.paths
 nimbledeps
+config.nims

@@ -43,7 +43,7 @@ template saturatingAdd*[T: SomeInteger](a, b: T): T =
       pure.saturatingAdd(a, b)
 
 template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut: bool] =
-  ##[ Carrying addition.
+  ##[ Carrying addition for unsigned 64-bit integers.
 
   Takes two integers and returns their sum along with the carrying flag (CF): 
   ``true`` means the previous addition had overflown, ``false`` means it hadn't.
@@ -74,7 +74,7 @@ template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut:
       pure.carryingAdd(a, b, carryIn)
 
 template carryingAdd*(a, b: uint32, carryIn: bool): tuple[res: uint32, carryOut: bool] =
-  ##[ Carrying addition.
+  ##[ Carrying addition for unsigned 32-bit integers.
 
   Takes two integers and returns their sum along with the carrying flag (CF): 
   ``true`` means the previous addition had overflown, ``false`` means it hadn't.
@@ -104,7 +104,7 @@ template carryingAdd*(a, b: uint32, carryIn: bool): tuple[res: uint32, carryOut:
 template carryingAdd*[T: int64 | int32](
     a, b: T, carryIn: bool
 ): tuple[res: T, carryOut: bool] =
-  ##[ Carrying addition.
+  ##[ Carrying addition for signed 64- and 32-bit integers.
 
   Takes two integers and returns their sum along with the carrying flag (CF): 
   ``true`` means the previous addition had overflown, ``false`` means it hadn't.

@@ -2,10 +2,11 @@
 
 import ../../consts
 
-when defined(vcc):
-  {.pragma: x86_header, header: "<intrin.h>", nodecl.}
-else:
-  {.pragma: x86_header, header: "<x86intrin.h>", nodecl.}
+when cpuX86 and canUseIntrinsics:
+  when defined(vcc):
+    {.pragma: x86_header, header: "<intrin.h>", nodecl.}
+  else:
+    {.pragma: x86_header, header: "<x86intrin.h>", nodecl.}
 
 when cpu64bit and cpuX86 and canUseIntrinsics:
   func builtinCarryingAdd(

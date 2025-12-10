@@ -5,6 +5,8 @@ import ../../consts
 when cpuArm64 and compilerGccCompatible and canUseIntrinsics:
   {.passC: "-include arm_acle.h".}
 
+  {.pragma: acleheader, header: "<arm_acle.h>", nodecl.}
+
   func saturatingAdd*(a, b: uint64): uint64 {.importc: "__uqaddl", acleheader.}
 
   func saturatingAdd*(a, b: uint32): uint32 {.importc: "__uqadd", acleheader.}

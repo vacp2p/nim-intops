@@ -35,8 +35,8 @@ template saturatingAdd*[T: SomeInteger](a, b: T): T =
   when nimvm:
     pure.saturatingAdd(a, b)
   else:
-    when cpuArm64 and compilerGccCompatible and canUseInlineAsm:
-      inlineasm.arm64.saturatingAdd(a, b)
+    when cpuArm64 and compilerGccCompatible and canUseIntrinsics:
+      intrinsics.arm64.saturatingAdd(a, b)
     elif compilerGccCompatible and canUseIntrinsics:
       intrinsics.gcc.saturatingAdd(a, b)
     else:

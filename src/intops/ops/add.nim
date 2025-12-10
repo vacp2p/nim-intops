@@ -63,7 +63,7 @@ template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut:
     elif cpu64Bit and compilerGccCompatible and canUseInlineC:
       # Use inline C on ARM64 and RISC-V x64
       inlinec.carryingAdd(a, b, carryIn)
-    elif cpuX86 and canUseIntrinsics:
+    elif cpu64Bit and cpuX86 and canUseIntrinsics:
       # Use Intel/AMD intrinsics with MSVC as ASM is unavailable
       intrinsics.x86.carryingAdd(a, b, carryIn)
     elif compilerGccCompatible and canUseIntrinsics:

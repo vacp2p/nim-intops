@@ -40,16 +40,25 @@ src
 └───intops
     │   consts.nim          <- global constants for environment detection
     │
-    ├───impl                <- optinized implementations of primitives
-    │       inlineasm.nim
-    │       inlinec.nim
-    │       intrinsics.nim
-    │       pure.nim
+    ├───impl                <- implementations of primitives
+    │   │   inlineasm.nim   <- entrypoint for the Inline ASM family of implementations
+    │   │   inlinec.nim
+    │   │   intrinsics.nim
+    │   │   pure.nim
+    │   │
+    │   ├───inlineasm
+    │   │       arm64.nim   <- implementation in ARM64 Assembly 
+    │   │       x86.nim
+    │   │
+    │   └───intrinsics
+    │           gcc.nim
+    │           x86.nim
     │
     └───ops                 <- operations; each module contains a family of primitives
             add.nim
             mul.nim
             sub.nim
+
 ```
 
 The entrypoint is the root `intops` module. It exposes all the available primitives.

@@ -101,9 +101,7 @@ template carryingAdd*(a, b: uint32, carryIn: bool): tuple[res: uint32, carryOut:
       # Universal fallback
       pure.carryingAdd(a, b, carryIn)
 
-template carryingAdd*(
-    a, b: int64, carryIn: bool
-): tuple[res: int64, carryOut: bool] =
+template carryingAdd*(a, b: int64, carryIn: bool): tuple[res: int64, carryOut: bool] =
   ##[ Carrying addition for signed 64-bit integers.
 
   Takes two integers and returns their sum along with the carrying flag (CF): 
@@ -125,9 +123,7 @@ template carryingAdd*(
     else:
       pure.carryingAdd(a, b, carryIn)
 
-template carryingAdd*(
-    a, b: int32, carryIn: bool
-): tuple[res: int32, carryOut: bool] =
+template carryingAdd*(a, b: int32, carryIn: bool): tuple[res: int32, carryOut: bool] =
   ##[ Carrying addition for signed 32-bit integers.
 
   Takes two integers and returns their sum along with the carrying flag (CF): 

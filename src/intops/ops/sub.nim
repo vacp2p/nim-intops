@@ -63,20 +63,15 @@ template borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) =
     elif cpu64Bit and compilerGccCompatible and canUseInlineC:
       # Use inline C on ARM64 and RISC-V x64
       inlinec.borrowingSub(a, b, borrowIn)
+    elif cpu64Bit and cpuX86 and canUseIntrinsics:
+      # Use Intel/AMD intrinsics with MSVC as ASM is unavailable
+      intrinsics.x86.borrowingSub(a, b, borrowIn)
     elif compilerGccCompatible and canUseIntrinsics:
+      # Use generic GCC/Clang intrinsics on ARM/Linux
       intrinsics.gcc.borrowingSub(a, b, borrowIn)
     else:
+      # Universal fallback
       pure.borrowingSub(a, b, borrowIn)
-
-  #   elif cpu64Bit and cpuX86 and canUseIntrinsics:
-  #     # Use Intel/AMD intrinsics with MSVC as ASM is unavailable
-  #     intrinsics.x86.carryingAdd(a, b, carryIn)
-  #   elif compilerGccCompatible and canUseIntrinsics:
-  #     # Use generic GCC/Clang intrinsics on ARM/Linux
-  #     intrinsics.gcc.carryingAdd(a, b, carryIn)
-  #   else:
-  #     # Universal fallback
-  #     pure.carryingAdd(a, b, carryIn)
 
 template borrowingSub*(a, b: uint32, borrowIn: bool): (uint32, bool) =
   ##[ Borrowing subtraction for unsigned 32-bit integers.

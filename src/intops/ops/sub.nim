@@ -18,7 +18,7 @@ template overflowingSub*[T: SomeInteger](a, b: T): (T, bool) =
     pure.overflowingSub(a, b)
   else:
     when compilerGccCompatible and canUseIntrinsics:
-      intrinsics.overflowingSub(a, b)
+      intrinsics.gcc.overflowingSub(a, b)
     else:
       pure.overflowingSub(a, b)
 
@@ -35,8 +35,10 @@ template saturatingSub*[T: SomeInteger](a, b: T): T =
   when nimvm:
     pure.saturatingSub(a, b)
   else:
-    when compilerGccCompatible and canUseIntrinsics:
-      intrinsics.saturatingSub(a, b)
+    when cpuArm64 and compilerGccCompatible and canUseInlineAsm:
+      inlineasm.arm64.saturatingSub(a, b)
+    elif compilerGccCompatible and canUseIntrinsics:
+      intrinsics.gcc.saturatingSub(a, b)
     else:
       pure.saturatingSub(a, b)
 
@@ -56,6 +58,6 @@ template borrowingSub*[T: SomeInteger](a, b: T, borrowIn: bool): (T, bool) =
     pure.borrowingSub(a, b, borrowIn)
   else:
     when compilerGccCompatible and canUseIntrinsics:
-      intrinsics.borrowingSub(a, b, borrowIn)
+      intrinsics.gcc.borrowingSub(a, b, borrowIn)
     else:
       pure.borrowingSub(a, b, borrowIn)

@@ -1,4 +1,4 @@
-import ../impl/[pure, intrinsics]
+import ../impl/[pure, intrinsics, inlineasm]
 
 import ../consts
 

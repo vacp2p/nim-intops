@@ -27,6 +27,32 @@ when cpu64Bit and compilerGccCompatible and canUseInlineC:
 
     (sum, cOut > 0)
 
+  func borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) {.inline.} =
+    var
+      diff: uint64
+      bOut: uint64
+      bInVal = if borrowIn: 1'u64 else: 0'u64
+
+    {.
+      emit:
+        """
+        /* 1. Cast inputs to 128-bit and subtract */
+        /* If (a < b + borrow), 'res' wraps to a very large value (high bits become 1s) */
+        unsigned __int128 res = ((unsigned __int128)`a`) -
+                                ((unsigned __int128)`b`) -
+                                ((unsigned __int128)`bInVal`);
+
+        /* 2. Extract the lower 64 bits (The Difference) */
+        `diff` = (unsigned long long)res;
+
+        /* 3. Extract the upper 64 bits (The Borrow) */
+        /* If a borrow occurred, the upper bits will be non-zero (specifically all 1s) */
+        `bOut` = (unsigned long long)(res >> 64);
+        """
+    .}
+
+    (diff, bOut > 0)
+
   func wideningMul*(a, b: uint64): (uint64, uint64) {.inline.} =
     var hi, lo: uint64
 

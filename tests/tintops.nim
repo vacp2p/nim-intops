@@ -145,3 +145,18 @@ suite "Widening operations":
     check wideningMul(high(int32), 1'i32) == (0'i32, uint32(high(int32)))
     check wideningMul(-1'i32, -1'i32) == (0'i32, 1'u32)
     check wideningMul(2'i32, -1'i32) == (-1'i32, high(uint32) - 1'u32)
+
+  test "Widening multiplication with addition, unsigned 64-bit integers":
+    check wideningMulAdd(0'u64, 0'u64, 0'u64) == (0'u64, 0'u64)
+    check wideningMulAdd(2'u64, 3'u64, 4'u64) == (0'u64, 10'u64)
+    check wideningMulAdd(high(uint64), 1'u64, 1'u64) == (1'u64, 0'u64)
+    check wideningMulAdd(high(uint64), high(uint64), high(uint64)) ==
+      (high(uint64), 0'u64)
+
+  test "Widening multiplication with double addition, unsigned 64-bit integers":
+    check wideningMulAdd(0'u64, 0'u64, 0'u64, 0'u64) == (0'u64, 0'u64)
+    check wideningMulAdd(2'u64, 3'u64, 4'u64, 5'u64) == (0'u64, 15'u64)
+    check wideningMulAdd(0'u64, 0'u64, high(uint64), high(uint64)) ==
+      (1'u64, high(uint64) - 1'u64)
+    check wideningMulAdd(high(uint64), high(uint64), high(uint64), high(uint64)) ==
+      (high(uint64), high(uint64))

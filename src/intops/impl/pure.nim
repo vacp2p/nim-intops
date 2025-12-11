@@ -178,3 +178,22 @@ func wideningMul*(a, b: int32): (int32, uint32) {.inline.} =
     lo = uint32(res and 0xFFFFFFFF)
 
   return (hi, lo)
+
+func mulAdd*(a, b, c: uint64): (uint64, uint64) {.inline.} =
+  let
+    (prodHi, prodLo) = wideningMul(a, b)
+    (sumLo, carry) = carryingAdd(prodLo, c, false)
+    lo = sumLo
+    hi = prodHi + (if carry: 1'u64 else: 0'u64)
+
+  (hi, lo)
+
+func mulAdd*(a, b, c, d: uint64): (uint64, uint64) {.inline.} =
+  let
+    (prodHi, prodLo) = wideningMul(a, b)
+    (sumLo1, carry1) = carryingAdd(prodLo, c, false)
+    (sumLo2, carry2) = carryingAdd(sumLo1, d, false)
+    lo = sumLo2
+    hi = prodHi + (if carry1: 1'u64 else: 0'u64) + (if carry2: 1'u64 else: 0'u64)
+
+  (hi, lo)

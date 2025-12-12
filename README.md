@@ -58,7 +58,6 @@ src
             add.nim
             mul.nim
             sub.nim
-
 ```
 
 The entrypoint is the root `intops` module. It exposes all the available primitives.
@@ -129,14 +128,18 @@ To define logic branches, use the global constants defined in `intops/consts.nim
 
 When branching, prefer positive conditions to negative ones, i.e. `when cpu64Bit` is prefereble to `when not cpu32Bit`. Although they can mean virtually the same thing, the former reads better.
 
-### Adding new operation flavors
+### Adding new operations
+
+To add a new operation family:
+
+1. create a module in `intops/ops`
+2. add its import and export to `intops.nim`
 
 To add a new operation flavor:
 
 1. define the pure Nim implementation of this flavor in `intops/impl/pure.nim`
-1. define a template for the operation in `intops/ops/{op}.nim`; the template should just invoke the pure implementation.
-
-For example, let's say we want to add a new kind of addition called magic addition.
+2. define a template for the operation in `intops/ops/{op}.nim`; the template should just invoke the pure implementation.
+   For example, let's say we want to add a new kind of addition called magic addition.
 
 In `intops/impl/pure.nim` we add:
 

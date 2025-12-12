@@ -160,3 +160,22 @@ suite "Widening operations":
       (1'u64, high(uint64) - 1'u64)
     check wideningMulAdd(high(uint64), high(uint64), high(uint64), high(uint64)) ==
       (high(uint64), high(uint64))
+
+suite "Narrowing operations":
+  test "Narrowing division, unsigned 64-bit integers":
+    check narrowingDiv(0'u64, 100'u64, 10'u64) == (10'u64, 0'u64)
+    check narrowingDiv(0'u64, 105'u64, 10'u64) == (10'u64, 5'u64)
+    check narrowingDiv(0'u64, high(uint64), high(uint64)) == (1'u64, 0'u64)
+    check narrowingDiv(1'u64, 0'u64, 2'u64) == (0x8000000000000000'u64, 0'u64)
+    check narrowingDiv(1'u64, 1'u64, 2'u64) == (0x8000000000000000'u64, 1'u64)
+    check narrowingDiv(1'u64, 0x800000000000000F'u64, 3'u64) ==
+      (0x8000000000000005'u64, 0'u64)
+    check narrowingDiv(high(uint64) - 1'u64, high(uint64) - 1'u64, high(uint64)) ==
+      (high(uint64), high(uint64) - 2)
+
+    let (q, r) = narrowingDiv(
+      0xFFFFFFFEFFFFFFFF'u64, 0xFFFFFFFFFFFFFFFF'u64, 0xFFFFFFFF00000000'u64
+    )
+
+    check q == 0xFFFFFFFFFFFFFFFF'u64
+    check r > 0

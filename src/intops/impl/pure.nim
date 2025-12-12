@@ -1,5 +1,7 @@
 ## Pure Nim implementations of arithmetic operations for integers.
 
+import std/bitops
+
 func overflowingAdd*[T: SomeUnsignedInt](a, b: T): (T, bool) {.inline.} =
   let
     res = a + b
@@ -197,3 +199,77 @@ func mulAdd*(a, b, c, d: uint64): (uint64, uint64) {.inline.} =
     hi = prodHi + (if carry1: 1'u64 else: 0'u64) + (if carry2: 1'u64 else: 0'u64)
 
   (hi, lo)
+
+func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) {.inline.} =
+  ## Knuth's Algorithm D (Division of nonnegative integers) implementation.
+
+  if v == 0:
+    raise newException(DivByZeroDefect, "Division by zero")
+
+  if uHi == 0:
+    return (uLo div v, uLo mod v)
+
+  const
+    Base32 = 0x100000000'u64
+    Max32 = 0xFFFFFFFF'u64
+
+  # Normalization shift to ensure v's MSB is 1
+  let shift = countLeadingZeroBits(v)
+
+  let
+    vNorm = v shl shift
+    uHiNorm = (uHi shl shift) or (uLo shr (64 - shift))
+    uLoNorm = uLo shl shift
+
+  # Split normalized divisor
+  let
+    vHi = vNorm shr 32
+    vLo = vNorm and Max32
+
+  # Split lower part of normalized dividend
+  let
+    u1 = uLoNorm shr 32
+    u0 = uLoNorm and Max32
+
+  # --- High Word Calculation ---
+  # Estimate qHi = uHiNorm / vHi
+  var
+    qHi = uHiNorm div vHi
+    rHat = uHiNorm mod vHi
+
+  # Refine qHi
+  # While (qHi * vLo) > (rHat * 2^32 + u1), decrement qHi
+  while qHi >= Base32 or (qHi * vLo > ((rHat shl 32) or u1)):
+    qHi -= 1
+    rHat += vHi
+    if rHat >= Base32:
+      break
+
+  # Calculate remainder after high word: rem = (uHiNorm:u1) - qHi * vNorm
+  let
+    uPartialHi = (uHiNorm shl 32) or u1
+    remHi = uPartialHi - qHi * vNorm
+
+  # --- Low Word Calculation ---
+  # Estimate qLo = remHi / vHi
+  var qLo = remHi div vHi
+  rHat = remHi mod vHi
+
+  # Refine qLo
+  while qLo >= Base32 or (qLo * vLo > ((rHat shl 32) or u0)):
+    qLo -= 1
+    rHat += vHi
+    if rHat >= Base32:
+      break
+
+  # Calculate final remainder: rem = (remHi:u0) - qLo * vNorm
+  let
+    uPartialLo = (remHi shl 32) or u0
+    remFinal = uPartialLo - qLo * vNorm
+
+  # --- Denormalize ---
+  let
+    finalQ = (qHi shl 32) or qLo
+    finalR = remFinal shr shift
+
+  (finalQ, finalR)

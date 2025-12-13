@@ -1,4 +1,4 @@
-import ../impl/[pure, inlinec]
+import ../impl/[pure, intrinsics, inlinec]
 import ../consts
 
 template wideningMul*(a, b: uint64): tuple[hi, lo: uint64] =
@@ -13,6 +13,8 @@ template wideningMul*(a, b: uint64): tuple[hi, lo: uint64] =
   else:
     when cpu64Bit and compilerGccCompatible:
       inlinec.wideningMul(a, b)
+    elif cpu64Bit and cpuX86 and compilerMsvc and canUseIntrinsics:
+      intrinsics.x86.wideningMul(a, b)
     else:
       pure.wideningMul(a, b)
 

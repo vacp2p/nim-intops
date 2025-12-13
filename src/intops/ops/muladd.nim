@@ -1,6 +1,6 @@
 ## Multiplication with addition.
 
-import ../impl/[pure, inlinec]
+import ../impl/[pure, intrinsics, inlinec]
 
 import ../consts
 
@@ -16,6 +16,8 @@ template wideningMulAdd*(a, b, c: uint64): tuple[hi, lo: uint64] =
   else:
     when cpu64Bit and compilerGccCompatible and canUseInlineC:
       inlinec.mulAdd(a, b, c)
+    elif cpu64Bit and cpuX86 and compilerMsvc and canUseIntrinsics:
+      intrinsics.x86.mulAdd(a, b, c)
     else:
       pure.mulAdd(a, b, c)
 
@@ -32,5 +34,7 @@ template wideningMulAdd*(a, b, c, d: uint64): tuple[hi, lo: uint64] =
   else:
     when cpu64Bit and compilerGccCompatible and canUseInlineC:
       inlinec.mulAdd(a, b, c, d)
+    elif cpu64Bit and cpuX86 and compilerMsvc and canUseIntrinsics:
+      intrinsics.x86.mulAdd(a, b, c, d)
     else:
       pure.mulAdd(a, b, c, d)

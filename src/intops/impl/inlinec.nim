@@ -145,5 +145,3 @@ when cpu64Bit and compilerGccCompatible and canUseInlineC:
     .}
 
     (q, r)
-
-  # stint: extended_precision_64bit_uint128.nim

@@ -2,7 +2,7 @@ import ../impl/[pure, intrinsics, inlinec, inlineasm]
 
 import ../consts
 
-template overflowingSub*[T: SomeInteger](a, b: T): (T, bool) =
+template overflowingSub*[T: SomeInteger](a, b: T): tuple[res: T, didOverflow: bool] =
   ##[ Overflowing subtraction.
 
   Takes two integers and returns their difference along with the overflow flag (OF):
@@ -42,7 +42,7 @@ template saturatingSub*[T: SomeInteger](a, b: T): T =
     else:
       pure.saturatingSub(a, b)
 
-template borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) =
+template borrowingSub*(a, b: uint64, borrowIn: bool): tuple[res: uint64, borrowOut: bool] =
   ##[ Borrowing subtraction for unsigned 64-bit integers.
 
   Takes two integers and returns their difference along with the borrow flag (BF): 
@@ -63,7 +63,7 @@ template borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) =
     elif cpu64Bit and compilerGccCompatible and canUseInlineC:
       # Use inline C on ARM64 and RISC-V x64
       inlinec.borrowingSub(a, b, borrowIn)
-    elif cpu64Bit and cpuX86 and canUseIntrinsics:
+    elif cpu64Bit and cpuX86 and compilerMsvc and canUseIntrinsics:
       # Use Intel/AMD intrinsics with MSVC as ASM is unavailable
       intrinsics.x86.borrowingSub(a, b, borrowIn)
     elif compilerGccCompatible and canUseIntrinsics:
@@ -73,7 +73,7 @@ template borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) =
       # Universal fallback
       pure.borrowingSub(a, b, borrowIn)
 
-template borrowingSub*(a, b: uint32, borrowIn: bool): (uint32, bool) =
+template borrowingSub*(a, b: uint32, borrowIn: bool): tuple[res: uint32, borrowOut: bool] =
   ##[ Borrowing subtraction for unsigned 32-bit integers.
 
   Takes two integers and returns their difference along with the borrow flag (BF): 
@@ -88,12 +88,20 @@ template borrowingSub*(a, b: uint32, borrowIn: bool): (uint32, bool) =
   when nimvm:
     pure.borrowingSub(a, b, borrowIn)
   else:
-    when compilerGccCompatible and canUseIntrinsics:
+    when cpuX86 and compilerGccCompatible and canUseInlineAsm:
+      # Use inline ASM for Linux/Mac on x86
+      inlineasm.x86.borrowingSub(a, b, borrowIn)
+    elif cpuX86 and compilerMsvc and canUseIntrinsics:
+      # Use Intel/AMD intrinsics with MSVC as ASM is unavailable
+      intrinsics.x86.borrowingSub(a, b, borrowIn)
+    elif compilerGccCompatible and canUseIntrinsics:
+      # Use generic GCC/Clang intrinsics on ARM/Linux
       intrinsics.gcc.borrowingSub(a, b, borrowIn)
     else:
+      # Universal fallback
       pure.borrowingSub(a, b, borrowIn)
 
-template borrowingSub*(a, b: int64, borrowIn: bool): (int64, bool) =
+template borrowingSub*(a, b: int64, borrowIn: bool): tuple[res: int64, borrowOut: bool] =
   ##[ Borrowing subtraction for signed 64-bit integers.
 
   Takes two integers and returns their difference along with the borrow flag (BF):

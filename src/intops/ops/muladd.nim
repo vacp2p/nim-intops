@@ -1,6 +1,8 @@
 ## Multiplication with addition.
 
-import ../impl/pure
+import ../impl/[pure, inlinec]
+
+import ../consts
 
 template wideningMulAdd*(a, b, c: uint64): tuple[hi, lo: uint64] =
   ##[ Widening multiplication + addition.
@@ -9,7 +11,13 @@ template wideningMulAdd*(a, b, c: uint64): tuple[hi, lo: uint64] =
   plus the third one as a pair of unsigned ints: the high word and the low word.
   ]##
 
-  pure.mulAdd(a, b, c)
+  when nimvm:
+    pure.mulAdd(a, b, c)
+  else:
+    when cpu64Bit and compilerGccCompatible and canUseInlineC:
+      inlinec.mulAdd(a, b, c)
+    else:
+      pure.mulAdd(a, b, c)
 
 template wideningMulAdd*(a, b, c, d: uint64): tuple[hi, lo: uint64] =
   ##[ Widening multiplication + addition + addition.
@@ -19,4 +27,10 @@ template wideningMulAdd*(a, b, c, d: uint64): tuple[hi, lo: uint64] =
   the high word and the low word.
   ]##
 
-  pure.mulAdd(a, b, c, d)
+  when nimvm:
+    pure.mulAdd(a, b, c, d)
+  else:
+    when cpu64Bit and compilerGccCompatible and canUseInlineC:
+      inlinec.mulAdd(a, b, c, d)
+    else:
+      pure.mulAdd(a, b, c, d)

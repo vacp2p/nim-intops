@@ -93,6 +93,40 @@ when cpu64Bit and compilerGccCompatible and canUseInlineC:
 
     (hi, lo)
 
+  func mulAdd*(a, b, c: uint64): (uint64, uint64) {.inline.} =
+    var hi, lo: uint64
+    {.
+      emit:
+        """
+      typedef unsigned __int128 u128;
+
+      // Calculate a * b + c using 128-bit precision
+      u128 res = ((u128)`a`) * ((u128)`b`) + ((u128)`c`);
+
+      // Split result into high and low 64-bit words
+      `hi` = (unsigned long long)(res >> 64);
+      `lo` = (unsigned long long)res;
+    """
+    .}
+    (hi, lo)
+
+  func mulAdd*(a, b, c, d: uint64): (uint64, uint64) {.inline.} =
+    var hi, lo: uint64
+    {.
+      emit:
+        """
+      typedef unsigned __int128 u128;
+
+      // Calculate a * b + c + d using 128-bit precision
+      u128 res = ((u128)`a`) * ((u128)`b`) + ((u128)`c`) + ((u128)`d`);
+
+      // Split result
+      `hi` = (unsigned long long)(res >> 64);
+      `lo` = (unsigned long long)res;
+    """
+    .}
+    (hi, lo)
+
   func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) {.inline.} =
     var q, r: uint64
 

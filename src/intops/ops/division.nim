@@ -1,4 +1,6 @@
-import ../impl/pure
+import ../impl/[pure, inlinec]
+
+import ../consts
 
 template narrowingDiv*(uHi, uLo, v: uint64): tuple[q, r: uint64] =
   ##[ Narrowing division with remainder of an unsigned 128-bit by an unsigned 64-bit integer.
@@ -8,4 +10,10 @@ template narrowingDiv*(uHi, uLo, v: uint64): tuple[q, r: uint64] =
   Returns the quontient and the remainder.
   ]##
 
-  pure.narrowingDiv(uHi, uLo, v)
+  when nimvm:
+    pure.narrowingDiv(uHi, uLo, v)
+  else:
+    when cpu64Bit and compilerGccCompatible and canUseInlineC:
+      inlinec.narrowingDiv(uHi, uLo, v)
+    else:
+      pure.narrowingDiv(uHi, uLo, v)

@@ -3,6 +3,8 @@
 import ../../consts
 
 when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
+  # stint: extended_precision_x86_64_gcc.nim
+
   func carryingAdd*(a, b: uint64, carryIn: bool): (uint64, bool) {.inline.} =
     var
       sum = a

@@ -219,8 +219,8 @@ template magicAdd*(a, b: uint64): uint64 =
     pure.wideningMul(a, b)
   else:
 
-    # This must comply with the guard logic. The two checks are interpreted as "we call this implementation
-    # only under these conditions and if you try to call it directly, we'll still stop you." 
+    # This must be at least as strict as the respective guard logic so that this code
+    # is never invoked when it won't compile.
     when cpu64Bit:
       inlinec.wideningMul(a, b)
 

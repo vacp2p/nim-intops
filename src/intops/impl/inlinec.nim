@@ -3,6 +3,27 @@
 import ../consts
 
 when cpu64Bit and compilerGccCompatible and canUseInlineC:
+  # stint: extended_precision_64bit_uint128.nim
+
+  func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) {.inline.} =
+    var q, r: uint64
+
+    {.
+      emit:
+        """
+      typedef unsigned __int128 u128;
+
+      // Construct 128-bit integer from high/low parts
+      u128 u = (((u128)`uHi`) << 64) | ((u128)`uLo`);
+
+      // Perform Division
+      `q` = (unsigned long long)(u / `v`);
+      `r` = (unsigned long long)(u % `v`);
+    """
+    .}
+
+    (q, r)
+
   func carryingAdd*(a, b: uint64, carryIn: bool): (uint64, bool) {.inline.} =
     var
       sum: uint64

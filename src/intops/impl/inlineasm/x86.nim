@@ -1,4 +1,4 @@
-## Arithmetic operations for integers implemented in x86 Assembly.
+## Arithmetic operations for integers implemented in x86 GCC/Clang inline Assembly.
 
 import ../../consts
 

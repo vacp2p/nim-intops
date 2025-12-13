@@ -83,7 +83,7 @@ when cpu64bit and cpuX86 and compilerMsvc and canUseIntrinsics:
 
     (hi, lo)
 
-  func mulAdd*(a, b, c: uint64): (uint64, uint64) {.inline.} =
+  func wideningMulAdd*(a, b, c: uint64): (uint64, uint64) {.inline.} =
     var
       hi, lo: uint64
       carry: uint8 = 0
@@ -94,7 +94,7 @@ when cpu64bit and cpuX86 and compilerMsvc and canUseIntrinsics:
 
     (hi, lo)
 
-  func mulAdd*(a, b, c, d: uint64): (uint64, uint64) {.inline.} =
+  func wideningMulAdd*(a, b, c, d: uint64): (uint64, uint64) {.inline.} =
     var
       hi, lo: uint64
       carry1: uint8 = 0

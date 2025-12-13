@@ -12,14 +12,14 @@ template wideningMulAdd*(a, b, c: uint64): tuple[hi, lo: uint64] =
   ]##
 
   when nimvm:
-    pure.mulAdd(a, b, c)
+    pure.wideningMulAdd(a, b, c)
   else:
     when cpu64Bit and compilerGccCompatible and canUseInlineC:
-      inlinec.mulAdd(a, b, c)
+      inlinec.wideningMulAdd(a, b, c)
     elif cpu64Bit and cpuX86 and compilerMsvc and canUseIntrinsics:
-      intrinsics.x86.mulAdd(a, b, c)
+      intrinsics.x86.wideningMulAdd(a, b, c)
     else:
-      pure.mulAdd(a, b, c)
+      pure.wideningMulAdd(a, b, c)
 
 template wideningMulAdd*(a, b, c, d: uint64): tuple[hi, lo: uint64] =
   ##[ Widening multiplication + addition + addition.
@@ -30,11 +30,11 @@ template wideningMulAdd*(a, b, c, d: uint64): tuple[hi, lo: uint64] =
   ]##
 
   when nimvm:
-    pure.mulAdd(a, b, c, d)
+    pure.wideningMulAdd(a, b, c, d)
   else:
     when cpu64Bit and compilerGccCompatible and canUseInlineC:
-      inlinec.mulAdd(a, b, c, d)
+      inlinec.wideningMulAdd(a, b, c, d)
     elif cpu64Bit and cpuX86 and compilerMsvc and canUseIntrinsics:
-      intrinsics.x86.mulAdd(a, b, c, d)
+      intrinsics.x86.wideningMulAdd(a, b, c, d)
     else:
-      pure.mulAdd(a, b, c, d)
+      pure.wideningMulAdd(a, b, c, d)

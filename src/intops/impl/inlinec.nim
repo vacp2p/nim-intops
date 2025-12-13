@@ -93,7 +93,7 @@ when cpu64Bit and compilerGccCompatible and canUseInlineC:
 
     (hi, lo)
 
-  func mulAdd*(a, b, c: uint64): (uint64, uint64) {.inline.} =
+  func wideningMulAdd*(a, b, c: uint64): (uint64, uint64) {.inline.} =
     var hi, lo: uint64
     {.
       emit:
@@ -110,7 +110,7 @@ when cpu64Bit and compilerGccCompatible and canUseInlineC:
     .}
     (hi, lo)
 
-  func mulAdd*(a, b, c, d: uint64): (uint64, uint64) {.inline.} =
+  func wideningMulAdd*(a, b, c, d: uint64): (uint64, uint64) {.inline.} =
     var hi, lo: uint64
     {.
       emit:

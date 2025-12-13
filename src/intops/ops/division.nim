@@ -1,4 +1,4 @@
-import ../impl/[pure, intrinsics, inlinec]
+import ../impl/[pure, intrinsics, inlinec, inlineasm]
 
 import ../consts
 
@@ -13,7 +13,9 @@ template narrowingDiv*(uHi, uLo, v: uint64): tuple[q, r: uint64] =
   when nimvm:
     pure.narrowingDiv(uHi, uLo, v)
   else:
-    when cpu64Bit and compilerGccCompatible and canUseInlineC:
+    when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
+      inlineasm.x86.narrowingDiv(uHi, uLo, v)
+    elif cpu64Bit and compilerGccCompatible and canUseInlineC:
       inlinec.narrowingDiv(uHi, uLo, v)
     elif cpu64Bit and cpuX86 and compilerMsvc and canUseIntrinsics:
       intrinsics.x86.narrowingDiv(uHi, uLo, v)

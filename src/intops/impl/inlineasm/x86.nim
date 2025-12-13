@@ -3,8 +3,6 @@
 import ../../consts
 
 when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
-  # stint: extended_precision_x86_64_gcc.nim
-
   func carryingAdd*(a, b: uint64, carryIn: bool): (uint64, bool) {.inline.} =
     var
       sum = a
@@ -72,6 +70,26 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
       : "cc"
     """
     (diff, didOverflow > 0)
+
+  func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) {.inline.} =
+    var q, r: uint64
+
+    # GCC/Clang Inline Assembly
+    # Instruction: divq (Unsigned Divide)
+    # Inputs:
+    #   Dividend High (rdx) -> uHi
+    #   Dividend Low  (rax) -> uLo
+    #   Divisor       (r/m) -> v
+    # Outputs:
+    #   Quotient      (rax) -> q
+    #   Remainder     (rdx) -> r
+    asm """
+      divq %[v]
+      : "=a" (`q`), "=d" (`r`)
+      : "d" (`uHi`), "a" (`uLo`), [v] "rm" (`v`)
+    """
+
+    (q, r)
 
 when cpuX86 and compilerGccCompatible and canUseInlineAsm:
   func carryingAdd*(a, b: uint32, carryIn: bool): (uint32, bool) {.inline.} =

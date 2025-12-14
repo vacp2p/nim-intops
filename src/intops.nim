@@ -4,6 +4,6 @@
 - multiplication: widening
 ]##
 
-import intops/ops/[add, sub, mul, muladd, division]
+import intops/ops/[add, sub, mul, muladd, division, composite]
 
-export add, sub, mul, muladd, division
+export add, sub, mul, muladd, division, composite

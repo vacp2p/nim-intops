@@ -179,3 +179,26 @@ suite "Narrowing operations":
 
     check q == 0xFFFFFFFFFFFFFFFF'u64
     check r > 0
+
+suite "Composite operations":
+  test "mulDoubleAdd2, unsigned 64-bit integers":
+    check mulDoubleAdd2(2'u64, 3'u64, 5'u64, 0'u64, 1'u64) == (0'u64, 0'u64, 18'u64)
+    check mulDoubleAdd2(1'u64 shl 62, 2'u64, 0'u64, 0'u64, 0'u64) ==
+      (0'u64, 1'u64, 0'u64)
+    check mulDoubleAdd2(0'u64, 0'u64, high(uint64), 0'u64, 1'u64) ==
+      (0'u64, 1'u64, 0'u64)
+    check mulDoubleAdd2(high(uint64), high(uint64), 0'u64, 0'u64, 0'u64) ==
+      (1'u64, high(uint64) - 3'u64, 2'u64)
+
+  test "mulDoubleAdd2, unsigned 32-bit integers":
+    check mulDoubleAdd2(10'u32, 10'u32, 50'u32, 0'u32, 6'u32) == (0'u32, 0'u32, 256'u32)
+
+  test "mulAcc, unsigned 64-bit integers":
+    check mulAcc(0'u64, 0'u64, 0'u64, 10'u64, 10'u64) == (0'u64, 0'u64, 100'u64)
+    check mulAcc(0'u64, 0'u64, high(uint64), 1'u64, 1'u64) == (0'u64, 1'u64, 0'u64)
+    check mulAcc(0'u64, high(uint64), 0'u64, high(uint64), 2'u64) ==
+      (1'u64, 0'u64, high(uint64) - 1'u64)
+
+  test "mulAcc, unsigned 32-bit integers":
+    check mulAcc(0'u32, high(uint32), 0'u32, high(uint32), 2'u32) ==
+      (1'u32, 0'u32, high(uint32) - 1'u32)

@@ -273,3 +273,47 @@ func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) {.inline.} =
     finalR = remFinal shr shift
 
   (finalQ, finalR)
+
+func mulDoubleAdd2*[T: uint64 | uint32](a, b, c, dHi, dLo: T): (T, T, T) {.inline.} =
+  var (r1, r0) = pure.wideningMul(a, b)
+
+  let (r0_new, c1) = carryingAdd(r0, r0, false)
+  r0 = r0_new
+
+  let (r1_new, c2) = carryingAdd(r1, r1, c1)
+  r1 = r1_new
+
+  var r2 =
+    if c2:
+      T(1)
+    else:
+      T(0)
+
+  let
+    (sum0, c3) = carryingAdd(r0, c, false)
+    (sum1, c4) = carryingAdd(r1, T(0), c3)
+
+  r0 = sum0
+  r1 = sum1
+  if c4:
+    r2 += T(1)
+
+  let
+    (final0, c5) = carryingAdd(r0, dLo, false)
+    (final1, c6) = carryingAdd(r1, dHi, c5)
+
+  r0 = final0
+  r1 = final1
+  if c6:
+    r2 += T(1)
+
+  (r2, r1, r0)
+
+func mulAcc*[T: uint64 | uint32](t, u, v: T, a, b: T): (T, T, T) {.inline.} =
+  let
+    (pHi, pLo) = pure.wideningMul(a, b)
+    (newV, carry1) = carryingAdd(v, pLo, false)
+    (newU, carry2) = carryingAdd(u, pHi, carry1)
+    newT = t + (if carry2: T(1) else: T(0))
+
+  (newT, newU, newV)

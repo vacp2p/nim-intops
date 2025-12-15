@@ -1,0 +1,8 @@
+[nimib]
+srcDir = "book"
+homeDir = "docs"
+
+[nimibook]
+title = "intops"
+description = "Integer arithmetics primitives."
+git_repository_url = "https://github.com/vacp2p/nim-intops"

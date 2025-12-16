@@ -202,3 +202,84 @@ suite "Composite operations":
   test "mulAcc, unsigned 32-bit integers":
     check mulAcc(0'u32, high(uint32), 0'u32, high(uint32), 2'u32) ==
       (1'u32, 0'u32, high(uint32) - 1'u32)
+
+suite "Chaining operations":
+  test "Chaining addition, carry propagation, unsigned":
+    proc testChainingAdd[T: SomeUnsignedInt]() =
+      let
+        a = [high(T), high(T), high(T)]
+        b = [T(1), T(0), T(0)]
+
+      var
+        res: array[3, T]
+        carry: bool
+
+      (res[0], carry) = carryingAdd(a[0], b[0], carry)
+      (res[1], carry) = carryingAdd(a[1], b[1], carry)
+      (res[2], carry) = carryingAdd(a[2], b[2], carry)
+
+      check res == [T(0), T(0), T(0)]
+      check carry == true
+
+    testChainingAdd[uint32]()
+    testChainingAdd[uint64]()
+
+  test "Chaining addition, carry kill, unsigned":
+    proc testChainingAdd[T: SomeUnsignedInt]() =
+      let
+        a = [high(T), T(0), T(0)]
+        b = [T(1), T(0), T(0)]
+
+      var
+        res: array[3, T]
+        carry: bool
+
+      (res[0], carry) = carryingAdd(a[0], b[0], carry)
+      (res[1], carry) = carryingAdd(a[1], b[1], carry)
+      (res[2], carry) = carryingAdd(a[2], b[2], carry)
+
+      check res == [T(0), T(1), T(0)]
+      check carry == false
+
+    testChainingAdd[uint32]()
+    testChainingAdd[uint64]()
+
+  test "Chaining subtraction, borrow propagation, unsigned":
+    proc testChainingSub[T: SomeUnsignedInt]() =
+      let
+        a = [low(T), low(T), low(T)]
+        b = [T(1), T(0), T(0)]
+
+      var
+        res: array[3, T]
+        borrow: bool
+
+      (res[0], borrow) = borrowingSub(a[0], b[0], borrow)
+      (res[1], borrow) = borrowingSub(a[1], b[1], borrow)
+      (res[2], borrow) = borrowingSub(a[2], b[2], borrow)
+
+      check res == [high(T), high(T), high(T)]
+      check borrow == true
+
+    testChainingSub[uint32]()
+    testChainingSub[uint64]()
+
+  test "Chaining subtraction, borrow absorption, unsigned":
+    proc testChainingSub[T: SomeUnsignedInt]() =
+      let
+        a = [T(0), T(1), T(0)]
+        b = [T(1), T(0), T(0)]
+
+      var
+        res: array[3, T]
+        borrow: bool
+
+      (res[0], borrow) = borrowingSub(a[0], b[0], borrow)
+      (res[1], borrow) = borrowingSub(a[1], b[1], borrow)
+      (res[2], borrow) = borrowingSub(a[2], b[2], borrow)
+
+      check res == [high(T), T(0), T(0)]
+      check borrow == false
+
+    testChainingSub[uint32]()
+    testChainingSub[uint64]()

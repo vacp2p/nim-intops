@@ -11,7 +11,7 @@ func overflowingAdd*[T: SomeUnsignedInt](a, b: T): (T, bool) {.inline.} =
 
 func overflowingAdd*[T: SomeSignedInt](a, b: T): (T, bool) {.inline.} =
   let
-    res = T(a +% b)
+    res = a +% b
     didOverflow = ((a xor b) >= 0) and ((a xor res) < 0)
 
   (res, didOverflow)

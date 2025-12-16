@@ -23,11 +23,12 @@ task test, "Run tests":
     archFlagStr = archFlags.join(" ")
 
   for intopsFlagStr in [
-    "-d:intopsTest -d:unittest2Static", "-d:intopsTestNative",
-    "-d:intopsTestPure -d:unittest2Static",
+    "-d:intopsNoIntrinsics", "-d:intopsNoInlineAsm", "-d:intopsNoInlineC",
+    "-d:unittest2Static",
+    "-d:unittest2Static -d:intopsNoIntrinsics -d:intopsNoInlineAsm -d:intopsNoInlineC",
   ]:
     let flags = [intopsFlagStr, archFlagStr].join(" ")
 
-    echo fmt"[Flags: {flags}]"
+    echo fmt"# Flags: {flags}"
 
     selfExec fmt"r {flags} tests/tintops.nim"

@@ -11,7 +11,7 @@ template wideningMul*(a, b: uint64): tuple[hi, lo: uint64] =
   when nimvm:
     pure.wideningMul(a, b)
   else:
-    when cpu64Bit and compilerGccCompatible:
+    when cpu64Bit and compilerGccCompatible and canUseInlineC:
       inlinec.wideningMul(a, b)
     elif cpu64Bit and cpuX86 and compilerMsvc and canUseIntrinsics:
       intrinsics.x86.wideningMul(a, b)
@@ -37,7 +37,7 @@ template wideningMul*(a, b: int64): tuple[hi: int64, lo: uint64] =
   when nimvm:
     pure.wideningMul(a, b)
   else:
-    when cpu64Bit and compilerGccCompatible:
+    when cpu64Bit and compilerGccCompatible and canUseInlineC:
       inlinec.wideningMul(a, b)
     else:
       pure.wideningMul(a, b)

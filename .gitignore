@@ -17,3 +17,6 @@ tests/tintops
 nimble.develop
 nimble.paths
 nimbledeps
+
+.monit.yml
+.monit.docs.yml

@@ -34,8 +34,12 @@ task book, "Generate book":
   exec "./nbook --mm:orc --deepcopy:on update"
   exec "./nbook --mm:orc --deepcopy:on build"
 
-before docs:
+before apidocs:
   rmDir "docs/apidocs"
 
-task docs, "Generate API docs":
+task apidocs, "Generate API docs":
   exec "nimble doc --outdir:docs/apidocs --project --index:on src/intops.nim"
+
+task docs, "Generate docs":
+  exec "nimble book"
+  exec "nimble apidocs"

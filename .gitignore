@@ -6,6 +6,7 @@
 *.exe
 *.html
 *.idx
+*.log
 htmldocs
 docs
 nbook

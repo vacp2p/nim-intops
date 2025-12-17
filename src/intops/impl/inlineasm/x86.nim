@@ -3,7 +3,9 @@
 import ../../consts
 
 when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
-  func carryingAdd*(a, b: uint64, carryIn: bool): (uint64, bool) {.inline.} =
+  {.push inline, noinit.}
+
+  func carryingAdd*(a, b: uint64, carryIn: bool): (uint64, bool) =
     var
       sum = a
       cOut: uint8
@@ -20,7 +22,7 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
     """
     (sum, cOut > 0)
 
-  func carryingAdd*(a, b: int64, carryIn: bool): (int64, bool) {.inline.} =
+  func carryingAdd*(a, b: int64, carryIn: bool): (int64, bool) =
     var
       sum = a
       didOverflow: uint8
@@ -37,7 +39,7 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
     """
     (sum, didOverflow > 0)
 
-  func borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) {.inline.} =
+  func borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) =
     var
       diff = a
       bOut: uint8
@@ -54,7 +56,7 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
     """
     (diff, bOut > 0)
 
-  func borrowingSub*(a, b: int64, borrowIn: bool): (int64, bool) {.inline.} =
+  func borrowingSub*(a, b: int64, borrowIn: bool): (int64, bool) =
     var
       diff = a
       didOverflow: uint8
@@ -71,7 +73,7 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
     """
     (diff, didOverflow > 0)
 
-  func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) {.inline.} =
+  func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) =
     var q, r: uint64
 
     # GCC/Clang Inline Assembly
@@ -92,7 +94,9 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
     (q, r)
 
 when cpuX86 and compilerGccCompatible and canUseInlineAsm:
-  func carryingAdd*(a, b: uint32, carryIn: bool): (uint32, bool) {.inline.} =
+  {.push inline, noinit.}
+
+  func carryingAdd*(a, b: uint32, carryIn: bool): (uint32, bool) =
     var
       sum = a
       cOut: uint8
@@ -109,7 +113,7 @@ when cpuX86 and compilerGccCompatible and canUseInlineAsm:
     """
     (sum, cOut > 0)
 
-  func carryingAdd*(a, b: int32, carryIn: bool): (int32, bool) {.inline.} =
+  func carryingAdd*(a, b: int32, carryIn: bool): (int32, bool) =
     var
       sum = a
       didOverflow: uint8
@@ -126,7 +130,7 @@ when cpuX86 and compilerGccCompatible and canUseInlineAsm:
     """
     (sum, didOverflow > 0)
 
-  func borrowingSub*(a, b: uint32, borrowIn: bool): (uint32, bool) {.inline.} =
+  func borrowingSub*(a, b: uint32, borrowIn: bool): (uint32, bool) =
     var
       diff = a
       bOut: uint8
@@ -143,7 +147,7 @@ when cpuX86 and compilerGccCompatible and canUseInlineAsm:
     """
     (diff, bOut > 0)
 
-  func borrowingSub*(a, b: int32, borrowIn: bool): (int32, bool) {.inline.} =
+  func borrowingSub*(a, b: int32, borrowIn: bool): (int32, bool) =
     var
       diff = a
       didOverflow: uint8

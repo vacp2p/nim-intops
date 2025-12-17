@@ -16,7 +16,9 @@ when cpuX86 and canUseIntrinsics:
     borrowIn: uint8, a, b: uint32, res: var uint32
   ): uint8 {.importc: "_subborrow_u32", x86_header.}
 
-  func carryingAdd*(a, b: uint32, carryIn: bool): (uint32, bool) {.inline.} =
+  {.push inline, noinit.}
+
+  func carryingAdd*(a, b: uint32, carryIn: bool): (uint32, bool) =
     var sum: uint32
 
     let
@@ -25,7 +27,7 @@ when cpuX86 and canUseIntrinsics:
 
     (sum, cOut > 0)
 
-  func borrowingSub*(a, b: uint32, borrowIn: bool): (uint32, bool) {.inline.} =
+  func borrowingSub*(a, b: uint32, borrowIn: bool): (uint32, bool) =
     var diff: uint32
 
     let
@@ -47,7 +49,9 @@ when cpu64bit and cpuX86 and canUseIntrinsics:
     uHi, uLo, v: uint64, r: var uint64
   ): uint64 {.importc: "_udiv128", x86_header.}
 
-  func carryingAdd*(a, b: uint64, carryIn: bool): (uint64, bool) {.inline.} =
+  {.push inline, noinit.}
+
+  func carryingAdd*(a, b: uint64, carryIn: bool): (uint64, bool) =
     var sum: uint64
 
     let
@@ -56,7 +60,7 @@ when cpu64bit and cpuX86 and canUseIntrinsics:
 
     (sum, cOut > 0)
 
-  func borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) {.inline.} =
+  func borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) =
     var diff: uint64
     let
       bIn = if borrowIn: 1'u8 else: 0'u8
@@ -64,7 +68,7 @@ when cpu64bit and cpuX86 and canUseIntrinsics:
 
     (diff, bOut > 0)
 
-  func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) {.inline.} =
+  func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) =
     var r: uint64
 
     let q = builtinNarrowingDiv(uHi, uLo, v, r)
@@ -76,14 +80,16 @@ when cpu64bit and cpuX86 and compilerMsvc and canUseIntrinsics:
     a, b: uint64, hi: var uint64
   ): uint64 {.importc: "_umul128", x86_header.}
 
-  func wideningMul*(a, b: uint64): (uint64, uint64) {.inline.} =
+  {.push inline, noinit.}
+
+  func wideningMul*(a, b: uint64): (uint64, uint64) =
     var hi: uint64
 
     let lo = builtinWideningMul(a, b, hi)
 
     (hi, lo)
 
-  func wideningMulAdd*(a, b, c: uint64): (uint64, uint64) {.inline.} =
+  func wideningMulAdd*(a, b, c: uint64): (uint64, uint64) =
     var
       hi, lo: uint64
       carry: uint8 = 0
@@ -94,7 +100,7 @@ when cpu64bit and cpuX86 and compilerMsvc and canUseIntrinsics:
 
     (hi, lo)
 
-  func wideningMulAdd*(a, b, c, d: uint64): (uint64, uint64) {.inline.} =
+  func wideningMulAdd*(a, b, c, d: uint64): (uint64, uint64) =
     var
       hi, lo: uint64
       carry1: uint8 = 0

@@ -13,14 +13,16 @@ when compilerGccCompatible and canUseIntrinsics:
   ): bool {.importc: "__builtin_sub_overflow", nodecl.}
     ## Checks if a - b overflows. Returns true on overflow.
 
-  func overflowingAdd*[T: SomeInteger](a, b: T): (T, bool) {.inline.} =
+  {.push inline, noinit.}
+
+  func overflowingAdd*[T: SomeInteger](a, b: T): (T, bool) =
     var res: T
 
     let didOverflow = builtinOverflowingAdd(a, b, res)
 
     (res, didOverflow)
 
-  func saturatingAdd*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
+  func saturatingAdd*[T: SomeUnsignedInt](a, b: T): T =
     var res: T
 
     let didOverflow = builtinOverflowingAdd(a, b, res)
@@ -30,7 +32,7 @@ when compilerGccCompatible and canUseIntrinsics:
 
     res
 
-  func saturatingAdd*[T: SomeSignedInt](a, b: T): T {.inline.} =
+  func saturatingAdd*[T: SomeSignedInt](a, b: T): T =
     var res: T
 
     let didOverflow = builtinOverflowingAdd(a, b, res)
@@ -43,7 +45,7 @@ when compilerGccCompatible and canUseIntrinsics:
 
     res
 
-  func carryingAdd*[T: SomeInteger](a, b: T, carryIn: bool): (T, bool) {.inline.} =
+  func carryingAdd*[T: SomeInteger](a, b: T, carryIn: bool): (T, bool) =
     var t1, final: T
 
     let
@@ -52,14 +54,14 @@ when compilerGccCompatible and canUseIntrinsics:
 
     (final, c1 or c2)
 
-  func overflowingSub*[T: SomeInteger](a, b: T): (T, bool) {.inline.} =
+  func overflowingSub*[T: SomeInteger](a, b: T): (T, bool) =
     var res: T
 
     let didBorrow = builtinOverflowingSub(a, b, res)
 
     (res, didBorrow)
 
-  func saturatingSub*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
+  func saturatingSub*[T: SomeUnsignedInt](a, b: T): T =
     var res: T
 
     let didBorrow = builtinOverflowingSub(a, b, res)
@@ -69,7 +71,7 @@ when compilerGccCompatible and canUseIntrinsics:
 
     res
 
-  func saturatingSub*[T: SomeSignedInt](a, b: T): T {.inline.} =
+  func saturatingSub*[T: SomeSignedInt](a, b: T): T =
     var res: T
 
     let didOverflow = builtinOverflowingSub(a, b, res)
@@ -82,7 +84,7 @@ when compilerGccCompatible and canUseIntrinsics:
 
     res
 
-  func borrowingSub*[T: SomeInteger](a, b: T, borrowIn: bool): (T, bool) {.inline.} =
+  func borrowingSub*[T: SomeInteger](a, b: T, borrowIn: bool): (T, bool) =
     var t1, final: T
 
     let

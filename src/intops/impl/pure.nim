@@ -2,21 +2,23 @@
 
 import std/bitops
 
-func overflowingAdd*[T: SomeUnsignedInt](a, b: T): (T, bool) {.inline.} =
+{.push inline, noinit.}
+
+func overflowingAdd*[T: SomeUnsignedInt](a, b: T): (T, bool) =
   let
     res = a + b
     didOverflow = res < a
 
   (res, didOverflow)
 
-func overflowingAdd*[T: SomeSignedInt](a, b: T): (T, bool) {.inline.} =
+func overflowingAdd*[T: SomeSignedInt](a, b: T): (T, bool) =
   let
     res = a +% b
     didOverflow = ((a xor b) >= 0) and ((a xor res) < 0)
 
   (res, didOverflow)
 
-func carryingAdd*[T: SomeUnsignedInt](a, b: T, carryIn: bool): (T, bool) {.inline.} =
+func carryingAdd*[T: SomeUnsignedInt](a, b: T, carryIn: bool): (T, bool) =
   let
     sum = a + b
     c1 = sum < a
@@ -25,14 +27,14 @@ func carryingAdd*[T: SomeUnsignedInt](a, b: T, carryIn: bool): (T, bool) {.inlin
 
   (res, c1 or c2)
 
-func carryingAdd*[T: SomeSignedInt](a, b: T, carryIn: bool): (T, bool) {.inline.} =
+func carryingAdd*[T: SomeSignedInt](a, b: T, carryIn: bool): (T, bool) =
   let
     (sum1, o1) = pure.overflowingAdd(a, b)
     (final, o2) = pure.overflowingAdd(sum1, T(carryIn))
 
   (final, o1 or o2)
 
-func saturatingAdd*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
+func saturatingAdd*[T: SomeUnsignedInt](a, b: T): T =
   let (res, didOverflow) = pure.overflowingAdd(a, b)
 
   if unlikely(didOverflow):
@@ -40,7 +42,7 @@ func saturatingAdd*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
 
   res
 
-func saturatingAdd*[T: SomeSignedInt](a, b: T): T {.inline.} =
+func saturatingAdd*[T: SomeSignedInt](a, b: T): T =
   let (res, didOverflow) = pure.overflowingAdd(a, b)
 
   if unlikely(didOverflow):
@@ -51,21 +53,21 @@ func saturatingAdd*[T: SomeSignedInt](a, b: T): T {.inline.} =
 
   res
 
-func overflowingSub*[T: SomeUnsignedInt](a, b: T): (T, bool) {.inline.} =
+func overflowingSub*[T: SomeUnsignedInt](a, b: T): (T, bool) =
   let
     res = a - b
     didBorrow = a < b
 
   (res, didBorrow)
 
-func overflowingSub*[T: SomeSignedInt](a, b: T): (T, bool) {.inline.} =
+func overflowingSub*[T: SomeSignedInt](a, b: T): (T, bool) =
   let
     res = T(a -% b)
     didOverflow = ((a xor b) < 0) and ((a xor res) < 0)
 
   (res, didOverflow)
 
-func borrowingSub*[T: SomeUnsignedInt](a, b: T, borrowIn: bool): (T, bool) {.inline.} =
+func borrowingSub*[T: SomeUnsignedInt](a, b: T, borrowIn: bool): (T, bool) =
   let
     diff = a - b
     b1 = a < b
@@ -74,14 +76,14 @@ func borrowingSub*[T: SomeUnsignedInt](a, b: T, borrowIn: bool): (T, bool) {.inl
 
   (res, b1 or b2)
 
-func borrowingSub*[T: SomeSignedInt](a, b: T, borrowIn: bool): (T, bool) {.inline.} =
+func borrowingSub*[T: SomeSignedInt](a, b: T, borrowIn: bool): (T, bool) =
   let
     (diff1, o1) = pure.overflowingSub(a, b)
     (final, o2) = pure.overflowingSub(diff1, T(borrowIn))
 
   (final, o1 or o2)
 
-func saturatingSub*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
+func saturatingSub*[T: SomeUnsignedInt](a, b: T): T =
   let (res, didBorrow) = pure.overflowingSub(a, b)
 
   if unlikely(didBorrow):
@@ -89,7 +91,7 @@ func saturatingSub*[T: SomeUnsignedInt](a, b: T): T {.inline.} =
 
   res
 
-func saturatingSub*[T: SomeSignedInt](a, b: T): T {.inline.} =
+func saturatingSub*[T: SomeSignedInt](a, b: T): T =
   let (res, didOverflow) = pure.overflowingSub(a, b)
 
   if unlikely(didOverflow):
@@ -138,7 +140,7 @@ func wideningMul*(a, b: uint64): (uint64, uint64) =
 
   (hiRes, loRes)
 
-func wideningMul*(a, b: uint32): (uint32, uint32) {.inline.} =
+func wideningMul*(a, b: uint32): (uint32, uint32) =
   let
     res = uint64(a) * uint64(b)
     hi = uint32(res shr 32)
@@ -146,7 +148,7 @@ func wideningMul*(a, b: uint32): (uint32, uint32) {.inline.} =
 
   return (hi, lo)
 
-func wideningMul*(a, b: int64): (int64, uint64) {.inline.} =
+func wideningMul*(a, b: int64): (int64, uint64) =
   let isNegative = (a < 0) xor (b < 0)
 
   # Absolute Values (Safe Casts)
@@ -173,7 +175,7 @@ func wideningMul*(a, b: int64): (int64, uint64) {.inline.} =
 
   (cast[int64](uHi), uLo)
 
-func wideningMul*(a, b: int32): (int32, uint32) {.inline.} =
+func wideningMul*(a, b: int32): (int32, uint32) =
   let
     res = int64(a) * int64(b)
     hi = int32(res shr 32)
@@ -181,7 +183,7 @@ func wideningMul*(a, b: int32): (int32, uint32) {.inline.} =
 
   return (hi, lo)
 
-func wideningMulAdd*(a, b, c: uint64): (uint64, uint64) {.inline.} =
+func wideningMulAdd*(a, b, c: uint64): (uint64, uint64) =
   let
     (prodHi, prodLo) = wideningMul(a, b)
     (sumLo, carry) = carryingAdd(prodLo, c, false)
@@ -190,7 +192,7 @@ func wideningMulAdd*(a, b, c: uint64): (uint64, uint64) {.inline.} =
 
   (hi, lo)
 
-func wideningMulAdd*(a, b, c, d: uint64): (uint64, uint64) {.inline.} =
+func wideningMulAdd*(a, b, c, d: uint64): (uint64, uint64) =
   let
     (prodHi, prodLo) = wideningMul(a, b)
     (sumLo1, carry1) = carryingAdd(prodLo, c, false)
@@ -200,7 +202,7 @@ func wideningMulAdd*(a, b, c, d: uint64): (uint64, uint64) {.inline.} =
 
   (hi, lo)
 
-func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) {.inline.} =
+func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) =
   ## Knuth's Algorithm D (Division of nonnegative integers) implementation.
 
   if v == 0:
@@ -274,7 +276,7 @@ func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) {.inline.} =
 
   (finalQ, finalR)
 
-func mulDoubleAdd2*[T: uint64 | uint32](a, b, c, dHi, dLo: T): (T, T, T) {.inline.} =
+func mulDoubleAdd2*[T: uint64 | uint32](a, b, c, dHi, dLo: T): (T, T, T) =
   var (r1, r0) = pure.wideningMul(a, b)
 
   let (r0_new, c1) = carryingAdd(r0, r0, false)
@@ -309,7 +311,7 @@ func mulDoubleAdd2*[T: uint64 | uint32](a, b, c, dHi, dLo: T): (T, T, T) {.inlin
 
   (r2, r1, r0)
 
-func mulAcc*[T: uint64 | uint32](t, u, v: T, a, b: T): (T, T, T) {.inline.} =
+func mulAcc*[T: uint64 | uint32](t, u, v: T, a, b: T): (T, T, T) =
   let
     (pHi, pLo) = pure.wideningMul(a, b)
     (newV, carry1) = carryingAdd(v, pLo, false)

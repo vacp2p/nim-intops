@@ -30,7 +30,7 @@ Because there are so many combinations to cover, in order to keep the code maint
 
 [API Index](https://vacp2p.github.io/nim-intops/apidocs/theindex.html)
 
-## Bsic Usage
+## Basic Usage
 
 Operations are available in the top-level `intops` module:
 
@@ -61,3 +61,5 @@ $ nimble docs
 ```
 
 This command builds the nimibook and the API docs.
+
+To build them separately, run `nimble book` and `nimble apidocs`.

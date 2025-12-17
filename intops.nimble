@@ -13,14 +13,23 @@ requires "unittest2 ~= 0.2.5"
 
 taskRequires "setupBook", "nimib >= 0.3.8", "nimibook >= 0.3.1"
 
-import std/strformat
+import std/[os, sequtils, strformat]
 
 task test, "Run tests":
-  for flags in [
-    "-d:intopsTest -d:unittest2Static", "-d:intopsTestNative",
-    "-d:intopsTestPure -d:unittest2Static",
+  let
+    archFlags =
+      commandLineParams().filterIt(it.startsWith("--cpu") or it.startsWith("--gcc"))
+    archFlagStr = archFlags.join(" ")
+
+  for intopsFlagStr in [
+    "-d:intopsNoIntrinsics", "-d:intopsNoInlineAsm", "-d:intopsNoInlineC",
+    "-d:unittest2Static",
+    "-d:unittest2Static -d:intopsNoIntrinsics -d:intopsNoInlineAsm -d:intopsNoInlineC",
   ]:
-    echo fmt"[Flags: {flags}]"
+    let flags = [intopsFlagStr, archFlagStr].join(" ")
+
+    echo fmt"# Flags: {flags}"
+
     selfExec fmt"r {flags} tests/tintops.nim"
 
 task setupBook, "Compiles the nimibook CLI-binary used for generating the docs":

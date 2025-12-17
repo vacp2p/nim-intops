@@ -1,7 +1,6 @@
-##[ Pure Nim implementations of arithmetic operations for integers.
+## Pure Nim implementations of arithmetic operations for integers.
 
-See the operation descriptions in `intops <../intops.html>`_ module.
-]##
+import std/bitops
 
 func overflowingAdd*[T: SomeUnsignedInt](a, b: T): (T, bool) {.inline.} =
   let
@@ -12,7 +11,7 @@ func overflowingAdd*[T: SomeUnsignedInt](a, b: T): (T, bool) {.inline.} =
 
 func overflowingAdd*[T: SomeSignedInt](a, b: T): (T, bool) {.inline.} =
   let
-    res = T(a +% b)
+    res = a +% b
     didOverflow = ((a xor b) >= 0) and ((a xor res) < 0)
 
   (res, didOverflow)
@@ -181,3 +180,140 @@ func wideningMul*(a, b: int32): (int32, uint32) {.inline.} =
     lo = uint32(res and 0xFFFFFFFF)
 
   return (hi, lo)
+
+func wideningMulAdd*(a, b, c: uint64): (uint64, uint64) {.inline.} =
+  let
+    (prodHi, prodLo) = wideningMul(a, b)
+    (sumLo, carry) = carryingAdd(prodLo, c, false)
+    lo = sumLo
+    hi = prodHi + (if carry: 1'u64 else: 0'u64)
+
+  (hi, lo)
+
+func wideningMulAdd*(a, b, c, d: uint64): (uint64, uint64) {.inline.} =
+  let
+    (prodHi, prodLo) = wideningMul(a, b)
+    (sumLo1, carry1) = carryingAdd(prodLo, c, false)
+    (sumLo2, carry2) = carryingAdd(sumLo1, d, false)
+    lo = sumLo2
+    hi = prodHi + (if carry1: 1'u64 else: 0'u64) + (if carry2: 1'u64 else: 0'u64)
+
+  (hi, lo)
+
+func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) {.inline.} =
+  ## Knuth's Algorithm D (Division of nonnegative integers) implementation.
+
+  if v == 0:
+    raise newException(DivByZeroDefect, "Division by zero")
+
+  if uHi == 0:
+    return (uLo div v, uLo mod v)
+
+  const
+    Base32 = 0x100000000'u64
+    Max32 = 0xFFFFFFFF'u64
+
+  # Normalization shift to ensure v's MSB is 1
+  let shift = countLeadingZeroBits(v)
+
+  let
+    vNorm = v shl shift
+    uHiNorm = (uHi shl shift) or (uLo shr (64 - shift))
+    uLoNorm = uLo shl shift
+
+  # Split normalized divisor
+  let
+    vHi = vNorm shr 32
+    vLo = vNorm and Max32
+
+  # Split lower part of normalized dividend
+  let
+    u1 = uLoNorm shr 32
+    u0 = uLoNorm and Max32
+
+  # --- High Word Calculation ---
+  # Estimate qHi = uHiNorm / vHi
+  var
+    qHi = uHiNorm div vHi
+    rHat = uHiNorm mod vHi
+
+  # Refine qHi
+  # While (qHi * vLo) > (rHat * 2^32 + u1), decrement qHi
+  while qHi >= Base32 or (qHi * vLo > ((rHat shl 32) or u1)):
+    qHi -= 1
+    rHat += vHi
+    if rHat >= Base32:
+      break
+
+  # Calculate remainder after high word: rem = (uHiNorm:u1) - qHi * vNorm
+  let
+    uPartialHi = (uHiNorm shl 32) or u1
+    remHi = uPartialHi - qHi * vNorm
+
+  # --- Low Word Calculation ---
+  # Estimate qLo = remHi / vHi
+  var qLo = remHi div vHi
+  rHat = remHi mod vHi
+
+  # Refine qLo
+  while qLo >= Base32 or (qLo * vLo > ((rHat shl 32) or u0)):
+    qLo -= 1
+    rHat += vHi
+    if rHat >= Base32:
+      break
+
+  # Calculate final remainder: rem = (remHi:u0) - qLo * vNorm
+  let
+    uPartialLo = (remHi shl 32) or u0
+    remFinal = uPartialLo - qLo * vNorm
+
+  # --- Denormalize ---
+  let
+    finalQ = (qHi shl 32) or qLo
+    finalR = remFinal shr shift
+
+  (finalQ, finalR)
+
+func mulDoubleAdd2*[T: uint64 | uint32](a, b, c, dHi, dLo: T): (T, T, T) {.inline.} =
+  var (r1, r0) = pure.wideningMul(a, b)
+
+  let (r0_new, c1) = carryingAdd(r0, r0, false)
+  r0 = r0_new
+
+  let (r1_new, c2) = carryingAdd(r1, r1, c1)
+  r1 = r1_new
+
+  var r2 =
+    if c2:
+      T(1)
+    else:
+      T(0)
+
+  let
+    (sum0, c3) = carryingAdd(r0, c, false)
+    (sum1, c4) = carryingAdd(r1, T(0), c3)
+
+  r0 = sum0
+  r1 = sum1
+  if c4:
+    r2 += T(1)
+
+  let
+    (final0, c5) = carryingAdd(r0, dLo, false)
+    (final1, c6) = carryingAdd(r1, dHi, c5)
+
+  r0 = final0
+  r1 = final1
+  if c6:
+    r2 += T(1)
+
+  (r2, r1, r0)
+
+func mulAcc*[T: uint64 | uint32](t, u, v: T, a, b: T): (T, T, T) {.inline.} =
+  let
+    (pHi, pLo) = pure.wideningMul(a, b)
+    (newV, carry1) = carryingAdd(v, pLo, false)
+    (newU, carry2) = carryingAdd(u, pHi, carry1)
+    newT = t + (if carry2: T(1) else: T(0))
+
+  (newT, newU, newV)

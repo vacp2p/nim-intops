@@ -1,34 +1,43 @@
 # intops
 
-`intops` is a Nim library with ready-to-use core primitives for CPU-sized integers.
+intops is a Nim library with ready-to-use core primitives for CPU-sized integers. It is intended to be used as a foundation for other libraries that rely on manipulations with big integers, e.g. cryptography libraries.
 
-The library aims to satisfy the following requirements:
+intops offers a clean high-level API that hides the implementation details of an operation behind a dispatcher which tries to offer the best implementation for the given environment. However, you can override the dispatcher's choice and call any implementation manually.
 
-1. Offer a complete set of arithmetic primitives on signed and unsigned integers necessary to build bignum and cryptography-focuced libraries: addition, subtraction, multiplication, division, and composite operations.
-1. Support 64- and 32-bit integers.
-1. Support 64- and 32-bit CPUs.
-1. Support Windows, Linux, and macOS.
-1. Support GCC-compatible and MSVC compilers.
-1. Support runtime and compile time usage.
-1. Offer the best implementaion for each combination of CPU, OS, C compiler, and usage time.
-1. Allow the user to pick the implementation manually.
-1. Future addition of new operations or implementations must not require library reorganization.
+## Installation
 
-Because there are so many combinations to cover, in order to keep the code maintanable and development focused, we follow these principles during development:
+```shell
+$ nimble install nim-intops
+```
 
-1. First prefer a more generic solution to a more specialized one.
-2. We only test against these combinations, with runtime and compile time tests:
+## Basic Usage
 
-- amd64 + Linux + gcc 13
-- amd64 + Linux + gcc 14
-- amd64 + Windows + clang 19
-- i386 + Linux + gcc 13
-- amd64 + macOS + clang 17
-- arm46 + macOS + clang 17
+All operations are available in the top-level `intops` module:
+
+```nim
+import intops
+
+let (res, carryOut) = carryingAdd(12'u64, 34'u64, false)
+```
+
+This code calls the `carryingAdd` dispatcher which in turn calls the best implementation available.
+
+If you want to invoke a specific implementation, import a module from `intops/impl/` and call the function specified in it:
+
+```nim
+import intops/impl/intrinsics
+
+let (res, carryOut) = carryingAdd(12, 34, false)
+```
+
+## Running the tests
+
+
+
 
 ## API Docs
 
-[API Index](https://vacp2p.github.io/nim-intops/apidocs/theindex.html)
+[API Index](/apidocs/theindex.html)
 
 ## Basic Usage
 

@@ -47,7 +47,7 @@ before apidocs:
   rmDir "docs/apidocs"
 
 task apidocs, "Generate API docs":
-  exec "nimble doc --outdir:docs/apidocs --project --index:on src/intops.nim"
+  exec "nimble doc --outdir:docs/apidocs --project --index:on --git.url:https://github.com/vacp2p/nim-intops --git.devel:develop src/intops.nim"
 
 task docs, "Generate docs":
   exec "nimble book"

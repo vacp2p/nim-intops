@@ -4,7 +4,7 @@ nbInit(theme = useNimibook)
 
 nbText:
   """
-# Quick Start
+# Quickstart
 
 The library aims to satisfy the following requirements:
 
@@ -115,6 +115,5 @@ Of course, you can combine those flags. For example, if you want to use only pur
 $ nim c -d:intopsNoIntrinsics -d:intopsNoInlineAsm -d:intopsNoInlineC mycode.nim
 ```
 """
-
 
 nbSave

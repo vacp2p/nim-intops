@@ -37,7 +37,6 @@ task setupBook, "Compiles the nimibook CLI-binary used for generating the docs":
 
 before book:
   rmDir "docs"
-  exec "nimble setupBook"
 
 task book, "Generate book":
   exec "./nbook --mm:orc --deepcopy:on update"

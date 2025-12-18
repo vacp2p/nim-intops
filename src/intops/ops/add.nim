@@ -35,10 +35,10 @@ template saturatingAdd*[T: SomeInteger](a, b: T): T =
   when nimvm:
     pure.saturatingAdd(a, b)
   else:
-    when cpuArm64 and compilerGccCompatible and canUseInlineAsm:
-      inlineasm.arm64.saturatingAdd(a, b)
-    elif compilerGccCompatible and canUseIntrinsics:
+    when compilerGccCompatible and canUseIntrinsics:
       intrinsics.gcc.saturatingAdd(a, b)
+    elif cpuArm64 and compilerGccCompatible and canUseInlineAsm:
+      inlineasm.arm64.saturatingAdd(a, b)
     else:
       pure.saturatingAdd(a, b)
 
@@ -57,18 +57,15 @@ template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut:
   when nimvm:
     pure.carryingAdd(a, b, carryIn)
   else:
-    when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
-      # Use inline ASM for Linux/Mac on x86 x64
-      inlineasm.x86.carryingAdd(a, b, carryIn)
-    elif cpu64Bit and compilerGccCompatible and canUseInlineC:
-      # Use inline C on ARM64 and RISC-V x64
-      inlinec.carryingAdd(a, b, carryIn)
-    elif cpu64Bit and cpuX86 and compilerMsvc and canUseIntrinsics:
-      # Use Intel/AMD intrinsics with MSVC as ASM is unavailable
+    when cpuX86 and compilerMsvc and canUseIntrinsics:
+      # Intel/AMD intrinsics for MSVC (_addcarry_u64)
       intrinsics.x86.carryingAdd(a, b, carryIn)
     elif compilerGccCompatible and canUseIntrinsics:
-      # Use generic GCC/Clang intrinsics on ARM/Linux
+      # Generic GCC/Clang intrinsics otherwise (__builtin_sub_overflow)
       intrinsics.gcc.carryingAdd(a, b, carryIn)
+    elif cpu64Bit and compilerGccCompatible and canUseInlineC:
+      # Inline C on 64-bit systems if builtins are unavailable
+      inlinec.carryingAdd(a, b, carryIn)
     else:
       # Universal fallback
       pure.carryingAdd(a, b, carryIn)
@@ -88,17 +85,11 @@ template carryingAdd*(a, b: uint32, carryIn: bool): tuple[res: uint32, carryOut:
   when nimvm:
     pure.carryingAdd(a, b, carryIn)
   else:
-    when cpuX86 and compilerGccCompatible and canUseInlineAsm:
-      # Use inline ASM for Linux/Mac on x86
-      inlineasm.x86.carryingAdd(a, b, carryIn)
-    elif cpuX86 and compilerMsvc and canUseIntrinsics:
-      # Use Intel/AMD intrinsics with MSVC as ASM is unavailable
+    when cpuX86 and compilerMsvc and canUseIntrinsics:
       intrinsics.x86.carryingAdd(a, b, carryIn)
     elif compilerGccCompatible and canUseIntrinsics:
-      # Use generic GCC/Clang intrinsics on ARM/Linux
       intrinsics.gcc.carryingAdd(a, b, carryIn)
     else:
-      # Universal fallback
       pure.carryingAdd(a, b, carryIn)
 
 template carryingAdd*(a, b: int64, carryIn: bool): tuple[res: int64, carryOut: bool] =
@@ -116,9 +107,7 @@ template carryingAdd*(a, b: int64, carryIn: bool): tuple[res: int64, carryOut: b
   when nimvm:
     pure.carryingAdd(a, b, carryIn)
   else:
-    when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
-      inlineasm.x86.carryingAdd(a, b, carryIn)
-    elif compilerGccCompatible and canUseIntrinsics:
+    when compilerGccCompatible and canUseIntrinsics:
       intrinsics.gcc.carryingAdd(a, b, carryIn)
     else:
       pure.carryingAdd(a, b, carryIn)
@@ -138,9 +127,7 @@ template carryingAdd*(a, b: int32, carryIn: bool): tuple[res: int32, carryOut: b
   when nimvm:
     pure.carryingAdd(a, b, carryIn)
   else:
-    when cpuX86 and compilerGccCompatible and canUseInlineAsm:
-      inlineasm.x86.carryingAdd(a, b, carryIn)
-    elif compilerGccCompatible and canUseIntrinsics:
+    when compilerGccCompatible and canUseIntrinsics:
       intrinsics.gcc.carryingAdd(a, b, carryIn)
     else:
       pure.carryingAdd(a, b, carryIn)

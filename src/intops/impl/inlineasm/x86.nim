@@ -8,7 +8,7 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
   func carryingAdd*(a, b: uint64, carryIn: bool): (uint64, bool) =
     var
       sum = a
-      cOut: uint8
+      cOut {.noinit.}: uint8
       cInVal = if carryIn: 1'u64 else: 0'u64
 
     asm """
@@ -25,7 +25,7 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
   func carryingAdd*(a, b: int64, carryIn: bool): (int64, bool) =
     var
       sum = a
-      didOverflow: uint8
+      didOverflow {.noInit.}: uint8
       cInVal = if carryIn: 1'u64 else: 0'u64
 
     asm """
@@ -42,7 +42,7 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
   func borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) =
     var
       diff = a
-      bOut: uint8
+      bOut {.noInit.}: uint8
       bInVal = if borrowIn: 1'u64 else: 0'u64
 
     asm """
@@ -59,7 +59,7 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
   func borrowingSub*(a, b: int64, borrowIn: bool): (int64, bool) =
     var
       diff = a
-      didOverflow: uint8
+      didOverflow {.noInit.}: uint8
       bInVal = if borrowIn: 1'u64 else: 0'u64
 
     asm """
@@ -98,7 +98,7 @@ when cpuX86 and compilerGccCompatible and canUseInlineAsm:
   func carryingAdd*(a, b: uint32, carryIn: bool): (uint32, bool) =
     var
       sum = a
-      cOut: uint8
+      cOut {.noInit.}: uint8
       cInVal = if carryIn: 1'u32 else: 0'u32
 
     asm """
@@ -115,7 +115,7 @@ when cpuX86 and compilerGccCompatible and canUseInlineAsm:
   func carryingAdd*(a, b: int32, carryIn: bool): (int32, bool) =
     var
       sum = a
-      didOverflow: uint8
+      didOverflow {.noInit.}: uint8
       cInVal = if carryIn: 1'u32 else: 0'u32
 
     asm """
@@ -132,7 +132,7 @@ when cpuX86 and compilerGccCompatible and canUseInlineAsm:
   func borrowingSub*(a, b: uint32, borrowIn: bool): (uint32, bool) =
     var
       diff = a
-      bOut: uint8
+      bOut {.noInit.}: uint8
       bInVal = if borrowIn: 1'u32 else: 0'u32
 
     asm """
@@ -149,7 +149,7 @@ when cpuX86 and compilerGccCompatible and canUseInlineAsm:
   func borrowingSub*(a, b: int32, borrowIn: bool): (int32, bool) =
     var
       diff = a
-      didOverflow: uint8
+      didOverflow {.noInit.}: uint8
       bInVal = if borrowIn: 1'u32 else: 0'u32
 
     asm """

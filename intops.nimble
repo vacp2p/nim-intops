@@ -35,15 +35,8 @@ task test, "Run tests":
 task setupBook, "Compiles the nimibook CLI-binary used for generating the docs":
   exec "nim c -d:release nbook.nim"
 
-before book:
-  rmDir "docs"
-
 task book, "Generate book":
-  exec "./nbook --mm:orc --deepcopy:on update"
-  exec "./nbook --mm:orc --deepcopy:on build"
-
-before apidocs:
-  rmDir "docs/apidocs"
+  exec "nbook build"
 
 task apidocs, "Generate API docs":
   exec "nimble doc --outdir:docs/apidocs --project --index:on --git.url:https://github.com/vacp2p/nim-intops --git.devel:develop src/intops.nim"

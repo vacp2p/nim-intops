@@ -3,7 +3,9 @@
 import ../consts
 
 when cpu64Bit and compilerGccCompatible and canUseInlineC:
-  func carryingAdd*(a, b: uint64, carryIn: bool): (uint64, bool) {.inline.} =
+  {.push inline, noinit.}
+
+  func carryingAdd*(a, b: uint64, carryIn: bool): (uint64, bool) =
     var
       sum: uint64
       cOut: uint64 # We capture the carry as a full u64 first
@@ -27,7 +29,7 @@ when cpu64Bit and compilerGccCompatible and canUseInlineC:
 
     (sum, cOut > 0)
 
-  func borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) {.inline.} =
+  func borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) =
     var
       diff: uint64
       bOut: uint64
@@ -53,7 +55,7 @@ when cpu64Bit and compilerGccCompatible and canUseInlineC:
 
     (diff, bOut > 0)
 
-  func wideningMul*(a, b: uint64): (uint64, uint64) {.inline.} =
+  func wideningMul*(a, b: uint64): (uint64, uint64) =
     var hi, lo: uint64
 
     {.
@@ -72,7 +74,7 @@ when cpu64Bit and compilerGccCompatible and canUseInlineC:
 
     (hi, lo)
 
-  func wideningMul*(a, b: int64): (int64, uint64) {.inline.} =
+  func wideningMul*(a, b: int64): (int64, uint64) =
     var
       hi: int64
       lo: uint64
@@ -93,7 +95,7 @@ when cpu64Bit and compilerGccCompatible and canUseInlineC:
 
     (hi, lo)
 
-  func wideningMulAdd*(a, b, c: uint64): (uint64, uint64) {.inline.} =
+  func wideningMulAdd*(a, b, c: uint64): (uint64, uint64) =
     var hi, lo: uint64
     {.
       emit:
@@ -110,7 +112,7 @@ when cpu64Bit and compilerGccCompatible and canUseInlineC:
     .}
     (hi, lo)
 
-  func wideningMulAdd*(a, b, c, d: uint64): (uint64, uint64) {.inline.} =
+  func wideningMulAdd*(a, b, c, d: uint64): (uint64, uint64) =
     var hi, lo: uint64
     {.
       emit:
@@ -127,7 +129,7 @@ when cpu64Bit and compilerGccCompatible and canUseInlineC:
     .}
     (hi, lo)
 
-  func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) {.inline.} =
+  func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) =
     var q, r: uint64
 
     {.

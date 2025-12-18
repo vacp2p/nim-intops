@@ -21,5 +21,4 @@ nimble.paths
 nimbledeps
 /config.nims
 
-.monit.yml
-.monit.docs.yml
+.monit*yml

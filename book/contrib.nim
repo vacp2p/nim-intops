@@ -6,6 +6,10 @@ nbText:
   """
 # Contributor's Guide
 
+Optimizing arithmetic operations for a variety of enviroments and consumers is a never-ending chase. There hardly will ever be a moment when intops will be 100% ready: there's always an older Nim version, and newer GCC version, or an obscure CPU vendor to target.
+
+Because of that, contributors' help is essential for intops' development. You can help improve intops by improving the code, improving the docs, and reporting issues.
+
 ## Library Structure
 
 ```shell
@@ -20,107 +24,102 @@ src
     │   │   inlinec.nim
     │   │   intrinsics.nim
     │   │   pure.nim
+    │   │   ...
     │   │
     │   ├───inlineasm
     │   │       arm64.nim   <- implementation in ARM64 Assembly 
     │   │       x86.nim
+    │   │       ...
     │   │
-    │   └───intrinsics
-    │           gcc.nim
-    │           x86.nim
+    │   └───...
     │
-    └───ops                 <- operations; each module contains a family of primitives
-            add.nim
+    └───ops                 <- operation families
+            add.nim         <- addition flavors: carrying, saturating, etc.
             mul.nim
             sub.nim
+            ...
 ```
 
-The entrypoint is the root `intops` module. It exposes all the available primitives.
+The entrypoint is the root `intops` module. It's the library's public API and exposes all the available primitives.
 
-Each arithmetic operation has its own submodule in `intops/ops`. E.g. `intops/ops/add` is the submodule that contains various addition flavors. These submodules contain the logic to pick the best implementation of the given operation for the given CPU, OS, C compiler, and usage time. I.e., each operation "knows" its best implementation and "decides" which one to expose.
+Each operation family has its own submodule in `intops/ops`. E.g. `intops/ops/add` is the submodule that contains various addition flavors.
+
+These submodules contain the dispatchers that pick the best implementation of the given operation and for the given CPU, OS, and C compiler. I.e., each operation "knows" its best implementation and "decides" which one to run.
 
 The actual implementations are stored in submodules in `intops/impl`. For example, `intops/impl/intrinsics` contains all primitives implemented with C intrinsics.
 
-This structure allows the library to glow organically and evolve without breaking backward compatibility.
+## API Conventions
 
-## Naming Conventions
+1. intops follows the common Nim convention of calling things in `camelCase`.
+1. intops prefers pure functions that return values to the ones that modify mutable arguments.
+1. The docstrings are mandatory for the dispatchers in `intops/ops` modules because this is the library public API.
+1. Operations the return a wider type that the input type are called **widening**. For example `wideningMul` is multiplication that takes two 64-bit integers and return a single 128-bit integer (althouth represented as a pair of 64-bit integers).
+1. Operations that return a carry or borrow flag are called **carrying** and **borrowing**, e.g. `carryingAdd`.
+1. Operations that return an overflow flag are called **overflowing**, e.g. `overflowingSub`.
+1. Operations that return maximal or mininal type value when a type border is hit are called **saturating**, e.g. `saturatingAdd`.
+1. Carry, borrow, and overflow flags are booleans.
 
-## Improving the implementation picking logic
+## Tests
 
-When you invoke a primitive, it decides which of its implementation to call with the given environment. This logic is described in templates at `intops/ops/{op}.nim`. So, to improve this logic, locate the operation and the template you want to modify and make your edits.
+The tests for intops are located in a single file `tests/tintops.nim`.
 
-To define logic branches, use the global constants defined in `intops/consts.nim`. If necessary, define new constants.
+To run the tests locally, use `nimble test` command.
 
-When branching, prefer positive conditions to negative ones, i.e. `when cpu64Bit` is prefereble to `when not cpu32Bit`. Although they can mean virtually the same thing, the former reads better.
+With this command, the tests are run:
+- without compilation flags in runtime mode
+- without compilation flags in compile-time mode
+- with each compilation flag separately
+- with all compilation flags
 
-## Adding new implementations
+When executed on the CI, the tests are run against multiple OS, C compilers, and architectures: 
 
-In a perfect world, pure Nim implementations would be enough: the Nim compiler would generate optimal C code and the C compiler would generate the optimal Assembly code.
+- amd64 + Linux + gcc 13
+- amd64 + Linux + gcc 14
+- amd64 + Windows + clang 19
+- i386 + Linux + gcc 13
+- amd64 + macOS + clang 17
+- arm46 + macOS + clang 17
 
-In reality, this is often not the case: since there are so many combinations of a Nim version, OS, CPU, and C compiler, there are performance gaps that need to be filled manually.
+This is hardly reproduceable locally, but you can cover at least some of the cases by passing flags to `nimble test`. For example, to emulate running the tests in a 32-bit CPU, run `nimble --cpu:i386 test`. On Windows, you also must pass the path to your GCC installation, e.g. `nimble --gcc.path:D:\mingw32\bin\ --cpu:i386 test`.
+To run your tests contunously during development, use [monit](https://github.com/jiro4989/monit):
 
-This is where you add a specific implementation for a primitive.
+1. Install monit with `nimble install monit`.
+2. Create a file called .monit.yml in the working directory:
 
-To add a new implementation of a primitive:
-
-1. define a new function in `intops/impl/{impl}.nim`
-2. update the logic that picks the best implementation in `intops/ops/{op}.nim`
-
-For example, let's implement magic addition in C.
-
-In `intops/impl/inlinec.nim` we add:
-
-```nim
-# This is a guard that prevents the compilation of this implementation in unsupported environments.
-# In this example, we explicitly say that this implementation works only with 64-bit CPUs.
-# Guards are necessary for the case where a user calls this function directly circumventing
-# the logic in `ops/add.nim`.
-when cpu64Bit:
-  func magicAdd*(a, b: uint64): uint64 {.inline.} =
-    var res: uint64
-
-    {.
-      emit:
-      \"\"\"
-      `res` = `a` + `b` + ((unsigned __int64)42);
-      \"\"\"
-    .}
-
-    res
-
-# If we attempt to compile this implementation in an unsupported environment, the compilation must fail.
-# To make compilation fail, use this pattern: define a function with the same signature but with a single
-# `error` pragma and no body.
-else:
-  func magicAdd*(
-    a, b: uint64
-  ): uint64 {.
-    error:
-      "Magic addition on 64-bit integers is not available on this platform."
-  .}
+```yaml
+%YAML 1.2
+%TAG !n! tag:nimyaml.org,2016:
+---
+!n!custom:MonitorConfig
+sleep: 1
+targets:
+  - name: Run tests
+    paths: [src, tests]
+    commands:
+      - nimble test
+      - nimble --gcc.path:D:\mingw32\bin\ --cpu:i386 test
+    extensions: [.nim]
+    files: []
+    exclude_extensions: []
+    exclude_files: []
+    once: true
 ```
+3. Run `monit run`
 
-In `intops/ops/add.nim`:
+## Docs
 
-```nim
-template magicAdd*(a, b: uint64): uint64 =
-  ## Magic addition.
+The docs consist of two parts:
+- the book (this is what you're reading right now)
+- the API docs
 
-  # This is a very typical pattern, you'll see it everywhere. This means "if the primitive
-  # is invoked during compilation, fall back to pure Nim implementation." Pure Nim implementation
-  # is a universal compile-time fallback for all operations. 
-  when nimvm:
-    pure.wideningMul(a, b)
-  else:
+The book is created using [nimibook](https://github.com/pietroppeter/nimibook). Each page is a Nim file that can hold Markdown content and Nim code. The Nim code is executed during the build and its output are included in the book.
 
-    # This must be at least as strict as the respective guard logic so that this code
-    # is never invoked when it won't compile.
-    when cpu64Bit:
-      inlinec.wideningMul(a, b)
+The API docs are generated from the source code docstrings.
 
-    # Again, pure Nim is a universal fallback for all cases, so you'll always see it as a final `else`.
-    else:
-      pure.wideningMul(a, b)
-```
+To build the docs locally, run:
+- `nimble book` to build the book
+- `nimble apidocs` to build the API docs
+- `nimble docs` to build both
 """
+
 nbSave

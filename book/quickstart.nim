@@ -6,29 +6,18 @@ nbText:
   """
 # Quickstart
 
-The library aims to satisfy the following requirements:
+## Installation
 
-1. Offer a complete set of arithmetic primitives on signed and unsigned integers necessary to build bignum and cryptography-focuced libraries: addition, subtraction, multiplication, division, and composite operations.
-1. Support 64- and 32-bit integers.
-1. Support 64- and 32-bit CPUs.
-1. Support Windows, Linux, and macOS.
-1. Support GCC-compatible and MSVC compilers.
-1. Support runtime and compile time usage.
-1. Offer the best implementaion for each combination of CPU, OS, C compiler, and usage time.
-1. Allow the user to pick the implementation manually.
-1. Future addition of new operations or implementations must not require library reorganization.
+```shell
+$ nimble install -y nim-intops
+```
 
-Because there are so many combinations to cover, in order to keep the code maintanable and development focused, we follow these principles during development:
+Add intops to your .nimble file:
 
-1. First prefer a more generic solution to a more specialized one.
-2. We only test against these combinations, with runtime and compile time tests:
+```nim
+requires "nim-intops"
+```
 
-- amd64 + Linux + gcc 13
-- amd64 + Linux + gcc 14
-- amd64 + Windows + clang 19
-- i386 + Linux + gcc 13
-- amd64 + macOS + clang 17
-- arm46 + macOS + clang 17
 
 ## Usage
 

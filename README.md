@@ -4,71 +4,18 @@ intops is a Nim library with ready-to-use core primitives for CPU-sized integers
 
 intops offers a clean high-level API that hides the implementation details of an operation behind a dispatcher which tries to offer the best implementation for the given environment. However, you can override the dispatcher's choice and call any implementation manually.
 
-## Installation
+- [Quickstart →](https://vacp2p.github.io/nim-intops/quickstart.html)
+- [API Index →](https://vacp2p.github.io/nim-intops/apidocs/theindex.html)
+- [Issues →](https://github.com/vacp2p/nim-intops/issues)
+- [Contributor's Guide →](https://vacp2p.github.io/nim-intops/contrib.html)
 
-```shell
-$ nimble install nim-intops
-```
+intops aims to satisfy the following requirements:
 
-## Basic Usage
-
-All operations are available in the top-level `intops` module:
-
-```nim
-import intops
-
-let (res, carryOut) = carryingAdd(12'u64, 34'u64, false)
-```
-
-This code calls the `carryingAdd` dispatcher which in turn calls the best implementation available.
-
-If you want to invoke a specific implementation, import a module from `intops/impl/` and call the function specified in it:
-
-```nim
-import intops/impl/intrinsics
-
-let (res, carryOut) = carryingAdd(12, 34, false)
-```
-
-## Running the tests
-
-
-
-
-## API Docs
-
-[API Index](/apidocs/theindex.html)
-
-## Basic Usage
-
-Operations are available in the top-level `intops` module:
-
-```nim
-import intops
-
-let (res, carryOut) = carryingAdd(12, 34, false)
-```
-
-If you want to invoke a specific implementation, import `intops/impl/pure`, `intops/impl/intrinsics`, `intops/impl/inlinec`, or `intops/impl/inlineasm`:
-
-```nim
-import intops/impl/intrinsics
-
-let (res, carryOut) = carryingAdd(12, 34, false)
-```
-
-## Running the tests
-
-```shell
-$ nimble test
-```
-
-## Building the docs
-
-```shell
-$ nimble docs
-```
-
-This command builds the nimibook and the API docs.
-
-To build them separately, run `nimble book` and `nimble apidocs`.
+1. Offer a complete set of arithmetic primitives on signed and unsigned integers necessary to build bignum and cryptography-focuced libraries: addition, subtraction, multiplication, division, and composite operations.
+1. Support 64- and 32-bit integers.
+1. Support 64- and 32-bit CPUs.
+1. Support Windows, Linux, and macOS.
+1. Support GCC-compatible and MSVC compilers.
+1. Support runtime and compile time usage.
+1. Offer the best implementaion for each combination of CPU, OS, C compiler, and usage time.
+1. Allow the user to pick the implementation manually.

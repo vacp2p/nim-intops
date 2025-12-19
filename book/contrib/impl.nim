@@ -4,22 +4,28 @@ nbInit(theme = useNimibook)
 
 nbText:
   """
-# Adding Implementations
+<span id="existing"></span>
+# Improving Existing Implementations
 
-In a perfect world, pure Nim implementations would be enough: the Nim compiler would generate optimal C code and the C compiler would generate the optimal Assembly code.
+In a perfect world, a pure Nim implementation would be enough to cover every operation: the Nim compiler would generate the optimal C code and the C compiler would generate the optimal Assembly code for every environment.
 
-In reality, this is often not the case: since there are so many combinations of a Nim version, OS, CPU, and C compiler, there are performance gaps that need to be filled manually.
+In reality, this isn't always so. Since there are so many combinations of a Nim version, OS, CPU, and C compiler, there are inevitable performance gaps that need to be filled manually.
 
-This is where you add a specific implementation for a primitive.
+This is why most operations in intops have multiple implementations and dispatchers exist.
 
-To add a new implementation of a primitive:
+For improve an existing implementation, find its module in `intops/impl` and modify the code there. Some implementation families are represented as a single module (e.g. `intops/impl/inclinec`), some are split into submodules (e.g. `intops/intrinsics/x86.nim` and `intops/intrinsics/gcc.nim`).
 
-1. define a new function in `intops/impl/{impl}.nim`
-2. update the logic that picks the best implementation in `intops/ops/{op}.nim`
+<span id="new"></span>
+# Adding New Implementations
 
-For example, let's implement magic addition in C.
+If you want to provide a new implemtation for an existing operation:
 
-In `intops/impl/inlinec.nim` we add:
+1. Add a new function to the corresponsing `intops/impl` submodule (or create a new one).
+1. [Update the corresponding dispatcher →](/contrib/ops.html#existing)
+
+For example, let's implement magic addition from the previous chapter in C.
+
+1. In `intops/impl/inlinec.nim`:
 
 ```nim
 # This is a guard that prevents the compilation in unsupported environments.
@@ -35,25 +41,21 @@ when cpu64Bit:
     res
 ```
 
-In `intops/ops/add.nim`:
+2. In `intops/ops/add.nim`:
 
-```nim
+```diff
 template magicAdd*(a, b: uint64): uint64 =
-  ## Magic addition.
+  ## Docstring is mandatory for dispatchers.
 
-  # This is a very typical pattern, you'll see it everywhere. This means "if the primitive
-  # is invoked during compilation, fall back to pure Nim implementation."
-  # Pure Nim implementation is the universal fallback for all operations. 
-  when nimvm:
-    pure.wideningMul(a, b)
-  else:
-    # This must be at least as strict as the respective guard logic so that this code
-    # is never invoked when it won't compile.
-    # The `canUseInlineC` condition is there to respect the `intopsNoInlineC` compilation flag.
-    when cpu64Bit and canUseInlineC:
-      inlinec.wideningMul(a, b)
-    else:
-      pure.wideningMul(a, b)
+- pure.magicAdd(a, b)
+
++ when nimvm:
++   pure.magicAdd(a, b)
++ else:
++   when cpu64Bit and canUseInlineC:
++     inlinec.magicAdd(a, b)
++   else:
++     pure.magicAdd(a, b)
 ```
 """
 

@@ -4,6 +4,7 @@ nbInit(theme = useNimibook)
 
 nbText:
   """
+<span id="existing"></span>
 # Improving Existing Operations
 
 intops' public API exposes **dispatchers** for each available operation.
@@ -58,7 +59,7 @@ template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut:
     else:
       pure.carryingAdd(a, b, carryIn)
 ```
-
+<span id="new"></span>
 # Adding New Operations
 
 Adding an operation means doing two things:
@@ -71,11 +72,11 @@ For example, let's define a new addition flavor called **magic addition** which 
 1. In `intops/impl/pure.nim`:
 
 ```nim
-func magicAdd*(a, b: uint64): T =
+func magicAdd*(a, b: uint64): uint64 =
   a + b + 42
 ```
 
-1. In `intops/ops/add.nim`:
+2. In `intops/ops/add.nim`:
 
 ```nim
 template magicAdd*(a, b: uint64): uint64 =

@@ -1,0 +1,9 @@
+nimTitle	consts	intops/consts.html	module src/intops/consts		0
+nim	cpuX86	intops/consts.html#cpuX86	const cpuX86		4
+nim	cpuArm64	intops/consts.html#cpuArm64	const cpuArm64		5
+nim	cpu64Bit	intops/consts.html#cpu64Bit	const cpu64Bit		6
+nim	compilerGccCompatible	intops/consts.html#compilerGccCompatible	const compilerGccCompatible		7
+nim	compilerMsvc	intops/consts.html#compilerMsvc	const compilerMsvc		9
+nim	canUseIntrinsics	intops/consts.html#canUseIntrinsics	const canUseIntrinsics		10
+nim	canUseInlineAsm	intops/consts.html#canUseInlineAsm	const canUseInlineAsm		11
+nim	canUseInlineC	intops/consts.html#canUseInlineC	const canUseInlineC		12

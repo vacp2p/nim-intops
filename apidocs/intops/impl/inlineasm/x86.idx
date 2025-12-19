@@ -1,0 +1,12 @@
+nimTitle	x86	intops/impl/inlineasm/x86.html	module src/intops/impl/inlineasm/x86		0
+nim	carryingAdd	intops/impl/inlineasm/x86.html#carryingAdd,uint64,uint64,bool	proc carryingAdd(a, b: uint64; carryIn: bool): (uint64, bool)		8
+nim	carryingAdd	intops/impl/inlineasm/x86.html#carryingAdd,int64,int64,bool	proc carryingAdd(a, b: int64; carryIn: bool): (int64, bool)		25
+nim	borrowingSub	intops/impl/inlineasm/x86.html#borrowingSub,uint64,uint64,bool	proc borrowingSub(a, b: uint64; borrowIn: bool): (uint64, bool)		42
+nim	borrowingSub	intops/impl/inlineasm/x86.html#borrowingSub,int64,int64,bool	proc borrowingSub(a, b: int64; borrowIn: bool): (int64, bool)		59
+nim	narrowingDiv	intops/impl/inlineasm/x86.html#narrowingDiv,uint64,uint64,uint64	proc narrowingDiv(uHi, uLo, v: uint64): (uint64, uint64)		76
+nim	carryingAdd	intops/impl/inlineasm/x86.html#carryingAdd,uint32,uint32,bool	proc carryingAdd(a, b: uint32; carryIn: bool): (uint32, bool)		98
+nim	carryingAdd	intops/impl/inlineasm/x86.html#carryingAdd,int32,int32,bool	proc carryingAdd(a, b: int32; carryIn: bool): (int32, bool)		115
+nim	borrowingSub	intops/impl/inlineasm/x86.html#borrowingSub,uint32,uint32,bool	proc borrowingSub(a, b: uint32; borrowIn: bool): (uint32, bool)		132
+nim	borrowingSub	intops/impl/inlineasm/x86.html#borrowingSub,int32,int32,bool	proc borrowingSub(a, b: int32; borrowIn: bool): (int32, bool)		149
+nimgrp	borrowingsub	intops/impl/inlineasm/x86.html#borrowingSub-procs-all	proc		42
+nimgrp	carryingadd	intops/impl/inlineasm/x86.html#carryingAdd-procs-all	proc		8

@@ -1,3 +1,0 @@
-nimTitle	intrinsics	intops/intrinsics.html	module src/intops/intrinsics		0
-nim	overflowingAdd	intops/intrinsics.html#overflowingAdd,T,T,T	proc overflowingAdd[T](a, b: T; res: var T): bool		3
-nim	overflowingSub	intops/intrinsics.html#overflowingSub,T,T,T	proc overflowingSub[T](a, b: T; res: var T): bool		8

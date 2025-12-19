@@ -1,0 +1,8 @@
+nimTitle	add	intops/ops/add.html	module src/intops/ops/add		0
+nim	overflowingAdd	intops/ops/add.html#overflowingAdd.t,T,T	template overflowingAdd[T: SomeInteger](a, b: T): tuple[res: T, didOverflow: bool]		5
+nim	saturatingAdd	intops/ops/add.html#saturatingAdd.t,T,T	template saturatingAdd[T: SomeInteger](a, b: T): T		25
+nim	carryingAdd	intops/ops/add.html#carryingAdd.t,uint64,uint64,bool	template carryingAdd(a, b: uint64; carryIn: bool): tuple[res: uint64, carryOut: bool]		45
+nim	carryingAdd	intops/ops/add.html#carryingAdd.t,uint32,uint32,bool	template carryingAdd(a, b: uint32; carryIn: bool): tuple[res: uint32, carryOut: bool]		73
+nim	carryingAdd	intops/ops/add.html#carryingAdd.t,int64,int64,bool	template carryingAdd(a, b: int64; carryIn: bool): tuple[res: int64, carryOut: bool]		95
+nim	carryingAdd	intops/ops/add.html#carryingAdd.t,int32,int32,bool	template carryingAdd(a, b: int32; carryIn: bool): tuple[res: int32, carryOut: bool]		115
+nimgrp	carryingadd	intops/ops/add.html#carryingAdd-templates-all	template		45

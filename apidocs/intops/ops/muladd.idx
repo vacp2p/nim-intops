@@ -1,0 +1,4 @@
+nimTitle	muladd	intops/ops/muladd.html	module src/intops/ops/muladd		0
+nim	wideningMulAdd	intops/ops/muladd.html#wideningMulAdd.t,uint64,uint64,uint64	template wideningMulAdd(a, b, c: uint64): tuple[hi, lo: uint64]		7
+nim	wideningMulAdd	intops/ops/muladd.html#wideningMulAdd.t,uint64,uint64,uint64,uint64	template wideningMulAdd(a, b, c, d: uint64): tuple[hi, lo: uint64]		24
+nimgrp	wideningmuladd	intops/ops/muladd.html#wideningMulAdd-templates-all	template		7

@@ -25,116 +25,232 @@
   <div class="document" id="documentId">
     <div class="container">
       <h1 class="title">Index</h1>
-      Modules: <a href="intops.html">intops</a>, <a href="intops/intrinsics.html">intops/intrinsics</a>, <a href="intops/native.html">intops/native</a>, <a href="intops/pure.html">intops/pure</a>.<br/><p /><h2>API symbols</h2>
+      Modules: <a href="intops.html">intops</a>, <a href="intops/consts.html">intops/consts</a>, <a href="intops/impl/inlineasm.html">intops/impl/inlineasm</a>, <a href="intops/impl/inlineasm/arm64.html">intops/impl/inlineasm/arm64</a>, <a href="intops/impl/inlineasm/x86.html">intops/impl/inlineasm/x86</a>, <a href="intops/impl/inlinec.html">intops/impl/inlinec</a>, <a href="intops/impl/intrinsics.html">intops/impl/intrinsics</a>, <a href="intops/impl/intrinsics/gcc.html">intops/impl/intrinsics/gcc</a>, <a href="intops/impl/intrinsics/x86.html">intops/impl/intrinsics/x86</a>, <a href="intops/impl/pure.html">intops/impl/pure</a>, <a href="intops/ops/add.html">intops/ops/add</a>, <a href="intops/ops/composite.html">intops/ops/composite</a>, <a href="intops/ops/division.html">intops/ops/division</a>, <a href="intops/ops/mul.html">intops/ops/mul</a>, <a href="intops/ops/muladd.html">intops/ops/muladd</a>, <a href="intops/ops/sub.html">intops/ops/sub</a>.<br/><p /><h2>API symbols</h2>
 <dl><dt><a name="borrowingSub" href="#borrowingSub"><span>borrowingSub:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="intops: template borrowingSub[T: SomeUnsignedInt | SomeSignedInt](a, b: T; borrowIn: bool): (T,
-    bool)" href="intops.html#borrowingSub.t%2CT%2CT%2Cbool">intops: template borrowingSub[T: SomeUnsignedInt | SomeSignedInt](a, b: T; borrowIn: bool): (T,
-    bool)</a></li>
+          data-doc-search-tag="x86: proc borrowingSub(a, b: int32; borrowIn: bool): (int32, bool)" href="intops/impl/inlineasm/x86.html#borrowingSub%2Cint32%2Cint32%2Cbool">x86: proc borrowingSub(a, b: int32; borrowIn: bool): (int32, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="native: proc borrowingSub[T: SomeUnsignedInt | SomeSignedInt](a, b: T; borrowIn: bool): (T,
-    bool)" href="intops/native.html#borrowingSub%2CT%2CT%2Cbool">native: proc borrowingSub[T: SomeUnsignedInt | SomeSignedInt](a, b: T; borrowIn: bool): (T,
-    bool)</a></li>
+          data-doc-search-tag="x86: proc borrowingSub(a, b: int64; borrowIn: bool): (int64, bool)" href="intops/impl/inlineasm/x86.html#borrowingSub%2Cint64%2Cint64%2Cbool">x86: proc borrowingSub(a, b: int64; borrowIn: bool): (int64, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="pure: proc borrowingSub[T: SomeUnsignedInt](a, b: T; borrowIn: bool): (T, bool)" href="intops/pure.html#borrowingSub%2CT%2CT%2Cbool">pure: proc borrowingSub[T: SomeUnsignedInt](a, b: T; borrowIn: bool): (T, bool)</a></li>
+          data-doc-search-tag="x86: proc borrowingSub(a, b: uint32; borrowIn: bool): (uint32, bool)" href="intops/impl/inlineasm/x86.html#borrowingSub%2Cuint32%2Cuint32%2Cbool">x86: proc borrowingSub(a, b: uint32; borrowIn: bool): (uint32, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="pure: proc borrowingSub[T: SomeSignedInt](a, b: T; borrowIn: bool): (T, bool)" href="intops/pure.html#borrowingSub%2CT%2CT%2Cbool_2">pure: proc borrowingSub[T: SomeSignedInt](a, b: T; borrowIn: bool): (T, bool)</a></li>
+          data-doc-search-tag="x86: proc borrowingSub(a, b: uint64; borrowIn: bool): (uint64, bool)" href="intops/impl/inlineasm/x86.html#borrowingSub%2Cuint64%2Cuint64%2Cbool">x86: proc borrowingSub(a, b: uint64; borrowIn: bool): (uint64, bool)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="inlinec: proc borrowingSub(a, b: uint64; borrowIn: bool): (uint64, bool)" href="intops/impl/inlinec.html#borrowingSub%2Cuint64%2Cuint64%2Cbool">inlinec: proc borrowingSub(a, b: uint64; borrowIn: bool): (uint64, bool)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="gcc: proc borrowingSub[T: SomeInteger](a, b: T; borrowIn: bool): (T, bool)" href="intops/impl/intrinsics/gcc.html#borrowingSub%2CT%2CT%2Cbool">gcc: proc borrowingSub[T: SomeInteger](a, b: T; borrowIn: bool): (T, bool)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="x86: proc borrowingSub(a, b: uint32; borrowIn: bool): (uint32, bool)" href="intops/impl/intrinsics/x86.html#borrowingSub%2Cuint32%2Cuint32%2Cbool">x86: proc borrowingSub(a, b: uint32; borrowIn: bool): (uint32, bool)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="x86: proc borrowingSub(a, b: uint64; borrowIn: bool): (uint64, bool)" href="intops/impl/intrinsics/x86.html#borrowingSub%2Cuint64%2Cuint64%2Cbool">x86: proc borrowingSub(a, b: uint64; borrowIn: bool): (uint64, bool)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="pure: proc borrowingSub[T: SomeUnsignedInt](a, b: T; borrowIn: bool): (T, bool)" href="intops/impl/pure.html#borrowingSub%2CT%2CT%2Cbool">pure: proc borrowingSub[T: SomeUnsignedInt](a, b: T; borrowIn: bool): (T, bool)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="pure: proc borrowingSub[T: SomeSignedInt](a, b: T; borrowIn: bool): (T, bool)" href="intops/impl/pure.html#borrowingSub%2CT%2CT%2Cbool_2">pure: proc borrowingSub[T: SomeSignedInt](a, b: T; borrowIn: bool): (T, bool)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="sub: template borrowingSub(a, b: int32; borrowIn: bool): (int32, bool)" href="intops/ops/sub.html#borrowingSub.t%2Cint32%2Cint32%2Cbool">sub: template borrowingSub(a, b: int32; borrowIn: bool): (int32, bool)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="sub: template borrowingSub(a, b: int64; borrowIn: bool): tuple[res: int64, borrowOut: bool]" href="intops/ops/sub.html#borrowingSub.t%2Cint64%2Cint64%2Cbool">sub: template borrowingSub(a, b: int64; borrowIn: bool): tuple[res: int64, borrowOut: bool]</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="sub: template borrowingSub(a, b: uint32; borrowIn: bool): tuple[res: uint32, borrowOut: bool]" href="intops/ops/sub.html#borrowingSub.t%2Cuint32%2Cuint32%2Cbool">sub: template borrowingSub(a, b: uint32; borrowIn: bool): tuple[res: uint32, borrowOut: bool]</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="sub: template borrowingSub(a, b: uint64; borrowIn: bool): tuple[res: uint64, borrowOut: bool]" href="intops/ops/sub.html#borrowingSub.t%2Cuint64%2Cuint64%2Cbool">sub: template borrowingSub(a, b: uint64; borrowIn: bool): tuple[res: uint64, borrowOut: bool]</a></li>
+          </ul></dd>
+<dt><a name="builtinBorrowingSub" href="#builtinBorrowingSub"><span>builtinBorrowingSub:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="x86: proc builtinBorrowingSub(borrowIn: uint8; a, b: uint32; res: var uint32): uint8" href="intops/impl/intrinsics/x86.html#builtinBorrowingSub%2Cuint8%2Cuint32%2Cuint32%2Cuint32">x86: proc builtinBorrowingSub(borrowIn: uint8; a, b: uint32; res: var uint32): uint8</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="x86: proc builtinBorrowingSub(borrowIn: uint8; a, b: uint64; res: var uint64): uint8" href="intops/impl/intrinsics/x86.html#builtinBorrowingSub%2Cuint8%2Cuint64%2Cuint64%2Cuint64">x86: proc builtinBorrowingSub(borrowIn: uint8; a, b: uint64; res: var uint64): uint8</a></li>
+          </ul></dd>
+<dt><a name="builtinCarryingAdd" href="#builtinCarryingAdd"><span>builtinCarryingAdd:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="x86: proc builtinCarryingAdd(carryIn: uint8; a, b: uint32; res: var uint32): uint8" href="intops/impl/intrinsics/x86.html#builtinCarryingAdd%2Cuint8%2Cuint32%2Cuint32%2Cuint32">x86: proc builtinCarryingAdd(carryIn: uint8; a, b: uint32; res: var uint32): uint8</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="x86: proc builtinCarryingAdd(carryIn: uint8; a, b: uint64; res: var uint64): uint8" href="intops/impl/intrinsics/x86.html#builtinCarryingAdd%2Cuint8%2Cuint64%2Cuint64%2Cuint64">x86: proc builtinCarryingAdd(carryIn: uint8; a, b: uint64; res: var uint64): uint8</a></li>
+          </ul></dd>
+<dt><a name="builtinNarrowingDiv" href="#builtinNarrowingDiv"><span>builtinNarrowingDiv:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="x86: proc builtinNarrowingDiv(uHi, uLo, v: uint64; r: var uint64): uint64" href="intops/impl/intrinsics/x86.html#builtinNarrowingDiv%2Cuint64%2Cuint64%2Cuint64%2Cuint64">x86: proc builtinNarrowingDiv(uHi, uLo, v: uint64; r: var uint64): uint64</a></li>
+          </ul></dd>
+<dt><a name="builtinOverflowingAdd" href="#builtinOverflowingAdd"><span>builtinOverflowingAdd:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="gcc: proc builtinOverflowingAdd[T: SomeInteger](a, b: T; res: var T): bool" href="intops/impl/intrinsics/gcc.html#builtinOverflowingAdd%2CT%2CT%2CT">gcc: proc builtinOverflowingAdd[T: SomeInteger](a, b: T; res: var T): bool</a></li>
+          </ul></dd>
+<dt><a name="builtinOverflowingSub" href="#builtinOverflowingSub"><span>builtinOverflowingSub:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="gcc: proc builtinOverflowingSub[T: SomeInteger](a, b: T; res: var T): bool" href="intops/impl/intrinsics/gcc.html#builtinOverflowingSub%2CT%2CT%2CT">gcc: proc builtinOverflowingSub[T: SomeInteger](a, b: T; res: var T): bool</a></li>
+          </ul></dd>
+<dt><a name="canUseInlineAsm" href="#canUseInlineAsm"><span>canUseInlineAsm:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="consts: const canUseInlineAsm" href="intops/consts.html#canUseInlineAsm">consts: const canUseInlineAsm</a></li>
+          </ul></dd>
+<dt><a name="canUseInlineC" href="#canUseInlineC"><span>canUseInlineC:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="consts: const canUseInlineC" href="intops/consts.html#canUseInlineC">consts: const canUseInlineC</a></li>
+          </ul></dd>
+<dt><a name="canUseIntrinsics" href="#canUseIntrinsics"><span>canUseIntrinsics:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="consts: const canUseIntrinsics" href="intops/consts.html#canUseIntrinsics">consts: const canUseIntrinsics</a></li>
           </ul></dd>
 <dt><a name="carryingAdd" href="#carryingAdd"><span>carryingAdd:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="intops: template carryingAdd[T: SomeUnsignedInt | SomeSignedInt](a, b: T; carryIn: bool): tuple[
-    res: T, carryOut: bool]" href="intops.html#carryingAdd.t%2CT%2CT%2Cbool">intops: template carryingAdd[T: SomeUnsignedInt | SomeSignedInt](a, b: T; carryIn: bool): tuple[
-    res: T, carryOut: bool]</a></li>
+          data-doc-search-tag="x86: proc carryingAdd(a, b: int32; carryIn: bool): (int32, bool)" href="intops/impl/inlineasm/x86.html#carryingAdd%2Cint32%2Cint32%2Cbool">x86: proc carryingAdd(a, b: int32; carryIn: bool): (int32, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="native: proc carryingAdd[T: SomeUnsignedInt | SomeSignedInt](a, b: T; carryIn: bool): (T,
-    bool)" href="intops/native.html#carryingAdd%2CT%2CT%2Cbool">native: proc carryingAdd[T: SomeUnsignedInt | SomeSignedInt](a, b: T; carryIn: bool): (T,
-    bool)</a></li>
+          data-doc-search-tag="x86: proc carryingAdd(a, b: int64; carryIn: bool): (int64, bool)" href="intops/impl/inlineasm/x86.html#carryingAdd%2Cint64%2Cint64%2Cbool">x86: proc carryingAdd(a, b: int64; carryIn: bool): (int64, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="pure: proc carryingAdd[T: SomeUnsignedInt](a, b: T; carryIn: bool): (T, bool)" href="intops/pure.html#carryingAdd%2CT%2CT%2Cbool">pure: proc carryingAdd[T: SomeUnsignedInt](a, b: T; carryIn: bool): (T, bool)</a></li>
+          data-doc-search-tag="x86: proc carryingAdd(a, b: uint32; carryIn: bool): (uint32, bool)" href="intops/impl/inlineasm/x86.html#carryingAdd%2Cuint32%2Cuint32%2Cbool">x86: proc carryingAdd(a, b: uint32; carryIn: bool): (uint32, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="pure: proc carryingAdd[T: SomeSignedInt](a, b: T; carryIn: bool): (T, bool)" href="intops/pure.html#carryingAdd%2CT%2CT%2Cbool_2">pure: proc carryingAdd[T: SomeSignedInt](a, b: T; carryIn: bool): (T, bool)</a></li>
+          data-doc-search-tag="x86: proc carryingAdd(a, b: uint64; carryIn: bool): (uint64, bool)" href="intops/impl/inlineasm/x86.html#carryingAdd%2Cuint64%2Cuint64%2Cbool">x86: proc carryingAdd(a, b: uint64; carryIn: bool): (uint64, bool)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="inlinec: proc carryingAdd(a, b: uint64; carryIn: bool): (uint64, bool)" href="intops/impl/inlinec.html#carryingAdd%2Cuint64%2Cuint64%2Cbool">inlinec: proc carryingAdd(a, b: uint64; carryIn: bool): (uint64, bool)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="gcc: proc carryingAdd[T: SomeInteger](a, b: T; carryIn: bool): (T, bool)" href="intops/impl/intrinsics/gcc.html#carryingAdd%2CT%2CT%2Cbool">gcc: proc carryingAdd[T: SomeInteger](a, b: T; carryIn: bool): (T, bool)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="x86: proc carryingAdd(a, b: uint32; carryIn: bool): (uint32, bool)" href="intops/impl/intrinsics/x86.html#carryingAdd%2Cuint32%2Cuint32%2Cbool">x86: proc carryingAdd(a, b: uint32; carryIn: bool): (uint32, bool)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="x86: proc carryingAdd(a, b: uint64; carryIn: bool): (uint64, bool)" href="intops/impl/intrinsics/x86.html#carryingAdd%2Cuint64%2Cuint64%2Cbool">x86: proc carryingAdd(a, b: uint64; carryIn: bool): (uint64, bool)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="pure: proc carryingAdd[T: SomeUnsignedInt](a, b: T; carryIn: bool): (T, bool)" href="intops/impl/pure.html#carryingAdd%2CT%2CT%2Cbool">pure: proc carryingAdd[T: SomeUnsignedInt](a, b: T; carryIn: bool): (T, bool)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="pure: proc carryingAdd[T: SomeSignedInt](a, b: T; carryIn: bool): (T, bool)" href="intops/impl/pure.html#carryingAdd%2CT%2CT%2Cbool_2">pure: proc carryingAdd[T: SomeSignedInt](a, b: T; carryIn: bool): (T, bool)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="add: template carryingAdd(a, b: int32; carryIn: bool): tuple[res: int32, carryOut: bool]" href="intops/ops/add.html#carryingAdd.t%2Cint32%2Cint32%2Cbool">add: template carryingAdd(a, b: int32; carryIn: bool): tuple[res: int32, carryOut: bool]</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="add: template carryingAdd(a, b: int64; carryIn: bool): tuple[res: int64, carryOut: bool]" href="intops/ops/add.html#carryingAdd.t%2Cint64%2Cint64%2Cbool">add: template carryingAdd(a, b: int64; carryIn: bool): tuple[res: int64, carryOut: bool]</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="add: template carryingAdd(a, b: uint32; carryIn: bool): tuple[res: uint32, carryOut: bool]" href="intops/ops/add.html#carryingAdd.t%2Cuint32%2Cuint32%2Cbool">add: template carryingAdd(a, b: uint32; carryIn: bool): tuple[res: uint32, carryOut: bool]</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="add: template carryingAdd(a, b: uint64; carryIn: bool): tuple[res: uint64, carryOut: bool]" href="intops/ops/add.html#carryingAdd.t%2Cuint64%2Cuint64%2Cbool">add: template carryingAdd(a, b: uint64; carryIn: bool): tuple[res: uint64, carryOut: bool]</a></li>
+          </ul></dd>
+<dt><a name="compilerGccCompatible" href="#compilerGccCompatible"><span>compilerGccCompatible:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="consts: const compilerGccCompatible" href="intops/consts.html#compilerGccCompatible">consts: const compilerGccCompatible</a></li>
+          </ul></dd>
+<dt><a name="compilerMsvc" href="#compilerMsvc"><span>compilerMsvc:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="consts: const compilerMsvc" href="intops/consts.html#compilerMsvc">consts: const compilerMsvc</a></li>
+          </ul></dd>
+<dt><a name="cpu64Bit" href="#cpu64Bit"><span>cpu64Bit:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="consts: const cpu64Bit" href="intops/consts.html#cpu64Bit">consts: const cpu64Bit</a></li>
+          </ul></dd>
+<dt><a name="cpuArm64" href="#cpuArm64"><span>cpuArm64:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="consts: const cpuArm64" href="intops/consts.html#cpuArm64">consts: const cpuArm64</a></li>
+          </ul></dd>
+<dt><a name="cpuX86" href="#cpuX86"><span>cpuX86:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="consts: const cpuX86" href="intops/consts.html#cpuX86">consts: const cpuX86</a></li>
+          </ul></dd>
+<dt><a name="mulAcc" href="#mulAcc"><span>mulAcc:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="pure: proc mulAcc[T: uint64 | uint32](t, u, v: T; a, b: T): (T, T, T)" href="intops/impl/pure.html#mulAcc%2CT%2CT%2CT%2CT%2CT">pure: proc mulAcc[T: uint64 | uint32](t, u, v: T; a, b: T): (T, T, T)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="composite: proc mulAcc[T: uint64 | uint32](t, u, v: T; a, b: T): tuple[t, u, v: T]" href="intops/ops/composite.html#mulAcc%2CT%2CT%2CT%2CT%2CT">composite: proc mulAcc[T: uint64 | uint32](t, u, v: T; a, b: T): tuple[t, u, v: T]</a></li>
+          </ul></dd>
+<dt><a name="mulDoubleAdd2" href="#mulDoubleAdd2"><span>mulDoubleAdd2:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="pure: proc mulDoubleAdd2[T: uint64 | uint32](a, b, c, dHi, dLo: T): (T, T, T)" href="intops/impl/pure.html#mulDoubleAdd2%2CT%2CT%2CT%2CT%2CT">pure: proc mulDoubleAdd2[T: uint64 | uint32](a, b, c, dHi, dLo: T): (T, T, T)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="composite: template mulDoubleAdd2[T: uint64 | uint32](a, b, c, dHi, dLo: T): tuple[t2, r1, r0: T]" href="intops/ops/composite.html#mulDoubleAdd2.t%2CT%2CT%2CT%2CT%2CT">composite: template mulDoubleAdd2[T: uint64 | uint32](a, b, c, dHi, dLo: T): tuple[t2, r1, r0: T]</a></li>
+          </ul></dd>
+<dt><a name="narrowingDiv" href="#narrowingDiv"><span>narrowingDiv:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="x86: proc narrowingDiv(uHi, uLo, v: uint64): (uint64, uint64)" href="intops/impl/inlineasm/x86.html#narrowingDiv%2Cuint64%2Cuint64%2Cuint64">x86: proc narrowingDiv(uHi, uLo, v: uint64): (uint64, uint64)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="inlinec: proc narrowingDiv(uHi, uLo, v: uint64): (uint64, uint64)" href="intops/impl/inlinec.html#narrowingDiv%2Cuint64%2Cuint64%2Cuint64">inlinec: proc narrowingDiv(uHi, uLo, v: uint64): (uint64, uint64)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="x86: proc narrowingDiv(uHi, uLo, v: uint64): (uint64, uint64)" href="intops/impl/intrinsics/x86.html#narrowingDiv%2Cuint64%2Cuint64%2Cuint64">x86: proc narrowingDiv(uHi, uLo, v: uint64): (uint64, uint64)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="pure: proc narrowingDiv(uHi, uLo, v: uint64): (uint64, uint64)" href="intops/impl/pure.html#narrowingDiv%2Cuint64%2Cuint64%2Cuint64">pure: proc narrowingDiv(uHi, uLo, v: uint64): (uint64, uint64)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="division: template narrowingDiv(uHi, uLo, v: uint64): tuple[q, r: uint64]" href="intops/ops/division.html#narrowingDiv.t%2Cuint64%2Cuint64%2Cuint64">division: template narrowingDiv(uHi, uLo, v: uint64): tuple[q, r: uint64]</a></li>
           </ul></dd>
 <dt><a name="overflowingAdd" href="#overflowingAdd"><span>overflowingAdd:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="intops: template overflowingAdd[T: SomeUnsignedInt | SomeSignedInt](a, b: T): tuple[res: T,
-    didOverflow: bool]" href="intops.html#overflowingAdd.t%2CT%2CT">intops: template overflowingAdd[T: SomeUnsignedInt | SomeSignedInt](a, b: T): tuple[res: T,
-    didOverflow: bool]</a></li>
+          data-doc-search-tag="gcc: proc overflowingAdd[T: SomeInteger](a, b: T): (T, bool)" href="intops/impl/intrinsics/gcc.html#overflowingAdd%2CT%2CT">gcc: proc overflowingAdd[T: SomeInteger](a, b: T): (T, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="intrinsics: proc overflowingAdd[T](a, b: T; res: var T): bool" href="intops/intrinsics.html#overflowingAdd%2CT%2CT%2CT">intrinsics: proc overflowingAdd[T](a, b: T; res: var T): bool</a></li>
+          data-doc-search-tag="pure: proc overflowingAdd[T: SomeUnsignedInt](a, b: T): (T, bool)" href="intops/impl/pure.html#overflowingAdd%2CT%2CT">pure: proc overflowingAdd[T: SomeUnsignedInt](a, b: T): (T, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="native: proc overflowingAdd[T: SomeUnsignedInt | SomeSignedInt](a, b: T): (T, bool)" href="intops/native.html#overflowingAdd%2CT%2CT">native: proc overflowingAdd[T: SomeUnsignedInt | SomeSignedInt](a, b: T): (T, bool)</a></li>
+          data-doc-search-tag="pure: proc overflowingAdd[T: SomeSignedInt](a, b: T): (T, bool)" href="intops/impl/pure.html#overflowingAdd%2CT%2CT_2">pure: proc overflowingAdd[T: SomeSignedInt](a, b: T): (T, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="pure: proc overflowingAdd[T: SomeUnsignedInt](a, b: T): (T, bool)" href="intops/pure.html#overflowingAdd%2CT%2CT">pure: proc overflowingAdd[T: SomeUnsignedInt](a, b: T): (T, bool)</a></li>
-          <li><a class="reference external"
-          data-doc-search-tag="pure: proc overflowingAdd[T: SomeSignedInt](a, b: T): (T, bool)" href="intops/pure.html#overflowingAdd%2CT%2CT_2">pure: proc overflowingAdd[T: SomeSignedInt](a, b: T): (T, bool)</a></li>
+          data-doc-search-tag="add: template overflowingAdd[T: SomeInteger](a, b: T): tuple[res: T, didOverflow: bool]" href="intops/ops/add.html#overflowingAdd.t%2CT%2CT">add: template overflowingAdd[T: SomeInteger](a, b: T): tuple[res: T, didOverflow: bool]</a></li>
           </ul></dd>
 <dt><a name="overflowingSub" href="#overflowingSub"><span>overflowingSub:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="intops: template overflowingSub[T: SomeUnsignedInt | SomeSignedInt](a, b: T): (T, bool)" href="intops.html#overflowingSub.t%2CT%2CT">intops: template overflowingSub[T: SomeUnsignedInt | SomeSignedInt](a, b: T): (T, bool)</a></li>
+          data-doc-search-tag="gcc: proc overflowingSub[T: SomeInteger](a, b: T): (T, bool)" href="intops/impl/intrinsics/gcc.html#overflowingSub%2CT%2CT">gcc: proc overflowingSub[T: SomeInteger](a, b: T): (T, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="intrinsics: proc overflowingSub[T](a, b: T; res: var T): bool" href="intops/intrinsics.html#overflowingSub%2CT%2CT%2CT">intrinsics: proc overflowingSub[T](a, b: T; res: var T): bool</a></li>
+          data-doc-search-tag="pure: proc overflowingSub[T: SomeUnsignedInt](a, b: T): (T, bool)" href="intops/impl/pure.html#overflowingSub%2CT%2CT">pure: proc overflowingSub[T: SomeUnsignedInt](a, b: T): (T, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="native: proc overflowingSub[T: SomeUnsignedInt | SomeSignedInt](a, b: T): (T, bool)" href="intops/native.html#overflowingSub%2CT%2CT">native: proc overflowingSub[T: SomeUnsignedInt | SomeSignedInt](a, b: T): (T, bool)</a></li>
+          data-doc-search-tag="pure: proc overflowingSub[T: SomeSignedInt](a, b: T): (T, bool)" href="intops/impl/pure.html#overflowingSub%2CT%2CT_2">pure: proc overflowingSub[T: SomeSignedInt](a, b: T): (T, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="pure: proc overflowingSub[T: SomeUnsignedInt](a, b: T): (T, bool)" href="intops/pure.html#overflowingSub%2CT%2CT">pure: proc overflowingSub[T: SomeUnsignedInt](a, b: T): (T, bool)</a></li>
-          <li><a class="reference external"
-          data-doc-search-tag="pure: proc overflowingSub[T: SomeSignedInt](a, b: T): (T, bool)" href="intops/pure.html#overflowingSub%2CT%2CT_2">pure: proc overflowingSub[T: SomeSignedInt](a, b: T): (T, bool)</a></li>
+          data-doc-search-tag="sub: template overflowingSub[T: SomeInteger](a, b: T): tuple[res: T, didOverflow: bool]" href="intops/ops/sub.html#overflowingSub.t%2CT%2CT">sub: template overflowingSub[T: SomeInteger](a, b: T): tuple[res: T, didOverflow: bool]</a></li>
           </ul></dd>
 <dt><a name="saturatingAdd" href="#saturatingAdd"><span>saturatingAdd:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="intops: template saturatingAdd[T: SomeUnsignedInt | SomeSignedInt](a, b: T): T" href="intops.html#saturatingAdd.t%2CT%2CT">intops: template saturatingAdd[T: SomeUnsignedInt | SomeSignedInt](a, b: T): T</a></li>
+          data-doc-search-tag="gcc: proc saturatingAdd[T: SomeUnsignedInt](a, b: T): T" href="intops/impl/intrinsics/gcc.html#saturatingAdd%2CT%2CT">gcc: proc saturatingAdd[T: SomeUnsignedInt](a, b: T): T</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="native: proc saturatingAdd[T: SomeUnsignedInt](a, b: T): T" href="intops/native.html#saturatingAdd%2CT%2CT">native: proc saturatingAdd[T: SomeUnsignedInt](a, b: T): T</a></li>
+          data-doc-search-tag="gcc: proc saturatingAdd[T: SomeSignedInt](a, b: T): T" href="intops/impl/intrinsics/gcc.html#saturatingAdd%2CT%2CT_2">gcc: proc saturatingAdd[T: SomeSignedInt](a, b: T): T</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="native: proc saturatingAdd[T: SomeSignedInt](a, b: T): T" href="intops/native.html#saturatingAdd%2CT%2CT_2">native: proc saturatingAdd[T: SomeSignedInt](a, b: T): T</a></li>
+          data-doc-search-tag="pure: proc saturatingAdd[T: SomeUnsignedInt](a, b: T): T" href="intops/impl/pure.html#saturatingAdd%2CT%2CT">pure: proc saturatingAdd[T: SomeUnsignedInt](a, b: T): T</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="pure: proc saturatingAdd[T: SomeUnsignedInt](a, b: T): T" href="intops/pure.html#saturatingAdd%2CT%2CT">pure: proc saturatingAdd[T: SomeUnsignedInt](a, b: T): T</a></li>
+          data-doc-search-tag="pure: proc saturatingAdd[T: SomeSignedInt](a, b: T): T" href="intops/impl/pure.html#saturatingAdd%2CT%2CT_2">pure: proc saturatingAdd[T: SomeSignedInt](a, b: T): T</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="pure: proc saturatingAdd[T: SomeSignedInt](a, b: T): T" href="intops/pure.html#saturatingAdd%2CT%2CT_2">pure: proc saturatingAdd[T: SomeSignedInt](a, b: T): T</a></li>
+          data-doc-search-tag="add: template saturatingAdd[T: SomeInteger](a, b: T): T" href="intops/ops/add.html#saturatingAdd.t%2CT%2CT">add: template saturatingAdd[T: SomeInteger](a, b: T): T</a></li>
           </ul></dd>
 <dt><a name="saturatingSub" href="#saturatingSub"><span>saturatingSub:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="intops: template saturatingSub[T: SomeUnsignedInt | SomeSignedInt](a, b: T): T" href="intops.html#saturatingSub.t%2CT%2CT">intops: template saturatingSub[T: SomeUnsignedInt | SomeSignedInt](a, b: T): T</a></li>
+          data-doc-search-tag="gcc: proc saturatingSub[T: SomeUnsignedInt](a, b: T): T" href="intops/impl/intrinsics/gcc.html#saturatingSub%2CT%2CT">gcc: proc saturatingSub[T: SomeUnsignedInt](a, b: T): T</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="native: proc saturatingSub[T: SomeUnsignedInt](a, b: T): T" href="intops/native.html#saturatingSub%2CT%2CT">native: proc saturatingSub[T: SomeUnsignedInt](a, b: T): T</a></li>
+          data-doc-search-tag="gcc: proc saturatingSub[T: SomeSignedInt](a, b: T): T" href="intops/impl/intrinsics/gcc.html#saturatingSub%2CT%2CT_2">gcc: proc saturatingSub[T: SomeSignedInt](a, b: T): T</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="native: proc saturatingSub[T: SomeSignedInt](a, b: T): T" href="intops/native.html#saturatingSub%2CT%2CT_2">native: proc saturatingSub[T: SomeSignedInt](a, b: T): T</a></li>
+          data-doc-search-tag="pure: proc saturatingSub[T: SomeUnsignedInt](a, b: T): T" href="intops/impl/pure.html#saturatingSub%2CT%2CT">pure: proc saturatingSub[T: SomeUnsignedInt](a, b: T): T</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="pure: proc saturatingSub[T: SomeUnsignedInt](a, b: T): T" href="intops/pure.html#saturatingSub%2CT%2CT">pure: proc saturatingSub[T: SomeUnsignedInt](a, b: T): T</a></li>
+          data-doc-search-tag="pure: proc saturatingSub[T: SomeSignedInt](a, b: T): T" href="intops/impl/pure.html#saturatingSub%2CT%2CT_2">pure: proc saturatingSub[T: SomeSignedInt](a, b: T): T</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="pure: proc saturatingSub[T: SomeSignedInt](a, b: T): T" href="intops/pure.html#saturatingSub%2CT%2CT_2">pure: proc saturatingSub[T: SomeSignedInt](a, b: T): T</a></li>
+          data-doc-search-tag="sub: template saturatingSub[T: SomeInteger](a, b: T): T" href="intops/ops/sub.html#saturatingSub.t%2CT%2CT">sub: template saturatingSub[T: SomeInteger](a, b: T): T</a></li>
           </ul></dd>
 <dt><a name="wideningMul" href="#wideningMul"><span>wideningMul:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="intops: template wideningMul(a, b: int32): tuple[hi: int32, lo: uint32]" href="intops.html#wideningMul.t%2Cint32%2Cint32">intops: template wideningMul(a, b: int32): tuple[hi: int32, lo: uint32]</a></li>
+          data-doc-search-tag="inlinec: proc wideningMul(a, b: int64): (int64, uint64)" href="intops/impl/inlinec.html#wideningMul%2Cint64%2Cint64">inlinec: proc wideningMul(a, b: int64): (int64, uint64)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="intops: template wideningMul(a, b: int64): tuple[hi: int64, lo: uint64]" href="intops.html#wideningMul.t%2Cint64%2Cint64">intops: template wideningMul(a, b: int64): tuple[hi: int64, lo: uint64]</a></li>
+          data-doc-search-tag="inlinec: proc wideningMul(a, b: uint64): (uint64, uint64)" href="intops/impl/inlinec.html#wideningMul%2Cuint64%2Cuint64">inlinec: proc wideningMul(a, b: uint64): (uint64, uint64)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="intops: template wideningMul(a, b: uint32): tuple[hi, lo: uint32]" href="intops.html#wideningMul.t%2Cuint32%2Cuint32">intops: template wideningMul(a, b: uint32): tuple[hi, lo: uint32]</a></li>
+          data-doc-search-tag="pure: proc wideningMul(a, b: int32): (int32, uint32)" href="intops/impl/pure.html#wideningMul%2Cint32%2Cint32">pure: proc wideningMul(a, b: int32): (int32, uint32)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="intops: template wideningMul(a, b: uint64): tuple[hi, lo: uint64]" href="intops.html#wideningMul.t%2Cuint64%2Cuint64">intops: template wideningMul(a, b: uint64): tuple[hi, lo: uint64]</a></li>
+          data-doc-search-tag="pure: proc wideningMul(a, b: int64): (int64, uint64)" href="intops/impl/pure.html#wideningMul%2Cint64%2Cint64">pure: proc wideningMul(a, b: int64): (int64, uint64)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="native: proc wideningMul(a, b: int32): (int32, uint32)" href="intops/native.html#wideningMul%2Cint32%2Cint32">native: proc wideningMul(a, b: int32): (int32, uint32)</a></li>
+          data-doc-search-tag="pure: proc wideningMul(a, b: uint32): (uint32, uint32)" href="intops/impl/pure.html#wideningMul%2Cuint32%2Cuint32">pure: proc wideningMul(a, b: uint32): (uint32, uint32)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="native: proc wideningMul(a, b: int64): (int64, uint64)" href="intops/native.html#wideningMul%2Cint64%2Cint64">native: proc wideningMul(a, b: int64): (int64, uint64)</a></li>
+          data-doc-search-tag="pure: proc wideningMul(a, b: uint64): (uint64, uint64)" href="intops/impl/pure.html#wideningMul%2Cuint64%2Cuint64">pure: proc wideningMul(a, b: uint64): (uint64, uint64)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="native: proc wideningMul(a, b: uint32): (uint32, uint32)" href="intops/native.html#wideningMul%2Cuint32%2Cuint32">native: proc wideningMul(a, b: uint32): (uint32, uint32)</a></li>
+          data-doc-search-tag="mul: template wideningMul(a, b: int32): tuple[hi: int32, lo: uint32]" href="intops/ops/mul.html#wideningMul.t%2Cint32%2Cint32">mul: template wideningMul(a, b: int32): tuple[hi: int32, lo: uint32]</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="native: proc wideningMul(a, b: uint64): (uint64, uint64)" href="intops/native.html#wideningMul%2Cuint64%2Cuint64">native: proc wideningMul(a, b: uint64): (uint64, uint64)</a></li>
+          data-doc-search-tag="mul: template wideningMul(a, b: int64): tuple[hi: int64, lo: uint64]" href="intops/ops/mul.html#wideningMul.t%2Cint64%2Cint64">mul: template wideningMul(a, b: int64): tuple[hi: int64, lo: uint64]</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="pure: proc wideningMul(a, b: int32): (int32, uint32)" href="intops/pure.html#wideningMul%2Cint32%2Cint32">pure: proc wideningMul(a, b: int32): (int32, uint32)</a></li>
+          data-doc-search-tag="mul: template wideningMul(a, b: uint32): tuple[hi, lo: uint32]" href="intops/ops/mul.html#wideningMul.t%2Cuint32%2Cuint32">mul: template wideningMul(a, b: uint32): tuple[hi, lo: uint32]</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="pure: proc wideningMul(a, b: int64): (int64, uint64)" href="intops/pure.html#wideningMul%2Cint64%2Cint64">pure: proc wideningMul(a, b: int64): (int64, uint64)</a></li>
+          data-doc-search-tag="mul: template wideningMul(a, b: uint64): tuple[hi, lo: uint64]" href="intops/ops/mul.html#wideningMul.t%2Cuint64%2Cuint64">mul: template wideningMul(a, b: uint64): tuple[hi, lo: uint64]</a></li>
+          </ul></dd>
+<dt><a name="wideningMulAdd" href="#wideningMulAdd"><span>wideningMulAdd:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="inlinec: proc wideningMulAdd(a, b, c: uint64): (uint64, uint64)" href="intops/impl/inlinec.html#wideningMulAdd%2Cuint64%2Cuint64%2Cuint64">inlinec: proc wideningMulAdd(a, b, c: uint64): (uint64, uint64)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="pure: proc wideningMul(a, b: uint32): (uint32, uint32)" href="intops/pure.html#wideningMul%2Cuint32%2Cuint32">pure: proc wideningMul(a, b: uint32): (uint32, uint32)</a></li>
+          data-doc-search-tag="inlinec: proc wideningMulAdd(a, b, c, d: uint64): (uint64, uint64)" href="intops/impl/inlinec.html#wideningMulAdd%2Cuint64%2Cuint64%2Cuint64%2Cuint64">inlinec: proc wideningMulAdd(a, b, c, d: uint64): (uint64, uint64)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="pure: proc wideningMul(a, b: uint64): (uint64, uint64)" href="intops/pure.html#wideningMul%2Cuint64%2Cuint64">pure: proc wideningMul(a, b: uint64): (uint64, uint64)</a></li>
+          data-doc-search-tag="pure: proc wideningMulAdd(a, b, c: uint64): (uint64, uint64)" href="intops/impl/pure.html#wideningMulAdd%2Cuint64%2Cuint64%2Cuint64">pure: proc wideningMulAdd(a, b, c: uint64): (uint64, uint64)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="pure: proc wideningMulAdd(a, b, c, d: uint64): (uint64, uint64)" href="intops/impl/pure.html#wideningMulAdd%2Cuint64%2Cuint64%2Cuint64%2Cuint64">pure: proc wideningMulAdd(a, b, c, d: uint64): (uint64, uint64)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="muladd: template wideningMulAdd(a, b, c: uint64): tuple[hi, lo: uint64]" href="intops/ops/muladd.html#wideningMulAdd.t%2Cuint64%2Cuint64%2Cuint64">muladd: template wideningMulAdd(a, b, c: uint64): tuple[hi, lo: uint64]</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="muladd: template wideningMulAdd(a, b, c, d: uint64): tuple[hi, lo: uint64]" href="intops/ops/muladd.html#wideningMulAdd.t%2Cuint64%2Cuint64%2Cuint64%2Cuint64">muladd: template wideningMulAdd(a, b, c, d: uint64): tuple[hi, lo: uint64]</a></li>
           </ul></dd>
 </dl>
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2025-12-03 19:35:23 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2025-12-19 10:15:23 UTC</small>
       </div>
     </div>
   </div>

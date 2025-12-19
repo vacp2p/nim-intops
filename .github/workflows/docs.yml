@@ -10,9 +10,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  Docs:
+  docs:
     runs-on: ubuntu-latest
     steps:
+      - name: apt install
+        run: apt install -y libpcre3
+
       - uses: actions/checkout@v6
       - uses: jiro4989/setup-nim-action@v2
         with:

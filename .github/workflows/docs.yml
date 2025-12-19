@@ -13,7 +13,7 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-      - name: apt install
+      - name: Install PCRE
         run: sudo apt install -y libpcre3
 
       - uses: actions/checkout@v6
@@ -21,10 +21,10 @@ jobs:
         with:
           nim-version: 2.2.6
 
-      - name: Book
-        run: nimble setupBook && nimble book
+      - name: Setup docs
+        run: nimble setupDocs
 
-      - name: API docs
+      - name: Build docs
         run: nimble docs
 
       - name: Deploy docs

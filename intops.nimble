@@ -11,7 +11,7 @@ srcDir = "src"
 requires "nim >= 2.2.6"
 requires "unittest2 ~= 0.2.5"
 
-taskRequires "setupBook", "nimib >= 0.3.8", "nimibook >= 0.3.1"
+taskRequires "setupDocs", "nimib >= 0.3.8", "nimibook >= 0.3.1"
 
 import std/[os, sequtils, strformat]
 
@@ -32,7 +32,7 @@ task test, "Run tests":
 
     selfExec fmt"r {flags} tests/tintops.nim"
 
-task setupBook, "Compiles the nimibook CLI-binary used for generating the docs":
+task setupDocs, "Compiles the nimibook CLI-binary used for generating the docs":
   exec "nim c -d:release nbook.nim"
   rmDir "docs"
   exec "./nbook update"

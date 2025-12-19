@@ -31,7 +31,7 @@ nbCode:
 
 nbText:
   """
-`intops.carryingAdd` is a dispatcher. When invoked, it calls the best implementation of this operation out of the available ones for the given environment.
+`intops.carryingAdd` is a *dispatcher*. When invoked, it calls the best implementation of this operation out of the available ones for the given environment.
 
 Notice that we call `carryingAdd` with `uint64` type set explicitly. This is important because `int` can mean different things under different circumstances and so intops doesn't allow this kind of ambiguity.
 

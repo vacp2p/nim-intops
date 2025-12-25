@@ -49,13 +49,20 @@ template benchmarkLatencyCarryingAdd(typ: typedesc, opName: untyped) =
     echo fmt"{opNameStr:<30} {nanoSecsPerOp}"
 
 template benchmarkCarryingAdd(typ: typedesc, opName: untyped) =
-  block:
-    when compiles opName(typ(0), typ(0), false):
-      benchmarkLatencyCarryingAdd(typ, opName)
-    else:
+  block benchmark:
+    when not compiles opName(default(typ), default(typ), false):
       let opNameStr {.inject.} = astToStr(opName)
       echo &"{opNameStr:<30} -"
+      break benchmark
+    else:
+      when typeof(opName(default(typ), default(typ), false)) isnot (typ, bool):
+        let opNameStr {.inject.} = astToStr(opName)
+        echo &"{opNameStr:<30} -"
+        break benchmark
+      else:
+        benchmarkLatencyCarryingAdd(typ, opName)
 
+echo ""
 echo "=== Carrying Add, uint64 ==="
 benchmarkCarryingAdd(uint64, pure.carryingAdd)
 benchmarkCarryingAdd(uint64, intrinsics.x86.carryingAdd)
@@ -64,6 +71,7 @@ benchmarkCarryingAdd(uint64, inlinec.carryingAdd)
 benchmarkCarryingAdd(uint64, inlineasm.x86.carryingAdd)
 benchmarkCarryingAdd(uint64, inlineasm.arm64.carryingAdd)
 
+echo ""
 echo "=== Carrying Add, uint32 ==="
 benchmarkCarryingAdd(uint32, pure.carryingAdd)
 benchmarkCarryingAdd(uint32, intrinsics.x86.carryingAdd)

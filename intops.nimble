@@ -11,6 +11,8 @@ srcDir = "src"
 requires "nim >= 2.2.6"
 requires "unittest2 ~= 0.2.5"
 
+taskRequires "bench", "benchy >= 0.0.1"
+
 import std/[os, sequtils, strformat]
 
 task docs, "Generate API docs":
@@ -32,3 +34,15 @@ task test, "Run tests":
     echo fmt"# Flags: {flags}"
 
     selfExec fmt"r {flags} tests/tintops.nim"
+
+task bench, "Run benchmarks":
+  let
+    archFlags =
+      commandLineParams().filterIt(it.startsWith("--cpu") or it.startsWith("--gcc"))
+    archFlagStr = archFlags.join(" ")
+    optFlagStr = """-d:danger --passC:"-march=native -O3""""
+    flags = fmt"{archFlagStr} {optFlagStr}"
+
+  echo fmt"# Flags: {flags}"
+
+  selfExec fmt"""r {flags} benchmarks/add.nim"""

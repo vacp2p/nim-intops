@@ -8,7 +8,7 @@ const
   iterations = 100_000_000
   bufSize = 1024
 
-template benchmarkLatencyCarryingAdd(typ: typedesc, opName: untyped) {.dirty.} =
+template benchmarkLatencyCarryingAdd(typ: typedesc, opName: untyped) =
   block:
     var
       randGen = initRand()
@@ -18,8 +18,8 @@ template benchmarkLatencyCarryingAdd(typ: typedesc, opName: untyped) {.dirty.} =
       carryIn: bool
 
     for i in 0 ..< bufSize:
-      inputsA[i] = randGen.next()
-      inputsB[i] = randGen.next()
+      inputsA[i] = typ(randGen.next())
+      inputsB[i] = typ(randGen.next())
 
     for i in 0 ..< 1000:
       let
@@ -43,21 +43,31 @@ template benchmarkLatencyCarryingAdd(typ: typedesc, opName: untyped) {.dirty.} =
 
     let
       timeDelta = float64((timeFinish - timeStart).inNanoseconds)
-      nanoSecsPerOp = timeDelta / float64(iterations)
-      opNameStr = astToStr(opName)
+      nanoSecsPerOp {.inject.} = timeDelta / float64(iterations)
+      opNameStr {.inject.} = astToStr(opName)
 
     echo fmt"{opNameStr:<30} {nanoSecsPerOp}"
 
-template benchmarkCarryingAdd(typ: typedesc, opName: untyped) {.dirty.} =
-  when compiles opName(typ(0), typ(0), false):
-    benchmarkLatencyCarryingAdd(typ, opName)
-  else:
-    let opNameStr = astToStr(opName)
-    echo &"{opNameStr:<30} not available"
+template benchmarkCarryingAdd(typ: typedesc, opName: untyped) =
+  block:
+    when compiles opName(typ(0), typ(0), false):
+      benchmarkLatencyCarryingAdd(typ, opName)
+    else:
+      let opNameStr {.inject.} = astToStr(opName)
+      echo &"{opNameStr:<30} -"
 
+echo "=== Carrying Add, uint64 ==="
 benchmarkCarryingAdd(uint64, pure.carryingAdd)
 benchmarkCarryingAdd(uint64, intrinsics.x86.carryingAdd)
 benchmarkCarryingAdd(uint64, intrinsics.gcc.carryingAdd)
 benchmarkCarryingAdd(uint64, inlinec.carryingAdd)
 benchmarkCarryingAdd(uint64, inlineasm.x86.carryingAdd)
 benchmarkCarryingAdd(uint64, inlineasm.arm64.carryingAdd)
+
+echo "=== Carrying Add, uint32 ==="
+benchmarkCarryingAdd(uint32, pure.carryingAdd)
+benchmarkCarryingAdd(uint32, intrinsics.x86.carryingAdd)
+benchmarkCarryingAdd(uint32, intrinsics.gcc.carryingAdd)
+benchmarkCarryingAdd(uint32, inlinec.carryingAdd)
+benchmarkCarryingAdd(uint32, inlineasm.x86.carryingAdd)
+benchmarkCarryingAdd(uint32, inlineasm.arm64.carryingAdd)

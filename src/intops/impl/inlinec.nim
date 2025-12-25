@@ -29,6 +29,8 @@ when cpu64Bit and compilerGccCompatible and canUseInlineC:
 
     (sum, cOut > 0)
 
+  func carryingAdd*(a, b: uint32, carryIn: bool): (uint32, bool) {.error: "Not implemented".}
+
   func borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) =
     var
       diff: uint64

@@ -20,10 +20,4 @@ template benchCarrying(typ: typedesc, op: untyped) =
       flush = res
       carryIn = carryOut
 
-echo "\n=== Carrying Add, uint64 ==="
-benchCarrying(uint64, pure.carryingAdd)
-benchCarrying(uint64, intrinsics.x86.carryingAdd)
-benchCarrying(uint64, intrinsics.gcc.carryingAdd)
-benchCarrying(uint64, inlinec.carryingAdd)
-benchCarrying(uint64, inlineasm.x86.carryingAdd)
-benchCarrying(uint64, inlineasm.arm64.carryingAdd)
+benchTypesImpls(benchCarrying, carryingAdd)

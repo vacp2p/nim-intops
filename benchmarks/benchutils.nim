@@ -13,7 +13,7 @@ func doNotOptimize*[T](x: var T) {.inline.} =
     var volatileSink {.volatile.}: T = x
 
 template measureLatency*(
-    typ: typedesc, opName: string, setupBlock, loopBlock: untyped
+    typ: typedesc, opName: string, setupBlock, loopBlock, teardownBlock: untyped
 ) =
   ##[ Universal latency measurement template.
 
@@ -21,15 +21,16 @@ template measureLatency*(
   warms up the CPU before the benchmark, measures the latency (nanoseconds per operation),
   and prints the result.
 
-  `{.inject.}`ed variables can be used in `setupBlock` and `loopBlock`.
+  `{.inject.}`ed variables can be used in `setupBlock`,`loopBlock`,
+  and `teardownBlock`.
 
-  Users can `{.inject.}` variables in `setupBlock` to be later used in `loopBlock`.
+  Users can `{.inject.}` variables in `setupBlock` to be later used in `loopBlock`
+  and `teardownBlock`.
   ]##
 
   block:
     var
       randGen = initRand(123)
-      flush {.inject.}: typ
       inputsA {.inject.}: array[bufSize, typ]
       inputsB {.inject.}: array[bufSize, typ]
 
@@ -49,7 +50,7 @@ template measureLatency*(
       loopBlock
     let timeFinish = getMonoTime()
 
-    doNotOptimize(flush)
+    teardownBlock
 
     let
       timeDelta = (timeFinish - timeStart).inNanoseconds
@@ -58,7 +59,7 @@ template measureLatency*(
     echo alignLeft(opName, 35), " ", formatFloat(nanosecsPerOp, ffDecimal, 3), " ns/op"
 
 template measureThroughput*(
-    typ: typedesc, opName: string, setupBlock, loopBlock: untyped
+    typ: typedesc, opName: string, setupBlock, loopBlock, teardownBlock: untyped
 ) =
   ##[ Universal throughput measurement template.
 
@@ -66,23 +67,24 @@ template measureThroughput*(
   warms up the CPU before the benchmark, measures the throughput
   (millions of operations per second), and prints the result.
 
-  `{.inject.}`ed variables can be used in `setupBlock` and `loopBlock`.
+  `{.inject.}`ed variables can be used in `setupBlock`,`loopBlock`,
+  and `teardownBlock`.
 
-  Users can `{.inject.}` variables in `setupBlock` to be later used in `loopBlock`.
+  Users can `{.inject.}` variables in `setupBlock` to be later used in `loopBlock`
+  and `teardownBlock`.
   ]##
 
   block:
     var
       randGen = initRand(123)
-      flush {.inject.}: typ
       inputsA {.inject.}: array[bufSize, typ]
       inputsB {.inject.}: array[bufSize, typ]
-      inputsC {.inject.}: array[bufSize, bool]
+      boolInputs {.inject.}: array[bufSize, bool]
 
     for i in 0 ..< bufSize:
       inputsA[i] = typ(randGen.next())
       inputsB[i] = typ(randGen.next())
-      inputsC[i] = bool(randGen.next() mod 2)
+      boolInputs[i] = bool(randGen.next() mod 2)
 
     setupBlock
 
@@ -96,7 +98,7 @@ template measureThroughput*(
       loopBlock
     let timeFinish = getMonoTime()
 
-    doNotOptimize(flush)
+    teardownBlock
 
     let
       totalNs = float64((timeFinish - timeStart).inNanoseconds)

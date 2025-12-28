@@ -111,18 +111,35 @@ template benchThroughputOverflowing(typ: typedesc, op: untyped) =
     do:
       doNotOptimize(flush)
 
-proc runLatencyBenchmarks =
-  echo "\n# Latency benchmarks"
+proc runLatencyCarrying() {.noinline.} =
+  echo "\n# Latency - Carrying"
   benchTypesAndImpls(benchLatencyCarrying, carryingAdd)
+
+proc runLatencySaturating() {.noinline.} =
+  echo "\n# Latency - Saturating"
   benchTypesAndImpls(benchLatencySaturating, saturatingAdd)
+
+proc runLatencyOverflowing() {.noinline.} =
+  echo "\n# Latency - Overflowing"
   benchTypesAndImpls(benchLatencyOverflowing, overflowingAdd)
 
-proc runThroughputBenchmarks =
-  echo "\n# Throughput benchmarks"
+proc runThroughputCarrying() {.noinline.} =
+  echo "\n# Throughput - Carrying"
   benchTypesAndImpls(benchThroughputCarrying, carryingAdd)
+
+proc runThroughputSaturating() {.noinline.} =
+  echo "\n# Throughput - Saturating"
   benchTypesAndImpls(benchThroughputSaturating, saturatingAdd)
+
+proc runThroughputOverflowing() {.noinline.} =
+  echo "\n# Throughput - Overflowing"
   benchTypesAndImpls(benchThroughputOverflowing, overflowingAdd)
-  
+
 when isMainModule:
-  runLatencyBenchmarks()
-  runThroughputBenchmarks()
+  runLatencyCarrying()
+  runLatencySaturating()
+  runLatencyOverflowing()
+
+  runThroughputCarrying()
+  runThroughputSaturating()
+  runThroughputOverflowing()

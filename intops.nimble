@@ -45,4 +45,5 @@ task bench, "Run benchmarks":
 
   echo fmt"# Flags: {flags}"
 
-  selfExec fmt"""r {flags} benchmarks/add.nim"""
+  selfExec fmt"""r {flags} benchmarks/latency/add.nim"""
+  selfExec fmt"""r {flags} benchmarks/throughput/add.nim"""

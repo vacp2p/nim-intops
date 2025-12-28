@@ -1,0 +1,18 @@
+name: Run Benchmarks
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  tests:
+    uses: status-im/nimbus-common-workflow/.github/workflows/common.yml@main
+    with:
+      nim-versions: '["version-2-2"]'
+      test-command: |
+        nimble install -y nimble && nimble install -y
+        nimble bench

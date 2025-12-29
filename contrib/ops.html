@@ -167,7 +167,7 @@
 <h1>Improving Existing Operations</h1>
 <p>intops' public API exposes <strong>dispatchers</strong> for each available operation.</p>
 <p>Dispatcher is a Nim template that contains the logic used to select the best available implementation of the given operation for the given environment.</p>
-<p>For example, <code>carryingAdd</code> mentioned in <a href="/quickstart.html">Quickstart</a> is a dispatcher.</p>
+<p>For example, <code>carryingAdd</code> mentioned in <a href="../quickstart.html">Quickstart</a> is a dispatcher.</p>
 <p>Let's examine the code of this dispatcher:</p>
 <pre><code class="language-nim">template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut: bool] =
   when nimvm:

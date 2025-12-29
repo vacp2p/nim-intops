@@ -165,10 +165,10 @@
                     <main>
                         <h1>Quickstart</h1>
 <h2>Installation</h2>
-<pre><code class="language-shell">$ nimble install -y nim-intops
+<pre><code class="language-shell">$ nimble install -y intops
 </code></pre>
 <p>Add intops to your .nimble file:</p>
-<pre><code class="language-nim">requires &quot;nim-intops&quot;
+<pre><code class="language-nim">requires &quot;intops&quot;
 </code></pre>
 <h2>Usage</h2>
 <p>The most straightforward way to use intops is by importing <code>intops</code> and calling the operations from it:</p>
@@ -179,16 +179,16 @@
 <p>Notice that we call <code>carryingAdd</code> with <code>uint64</code> type set explicitly. This is important because <code>int</code> can mean different things under different circumstances and so intops doesn't allow this kind of ambiguity.</p>
 <p>If you try to call <code>carryingAdd</code> with an <code>int</code>, your code simply won't compile:</p>
                         <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">echo</span> <span class="hljs-keyword">not</span> compiles carryingAdd(<span class="hljs-number">12</span>, <span class="hljs-number">34</span>, <span class="hljs-literal">false</span>)</code></pre><pre class="nb-output">true</pre>
-                        <p>All available dispatchers are listed in the <a href="/apidocs/intops.html#6">Imports section of the API docs for intops module</a>.</p>
-<p>The operations are grouped into families, each one living in a separate submodule. For example, <code>carryingAdd</code> operation mentioned above is imported from <code>intops/ops/add</code> submodule, so this is where you find its documentation: <a href="/apidocs/intops/ops/add.html#carryingAdd.t%2Cuint64%2Cuint64%2Cbool">/apidocs/intops/ops/add.html</a>.</p>
+                        <p>All available dispatchers are listed in the <a href="apidocs/intops.html#6">Imports section of the API docs for intops module</a>.</p>
+<p>The operations are grouped into families, each one living in a separate submodule. For example, <code>carryingAdd</code> operation mentioned above is imported from <code>intops/ops/add</code> submodule, so this is where you find its documentation: <a href="apidocs/intops/ops/add.html#carryingAdd.t%2Cuint64%2Cuint64%2Cbool">/apidocs/intops/ops/add.html</a>.</p>
 <h3>Calling Specific Implementations</h3>
 <p>You may want to override the dispatcher's choice. To do that, import a particular implementation from <code>intops/impl</code> directly and call the function from it:</p>
                         <pre><code class="nohighlight hljs nim"><span class="hljs-keyword">import</span> intops/impl/intrinsics
 
 <span class="hljs-keyword">echo</span> intrinsics.gcc.carryingAdd(<span class="hljs-number">12'</span>u64, <span class="hljs-number">34'</span>u64, <span class="hljs-literal">false</span>)</code></pre><pre class="nb-output">(46, false)</pre>
                         <p>Implementations are also grouped into families: pure Nim, C intrinsics, inline C, and inline Assembly. Each family can be further split into subgroups.</p>
-<p>For example, the <code>carryingAdd</code> implementation above is based on C intrinsics that are specific to GCC/Clang. All such implementations live in <a href="/apidocs/intops/impl/intrinsics/gcc.html"><code>intops/impl/intrinsics/gcc</code></a>. There's also a subgroup that provides an implementation based on Intel/AMD specific C intrinsics—<a href="/apidocs/intops/impl/intrinsics/x86.html"><code>intops/impl/intrinsics/x86</code></a>.</p>
-<p>To see all available implementations for a particular operation, find it in the <a href="/apidocs/theindex.html#carryingAdd">API index</a>.</p>
+<p>For example, the <code>carryingAdd</code> implementation above is based on C intrinsics that are specific to GCC/Clang. All such implementations live in <a href="apidocs/intops/impl/intrinsics/gcc.html"><code>intops/impl/intrinsics/gcc</code></a>. There's also a subgroup that provides an implementation based on Intel/AMD specific C intrinsics—<a href="apidocs/intops/impl/intrinsics/x86.html"><code>intops/impl/intrinsics/x86</code></a>.</p>
+<p>To see all available implementations for a particular operation, find it in the <a href="apidocs/theindex.html#carryingAdd">API index</a>.</p>
 <h4>Caveat</h4>
 <p>When you use a dispatcher, you can be sure that your code will compile in any environment. It is the dispatcher's job to provide a code path for any case, so you don't have to worry about it.</p>
 <p>But if you choose to call an implementation manually, it is your job to validate that this implementation is available in the environment you're using it in. If you attempt to use an implementation that is unavailable, you'll get a compile-time error.</p>

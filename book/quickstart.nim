@@ -9,13 +9,13 @@ nbText:
 ## Installation
 
 ```shell
-$ nimble install -y nim-intops
+$ nimble install -y intops
 ```
 
 Add intops to your .nimble file:
 
 ```nim
-requires "nim-intops"
+requires "intops"
 ```
 
 
@@ -28,6 +28,8 @@ nbCode:
   import intops
 
   echo carryingAdd(12'u64, 34'u64, false)
+
+doAssert carryingAdd(12'u64, 34'u64, false) == (46'u64, false)
 
 nbText:
   """
@@ -43,9 +45,9 @@ nbCode:
 
 nbText:
   """
-All available dispatchers are listed in the [Imports section of the API docs for intops module](/apidocs/intops.html#6).
+All available dispatchers are listed in the [Imports section of the API docs for intops module](apidocs/intops.html#6).
 
-The operations are grouped into families, each one living in a separate submodule. For example, `carryingAdd` operation mentioned above is imported from `intops/ops/add` submodule, so this is where you find its documentation: [/apidocs/intops/ops/add.html](/apidocs/intops/ops/add.html#carryingAdd.t%2Cuint64%2Cuint64%2Cbool).
+The operations are grouped into families, each one living in a separate submodule. For example, `carryingAdd` operation mentioned above is imported from `intops/ops/add` submodule, so this is where you find its documentation: [/apidocs/intops/ops/add.html](apidocs/intops/ops/add.html#carryingAdd.t%2Cuint64%2Cuint64%2Cbool).
 
 ### Calling Specific Implementations
 
@@ -61,9 +63,9 @@ nbText:
   """
 Implementations are also grouped into families: pure Nim, C intrinsics, inline C, and inline Assembly. Each family can be further split into subgroups.
 
-For example, the `carryingAdd` implementation above is based on C intrinsics that are specific to GCC/Clang. All such implementations live in [`intops/impl/intrinsics/gcc`](/apidocs/intops/impl/intrinsics/gcc.html). There's also a subgroup that provides an implementation based on Intel/AMD specific C intrinsics—[`intops/impl/intrinsics/x86`](/apidocs/intops/impl/intrinsics/x86.html).
+For example, the `carryingAdd` implementation above is based on C intrinsics that are specific to GCC/Clang. All such implementations live in [`intops/impl/intrinsics/gcc`](apidocs/intops/impl/intrinsics/gcc.html). There's also a subgroup that provides an implementation based on Intel/AMD specific C intrinsics—[`intops/impl/intrinsics/x86`](apidocs/intops/impl/intrinsics/x86.html).
 
-To see all available implementations for a particular operation, find it in the [API index](/apidocs/theindex.html#carryingAdd).
+To see all available implementations for a particular operation, find it in the [API index](apidocs/theindex.html#carryingAdd).
 
 #### Caveat
 

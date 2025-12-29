@@ -11,7 +11,7 @@ intops' public API exposes **dispatchers** for each available operation.
 
 Dispatcher is a Nim template that contains the logic used to select the best available implementation of the given operation for the given environment.
 
-For example, `carryingAdd` mentioned in [Quickstart](/quickstart.html) is a dispatcher.
+For example, `carryingAdd` mentioned in [Quickstart](../quickstart.html) is a dispatcher.
 
 Let's examine the code of this dispatcher:
 

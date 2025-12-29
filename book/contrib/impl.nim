@@ -21,7 +21,7 @@ For improve an existing implementation, find its module in `intops/impl` and mod
 If you want to provide a new implemtation for an existing operation:
 
 1. Add a new function to the corresponsing `intops/impl` submodule (or create a new one).
-1. [Update the corresponding dispatcher →](/contrib/ops.html#existing)
+1. [Update the corresponding dispatcher →](ops.html#existing)
 
 For example, let's implement magic addition from the previous chapter in C.
 

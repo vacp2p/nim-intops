@@ -1,6 +1,6 @@
 import intops/impl/[pure, intrinsics, inlinec, inlineasm]
 
-import utils, ../utils
+import ../utils
 
 proc runLatencyOverflowing() {.noinline.} =
   benchTypesAndImpls(benchLatencyOverflowing, overflowingSub)

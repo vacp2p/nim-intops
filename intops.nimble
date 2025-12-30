@@ -33,34 +33,49 @@ task test, "Run tests":
 
     selfExec fmt"r {flags} tests/tintops.nim"
 
-task benchLatency, "Run latency benchmarks":
-  let
-    archFlags =
-      commandLineParams().filterIt(it.startsWith("--cpu") or it.startsWith("--gcc"))
-    archFlagStr = archFlags.join(" ")
-    optFlagStr = """-d:danger --passC:"-march=native -O3""""
-    flags = fmt"{archFlagStr} {optFlagStr}"
-
-  echo fmt"# Flags: {flags}"
-
-  for item in walkDir("benchmarks/latency"):
-    if item.kind == pcFile and item.path.endsWith(".nim"):
-      selfExec fmt"r {flags} {item.path}"
-
-task benchThroughput, "Run throughput benchmarks":
-  let
-    archFlags =
-      commandLineParams().filterIt(it.startsWith("--cpu") or it.startsWith("--gcc"))
-    archFlagStr = archFlags.join(" ")
-    optFlagStr = """-d:danger --passC:"-march=native -O3""""
-    flags = fmt"{archFlagStr} {optFlagStr}"
-
-  echo fmt"# Flags: {flags}"
-
-  for item in walkDir("benchmarks/throughput"):
-    if item.kind == pcFile and item.path.endsWith(".nim"):
-      selfExec fmt"r {flags} {item.path}"
+import std/parseopt
 
 task bench, "Run benchmarks":
-  exec "nimble benchLatency"
-  exec "nimble benchThroughput"
+  var
+    modNames: seq[string]
+    benchKind = "all"
+    afterCmdName: bool
+
+  for kind, key, val in getopt():
+    case kind
+    of cmdArgument:
+      if afterCmdName:
+        modNames.add(key)
+      if key == "bench":
+        afterCmdName = true
+    of cmdLongOption, cmdShortOption:
+      case key
+      of "kind", "k":
+        benchKind = val
+    of cmdEnd:
+      discard
+
+  let
+    archFlags =
+      commandLineParams().filterIt(it.startsWith("--cpu") or it.startsWith("--gcc"))
+    archFlagStr = archFlags.join(" ")
+    optFlagStr = """-d:danger --passC:"-march=native -O3""""
+    flags = fmt"{archFlagStr} {optFlagStr}"
+
+  echo fmt"# Flags: {flags}"
+
+  if benchKind in ["all", "latency"]:
+    for item in walkDir("benchmarks/latency"):
+      if item.kind == pcFile and item.path.splitFile().ext == ".nim" and (
+        len(modNames) > 0 and item.path.splitFile().name in modNames or
+        len(modNames) == 0
+      ):
+        selfExec fmt"r {flags} {item.path}"
+
+  if benchKind in ["all", "throughput"]:
+    for item in walkDir("benchmarks/throughput"):
+      if item.kind == pcFile and item.path.splitFile().ext == ".nim" and (
+        len(modNames) > 0 and item.path.splitFile().name in modNames or
+        len(modNames) == 0
+      ):
+        selfExec fmt"r {flags} {item.path}"

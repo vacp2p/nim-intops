@@ -3,7 +3,7 @@
 import ../consts
 
 when cpu64Bit and compilerGccCompatible and canUseInlineC:
-  {.push inline, noinit.}
+  {.push raises: [], inline, noinit, gcsafe.}
 
   func carryingAdd*(a, b: uint64, carryIn: bool): (uint64, bool) =
     var

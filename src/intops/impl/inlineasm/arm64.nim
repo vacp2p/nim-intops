@@ -3,7 +3,7 @@
 import ../../consts
 
 when cpuArm64 and compilerGccCompatible and canUseInlineAsm:
-  {.push inline, noinit.}
+  {.push raises: [], inline, noinit, gcsafe.}
 
   func saturatingAdd*(a, b: uint64): uint64 =
     asm """

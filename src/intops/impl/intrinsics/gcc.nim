@@ -13,7 +13,7 @@ when compilerGccCompatible and canUseIntrinsics:
   ): bool {.importc: "__builtin_sub_overflow", nodecl.}
     ## Checks if a - b overflows. Returns true on overflow.
 
-  {.push inline, noinit.}
+  {.push raises: [], inline, noinit, gcsafe.}
 
   func overflowingAdd*[T: SomeInteger](a, b: T): (T, bool) =
     var res: T

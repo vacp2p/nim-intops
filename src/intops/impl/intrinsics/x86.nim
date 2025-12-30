@@ -16,7 +16,7 @@ when cpuX86 and canUseIntrinsics:
     borrowIn: uint8, a, b: uint32, res: var uint32
   ): uint8 {.importc: "_subborrow_u32", x86_header.}
 
-  {.push inline, noinit.}
+  {.push raises: [], inline, noinit, gcsafe.}
 
   func carryingAdd*(a, b: uint32, carryIn: bool): (uint32, bool) =
     var sum: uint32
@@ -49,7 +49,7 @@ when cpu64bit and cpuX86 and canUseIntrinsics:
     uHi, uLo, v: uint64, r: var uint64
   ): uint64 {.importc: "_udiv128", x86_header.}
 
-  {.push inline, noinit.}
+  {.push raises: [], inline, noinit, gcsafe.}
 
   func carryingAdd*(a, b: uint64, carryIn: bool): (uint64, bool) =
     var sum: uint64
@@ -80,7 +80,7 @@ when cpu64bit and cpuX86 and compilerMsvc and canUseIntrinsics:
     a, b: uint64, hi: var uint64
   ): uint64 {.importc: "_umul128", x86_header.}
 
-  {.push inline, noinit.}
+  {.push raises: [], inline, noinit, gcsafe.}
 
   func wideningMul*(a, b: uint64): (uint64, uint64) =
     var hi: uint64

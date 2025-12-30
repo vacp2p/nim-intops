@@ -3,7 +3,7 @@
 import ../../consts
 
 when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
-  {.push inline, noinit.}
+  {.push raises: [], inline, noinit, gcsafe.}
 
   func carryingAdd*(a, b: uint64, carryIn: bool): (uint64, bool) =
     var
@@ -94,7 +94,7 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
     (q, r)
 
 when cpuX86 and compilerGccCompatible and canUseInlineAsm:
-  {.push inline, noinit.}
+  {.push raises: [], inline, noinit, gcsafe.}
   func carryingAdd*(a, b: uint32, carryIn: bool): (uint32, bool) =
     var
       sum = a

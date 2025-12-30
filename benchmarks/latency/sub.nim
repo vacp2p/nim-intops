@@ -64,16 +64,16 @@ template benchLatencyCarrying(typ: typedesc, op: untyped) =
       doNotOptimize(flush)
 
 proc runLatencyOverflowing() {.noinline.} =
-  benchTypesAndImpls(benchLatencyOverflowing, overflowingAdd)
+  benchTypesAndImpls(benchLatencyOverflowing, overflowingSub)
 
 proc runLatencySaturating() {.noinline.} =
-  benchTypesAndImpls(benchLatencySaturating, saturatingAdd)
+  benchTypesAndImpls(benchLatencySaturating, saturatingSub)
 
 proc runLatencyCarrying() {.noinline.} =
-  benchTypesAndImpls(benchLatencyCarrying, carryingAdd)
+  benchTypesAndImpls(benchLatencyCarrying, borrowingSub)
 
 when isMainModule:
-  echo "\n# Latency, Addition"
+  echo "\n# Latency, Subtraction"
 
   runLatencyOverflowing()
   runLatencySaturating()

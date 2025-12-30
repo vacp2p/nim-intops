@@ -53,17 +53,18 @@ template benchThroughputCarrying(typ: typedesc, op: untyped) =
       doNotOptimize(flush)
 
 proc runThroughputOverflowing() {.noinline.} =
-  benchTypesAndImpls(benchThroughputOverflowing, overflowingAdd)
+  benchTypesAndImpls(benchThroughputOverflowing, overflowingSub)
 
 proc runThroughputSaturating() {.noinline.} =
-  benchTypesAndImpls(benchThroughputSaturating, saturatingAdd)
+  benchTypesAndImpls(benchThroughputSaturating, saturatingSub)
 
 proc runThroughputCarrying() {.noinline.} =
-  benchTypesAndImpls(benchThroughputCarrying, carryingAdd)
+  benchTypesAndImpls(benchThroughputCarrying, borrowingSub)
 
 when isMainModule:
-  echo "\n# Throughput, Addition"
+  echo "\n# Throughput, Subtraction"
 
   runThroughputOverflowing()
   runThroughputSaturating()
   runThroughputCarrying()
+

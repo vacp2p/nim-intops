@@ -33,7 +33,7 @@ task test, "Run tests":
 
     selfExec fmt"r {flags} tests/tintops.nim"
 
-task bench, "Run benchmarks":
+task benchLatency, "Run latency benchmarks":
   let
     archFlags =
       commandLineParams().filterIt(it.startsWith("--cpu") or it.startsWith("--gcc"))
@@ -43,5 +43,24 @@ task bench, "Run benchmarks":
 
   echo fmt"# Flags: {flags}"
 
-  selfExec fmt"""r {flags} benchmarks/latency/add.nim"""
-  selfExec fmt"""r {flags} benchmarks/throughput/add.nim"""
+  for item in walkDir("benchmarks/latency"):
+    if item.kind == pcFile and item.path.endsWith(".nim"):
+      selfExec fmt"r {flags} {item.path}"
+
+task benchThroughput, "Run throughput benchmarks":
+  let
+    archFlags =
+      commandLineParams().filterIt(it.startsWith("--cpu") or it.startsWith("--gcc"))
+    archFlagStr = archFlags.join(" ")
+    optFlagStr = """-d:danger --passC:"-march=native -O3""""
+    flags = fmt"{archFlagStr} {optFlagStr}"
+
+  echo fmt"# Flags: {flags}"
+
+  for item in walkDir("benchmarks/throughput"):
+    if item.kind == pcFile and item.path.endsWith(".nim"):
+      selfExec fmt"r {flags} {item.path}"
+
+task bench, "Run benchmarks":
+  exec "nimble benchLatency"
+  exec "nimble benchThroughput"

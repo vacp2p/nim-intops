@@ -19,7 +19,7 @@ when cpuX86 and canUseIntrinsics:
   {.push raises: [], inline, noinit, gcsafe.}
 
   func carryingAdd*(a, b: uint32, carryIn: bool): (uint32, bool) =
-    var sum: uint32
+    var sum {.noinit.}: uint32
 
     let
       cIn = if carryIn: 1'u8 else: 0'u8
@@ -28,7 +28,7 @@ when cpuX86 and canUseIntrinsics:
     (sum, cOut > 0)
 
   func borrowingSub*(a, b: uint32, borrowIn: bool): (uint32, bool) =
-    var diff: uint32
+    var diff {.noinit.}: uint32
 
     let
       bIn = if borrowIn: 1'u8 else: 0'u8
@@ -52,7 +52,7 @@ when cpu64bit and cpuX86 and canUseIntrinsics:
   {.push raises: [], inline, noinit, gcsafe.}
 
   func carryingAdd*(a, b: uint64, carryIn: bool): (uint64, bool) =
-    var sum: uint64
+    var sum {.noinit.}: uint64
 
     let
       cIn = if carryIn: 1'u8 else: 0'u8
@@ -61,7 +61,7 @@ when cpu64bit and cpuX86 and canUseIntrinsics:
     (sum, cOut > 0)
 
   func borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) =
-    var diff: uint64
+    var diff {.noinit.}: uint64
     let
       bIn = if borrowIn: 1'u8 else: 0'u8
       bOut = builtinBorrowingSub(bIn, a, b, diff)
@@ -69,7 +69,7 @@ when cpu64bit and cpuX86 and canUseIntrinsics:
     (diff, bOut > 0)
 
   func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) =
-    var r: uint64
+    var r {.noinit.}: uint64
 
     let q = builtinNarrowingDiv(uHi, uLo, v, r)
 
@@ -83,7 +83,7 @@ when cpu64bit and cpuX86 and compilerMsvc and canUseIntrinsics:
   {.push raises: [], inline, noinit, gcsafe.}
 
   func wideningMul*(a, b: uint64): (uint64, uint64) =
-    var hi: uint64
+    var hi {.noinit.}: uint64
 
     let lo = builtinWideningMul(a, b, hi)
 
@@ -91,7 +91,7 @@ when cpu64bit and cpuX86 and compilerMsvc and canUseIntrinsics:
 
   func wideningMulAdd*(a, b, c: uint64): (uint64, uint64) =
     var
-      hi, lo: uint64
+      hi, lo {.noinit.}: uint64
       carry: uint8 = 0
 
     lo = builtinWideningMul(a, b, hi)
@@ -102,7 +102,7 @@ when cpu64bit and cpuX86 and compilerMsvc and canUseIntrinsics:
 
   func wideningMulAdd*(a, b, c, d: uint64): (uint64, uint64) =
     var
-      hi, lo: uint64
+      hi, lo {.noinit.}: uint64
       carry1: uint8 = 0
       carry2: uint8 = 0
 

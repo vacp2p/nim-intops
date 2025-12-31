@@ -33,6 +33,7 @@ template measureLatency*(
       randGen = initRand(123)
       inputsA {.inject.}: array[bufSize, typ]
       inputsB {.inject.}: array[bufSize, typ]
+      inputsC {.inject.}: array[bufSize, typ]
 
     for i in 0 ..< bufSize:
       inputsA[i] = typ(randGen.next())
@@ -79,6 +80,7 @@ template measureThroughput*(
       randGen = initRand(123)
       inputsA {.inject.}: array[bufSize, typ]
       inputsB {.inject.}: array[bufSize, typ]
+      inputsC {.inject.}: array[bufSize, typ]
       boolInputs {.inject.}: array[bufSize, bool]
 
     for i in 0 ..< bufSize:

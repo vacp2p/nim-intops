@@ -13,7 +13,9 @@ template benchThroughputWidening*(typ: typedesc, op: untyped) =
     echo alignLeft(opName, 35), " -"
   else:
     measureThroughput(typ, opName):
-      var hiFlush, loFlush {.inject.}: typ
+      var
+        hiFlush {.inject.}: typ
+        loFlush {.inject.}: typ
     do:
       let (hi, lo) = op(inputsA[idx], inputsB[idx])
       hiFlush = hiFlush xor hi

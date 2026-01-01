@@ -70,5 +70,5 @@ when isMainModule:
   echo "\n# Latency, Doubling Multiplication with Addition"
   runLatencyMulDoubleAdd2()
 
-  echo "\n# Latency, Accumulatting Multiplication"
+  echo "\n# Latency, Accumulating Multiplication"
   runLatencyMulAcc()

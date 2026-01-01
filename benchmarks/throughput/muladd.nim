@@ -14,15 +14,15 @@ template benchThroughputWidening3*(typ: typedesc, op: untyped) =
   else:
     measureThroughput(typ, opName):
       var
-        aFlush {.inject.}: typ
-        bFlush {.inject.}: typ
+        hiFlush {.inject.}: typ
+        loFlush {.inject.}: typ
     do:
       let (hi, lo) = op(inputsA[idx], inputsB[idx], inputsC[idx])
-      aFlush = aFlush xor hi
-      bFlush = bFlush xor cast[typ](lo)
+      hiFlush = hiFlush xor hi
+      loFlush = loFlush xor cast[typ](lo)
     do:
-      doNotOptimize(aFlush)
-      doNotOptimize(bFlush)
+      doNotOptimize(hiFlush)
+      doNotOptimize(loFlush)
 
 template benchThroughputWidening4*(typ: typedesc, op: untyped) =
   let opName = astToStr(op)
@@ -34,15 +34,15 @@ template benchThroughputWidening4*(typ: typedesc, op: untyped) =
   else:
     measureThroughput(typ, opName):
       var
-        aFlush {.inject.}: typ
-        bFlush {.inject.}: typ
+        hiFlush {.inject.}: typ
+        loFlush {.inject.}: typ
     do:
       let (hi, lo) = op(inputsA[idx], inputsB[idx], inputsC[idx], inputsD[idx])
-      aFlush = aFlush xor hi
-      bFlush = bFlush xor cast[typ](lo)
+      hiFlush = hiFlush xor hi
+      loFlush = loFlush xor cast[typ](lo)
     do:
-      doNotOptimize(aFlush)
-      doNotOptimize(bFlush)
+      doNotOptimize(hiFlush)
+      doNotOptimize(loFlush)
 
 proc runThroughputWidening3() {.noinline.} =
   benchTypesAndImpls(benchThroughputWidening3, wideningMulAdd)

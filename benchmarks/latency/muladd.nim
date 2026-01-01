@@ -15,13 +15,13 @@ template benchLatencyWidening3*(typ: typedesc, op: untyped) =
     measureLatency(typ, opName):
       var
         currentA {.inject.} = inputsA[0]
-        bFlush {.inject.}: typ
+        loFlush {.inject.}: typ
     do:
       let (hi, lo) = op(currentA, inputsB[idx], inputsC[idx])
       currentA = hi
-      bFlush = bFlush xor cast[typ](lo)
+      loFlush = loFlush xor cast[typ](lo)
     do:
-      doNotOptimize(bFlush)
+      doNotOptimize(loFlush)
 
 template benchLatencyWidening4*(typ: typedesc, op: untyped) =
   let opName = astToStr(op)
@@ -34,13 +34,13 @@ template benchLatencyWidening4*(typ: typedesc, op: untyped) =
     measureLatency(typ, opName):
       var
         currentA {.inject.} = inputsA[0]
-        bFlush {.inject.}: typ
+        loFlush {.inject.}: typ
     do:
       let (hi, lo) = op(currentA, inputsB[idx], inputsC[idx], inputsD[idx])
       currentA = hi
-      bFlush = bFlush xor cast[typ](lo)
+      loFlush = loFlush xor cast[typ](lo)
     do:
-      doNotOptimize(bFlush)
+      doNotOptimize(loFlush)
 
 proc runLatencyWidening3() {.noinline.} =
   benchTypesAndImpls(benchLatencyWidening3, wideningMulAdd)

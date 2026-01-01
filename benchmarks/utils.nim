@@ -1,4 +1,4 @@
-import std/[random, monotimes, times, strutils]
+import std/[random, monotimes, times]
 
 const
   iterations* = 100_000_000
@@ -31,10 +31,10 @@ template measureLatency*(
   block:
     var
       randGen = initRand(123)
-      inputsA {.inject.}: array[bufSize, typ]
-      inputsB {.inject.}: array[bufSize, typ]
-      inputsC {.inject.}: array[bufSize, typ]
-      inputsD {.inject.}: array[bufSize, typ]
+      inputsA {.inject, used.}: array[bufSize, typ]
+      inputsB {.inject, used.}: array[bufSize, typ]
+      inputsC {.inject, used.}: array[bufSize, typ]
+      inputsD {.inject, used.}: array[bufSize, typ]
 
     for i in 0 ..< bufSize:
       inputsA[i] = typ(randGen.next())
@@ -79,11 +79,11 @@ template measureThroughput*(
   block:
     var
       randGen = initRand(123)
-      inputsA {.inject.}: array[bufSize, typ]
-      inputsB {.inject.}: array[bufSize, typ]
-      inputsC {.inject.}: array[bufSize, typ]
-      inputsD {.inject.}: array[bufSize, typ]
-      boolInputs {.inject.}: array[bufSize, bool]
+      inputsA {.inject, used.}: array[bufSize, typ]
+      inputsB {.inject, used.}: array[bufSize, typ]
+      inputsC {.inject, used.}: array[bufSize, typ]
+      inputsD {.inject, used.}: array[bufSize, typ]
+      boolInputs {.inject, used.}: array[bufSize, bool]
 
     for i in 0 ..< bufSize:
       inputsA[i] = typ(randGen.next())

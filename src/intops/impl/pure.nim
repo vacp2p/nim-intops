@@ -310,6 +310,6 @@ func mulAcc*[T: uint64 | uint32](t, u, v: T, a, b: T): (T, T, T) =
     (pHi, pLo) = pure.wideningMul(a, b)
     (newV, carry1) = pure.carryingAdd(v, pLo, false)
     (newU, carry2) = pure.carryingAdd(u, pHi, carry1)
-    newT = t + (if carry2: T(1) else: T(0))
+    newT = t + T(carry2)
 
   (newT, newU, newV)

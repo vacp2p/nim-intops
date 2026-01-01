@@ -1,4 +1,4 @@
-import std/[random, monotimes, times]
+import std/[random, monotimes, times, strutils]
 
 const
   iterations* = 100_000_000

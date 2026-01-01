@@ -35,10 +35,14 @@ template measureLatency*(
       inputsB {.inject, used.}: array[bufSize, typ]
       inputsC {.inject, used.}: array[bufSize, typ]
       inputsD {.inject, used.}: array[bufSize, typ]
+      inputsE {.inject, used.}: array[bufSize, typ]
 
     for i in 0 ..< bufSize:
       inputsA[i] = typ(randGen.next())
       inputsB[i] = typ(randGen.next())
+      inputsC[i] = typ(randGen.next())
+      inputsD[i] = typ(randGen.next())
+      inputsE[i] = typ(randGen.next())
 
     setupBlock
 
@@ -83,11 +87,15 @@ template measureThroughput*(
       inputsB {.inject, used.}: array[bufSize, typ]
       inputsC {.inject, used.}: array[bufSize, typ]
       inputsD {.inject, used.}: array[bufSize, typ]
+      inputsE {.inject, used.}: array[bufSize, typ]
       boolInputs {.inject, used.}: array[bufSize, bool]
 
     for i in 0 ..< bufSize:
       inputsA[i] = typ(randGen.next())
       inputsB[i] = typ(randGen.next())
+      inputsC[i] = typ(randGen.next())
+      inputsD[i] = typ(randGen.next())
+      inputsE[i] = typ(randGen.next())
       boolInputs[i] = bool(randGen.next() mod 2)
 
     setupBlock

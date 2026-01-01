@@ -44,10 +44,6 @@ when cpu64bit and cpuX86 and canUseIntrinsics:
     borrowIn: uint8, a, b: culonglong, res: ptr culonglong
   ): uint8 {.importc: "_subborrow_u64", x86_header.}
 
-  func builtinNarrowingDiv*(
-    uHi, uLo, v: culonglong, r: ptr culonglong
-  ): uint64 {.importc: "_udiv128", x86_header.}
-
   {.push raises: [], inline, noinit, gcsafe.}
 
   func carryingAdd*(a, b: uint64, carryIn: bool): (uint64, bool) =
@@ -68,22 +64,14 @@ when cpu64bit and cpuX86 and canUseIntrinsics:
 
     (res, bool(borrowOut))
 
-  func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) =
-    var remainder {.noinit.}: uint64
-
-    let quotient = builtinNarrowingDiv(
-      culonglong(uHi),
-      culonglong(uLo),
-      culonglong(v),
-      cast[ptr culonglong](addr remainder),
-    )
-
-    (quotient, remainder)
-
 when cpu64bit and cpuX86 and compilerMsvc and canUseIntrinsics:
   func builtinWideningMul*(
     a, b: culonglong, hi: ptr culonglong
   ): uint64 {.importc: "_umul128", x86_header.}
+
+  func builtinNarrowingDiv*(
+    uHi, uLo, v: culonglong, r: ptr culonglong
+  ): uint64 {.importc: "_udiv128", x86_header.}
 
   {.push raises: [], inline, noinit, gcsafe.}
 
@@ -131,3 +119,15 @@ when cpu64bit and cpuX86 and compilerMsvc and canUseIntrinsics:
     )
 
     (hi, lo)
+
+  func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) =
+    var remainder {.noinit.}: uint64
+
+    let quotient = builtinNarrowingDiv(
+      culonglong(uHi),
+      culonglong(uLo),
+      culonglong(v),
+      cast[ptr culonglong](addr remainder),
+    )
+
+    (quotient, remainder)

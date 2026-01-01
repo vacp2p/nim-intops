@@ -36,6 +36,6 @@ proc runThroughputNarrowing() {.noinline.} =
   benchTypesAndImpls(benchThroughputNarrowing, narrowingDiv)
 
 when isMainModule:
-  echo "\n# Throughput, Narrowing Division"
+  echo "\n# Throughput, Division"
 
   runThroughputNarrowing()

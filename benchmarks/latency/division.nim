@@ -35,6 +35,6 @@ proc runLatencyNarrowing() {.noinline.} =
   benchTypesAndImpls(benchLatencyNarrowing, narrowingDiv)
 
 when isMainModule:
-  echo "\n# Latency, Narrowing Division"
+  echo "\n# Latency, Division"
 
   runLatencyNarrowing()

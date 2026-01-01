@@ -10,7 +10,7 @@ template mulDoubleAdd2*[T: uint64 | uint32](
 
   pure.mulDoubleAdd2(a, b, c, dHi, dLo)
 
-func mulAcc*[T: uint64 | uint32](t, u, v: T, a, b: T): tuple[t, u, v: T] =
+func mulAcc*[T: uint64 | uint32](t, u, v, a, b: T): tuple[t, u, v: T] =
   ##[ Calculates: (t, u, v) <- (t, u, v) + a * b
 
   Used for Comba multiplication column accumulation.

@@ -210,6 +210,11 @@
 </ol>
 <h2>Tests</h2>
 <p>The tests for intops are located in a single file <code>tests/tintops.nim</code>.</p>
+<p>These are integration tests that emulate real-lfe usage of the library and check two things:</p>
+<ol>
+<li>every dispatcher picks the proper implementation on any environment</li>
+<li>the results are correct no matter the implementation</li>
+</ol>
 <p>To run the tests locally, use <code>nimble test</code> command.</p>
 <p>With this command, the tests are run:</p>
 <ul>
@@ -253,6 +258,36 @@ targets:
 <ol start="3">
 <li>Run <code>monit run</code></li>
 </ol>
+<h2>Benchmarks</h2>
+<p>Benchmarking is crucial for a library like intops: you can't really do any reasonable dispatching improvement if you can't argue about the changes with numbers.</p>
+<p>There are two kinds of benchmarks: latency and throughput.</p>
+<p><em>Latency benchmarks</em> measure how long a particular operation takes to complete. For a latency benchmark, we run the same operation against random input many times making sure the next iteration doesn't start before the previous one completes. The result is measured in nanoseconds per operation.</p>
+<p><em>Throughput benchmarks</em> measure how many operations of a particluar kind can be executed per unit of time. For a throughput benchmark, we spawn the same operation against random input many times back to back so that multiple instances of the same operation are executed in parallel. The results are measured in millions of operations per second.</p>
+<p>Benchmarks are grouped by kind and operation family, e.g. <code>benchmarks/latency/add.nim</code> contains latency benchmarks for the add operations (overflowingAdd, saturatingAdd, etc.).</p>
+<p>To run the benchmarks locally, use <code>nimble bench</code> command:</p>
+<ul>
+<li>run latency and throughput benchmarks for all operations:</li>
+</ul>
+<pre><code>$ nimble bench
+</code></pre>
+<ul>
+<li>run latency and throughput benchmarks for particular operations:</li>
+</ul>
+<pre><code>$ nimble bench add
+$ nimble bench sub mul
+</code></pre>
+<ul>
+<li>run latency or throughput benchmarks for all operations:</li>
+</ul>
+<pre><code>$ nimble bench --kind:latency
+$ nimble bench --kind:throughput
+</code></pre>
+<ul>
+<li>run particular kind of benchmarks on a particular kind of operations:</li>
+</ul>
+<pre><code>$ nimble bench --kind:latency add
+$ nimble bench --kind:throughput sub mul
+</code></pre>
 <h2>Docs</h2>
 <p>The docs consist of two parts:</p>
 <ul>

@@ -63,6 +63,10 @@ The actual implementations are stored in submodules in `intops/impl`. For exampl
 
 The tests for intops are located in a single file `tests/tintops.nim`.
 
+These are integration tests that emulate real-lfe usage of the library and check two things:
+1. every dispatcher picks the proper implementation on any environment
+2. the results are correct no matter the implementation
+
 To run the tests locally, use `nimble test` command.
 
 With this command, the tests are run:
@@ -105,6 +109,46 @@ targets:
     once: true
 ```
 3. Run `monit run`
+
+## Benchmarks
+
+Benchmarking is crucial for a library like intops: you can't really do any reasonable dispatching improvement if you can't argue about the changes with numbers.
+
+There are two kinds of benchmarks: latency and throughput.
+
+*Latency benchmarks* measure how long a particular operation takes to complete. For a latency benchmark, we run the same operation against random input many times making sure the next iteration doesn't start before the previous one completes. The result is measured in nanoseconds per operation.
+
+*Throughput benchmarks* measure how many operations of a particluar kind can be executed per unit of time. For a throughput benchmark, we spawn the same operation against random input many times back to back so that multiple instances of the same operation are executed in parallel. The results are measured in millions of operations per second.
+
+Benchmarks are grouped by kind and operation family, e.g. `benchmarks/latency/add.nim` contains latency benchmarks for the add operations (overflowingAdd, saturatingAdd, etc.).
+
+To run the benchmarks locally, use `nimble bench` command:
+
+- run latency and throughput benchmarks for all operations:
+
+```
+$ nimble bench
+```
+
+- run latency and throughput benchmarks for particular operations:
+
+```
+$ nimble bench add
+$ nimble bench sub mul
+```
+
+- run latency or throughput benchmarks for all operations:
+```
+$ nimble bench --kind:latency
+$ nimble bench --kind:throughput
+```
+
+- run particular kind of benchmarks on a particular kind of operations:
+
+```
+$ nimble bench --kind:latency add
+$ nimble bench --kind:throughput sub mul
+```
 
 ## Docs
 

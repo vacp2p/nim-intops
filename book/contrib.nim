@@ -48,6 +48,7 @@ These submodules contain the dispatchers that pick the best implementation of th
 
 The actual implementations are stored in submodules in `intops/impl`. For example, `intops/impl/intrinsics` contains all primitives implemented with C intrinsics.
 
+<span id="api"></span>
 ## API Conventions
 
 1. intops follows the common Nim convention of calling things in `camelCase`.
@@ -59,6 +60,7 @@ The actual implementations are stored in submodules in `intops/impl`. For exampl
 1. Operations that return maximal or mininal type value when a type border is hit are called **saturating**, e.g. `saturatingAdd`.
 1. Carry, borrow, and overflow flags are booleans.
 
+<span id="tests"></span>
 ## Tests
 
 The tests for intops are located in a single file `tests/tintops.nim`.
@@ -110,6 +112,7 @@ targets:
 ```
 3. Run `monit run`
 
+<span id="benchmarks"></span>
 ## Benchmarks
 
 Benchmarking is crucial for a library like intops: you can't really do any reasonable dispatching improvement if you can't argue about the changes with numbers.
@@ -150,6 +153,7 @@ $ nimble bench --kind:latency add
 $ nimble bench --kind:throughput sub mul
 ```
 
+<span id="docs"></span>
 ## Docs
 
 The docs consist of two parts:

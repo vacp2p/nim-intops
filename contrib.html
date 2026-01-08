@@ -197,6 +197,7 @@
 <p>Each operation family has its own submodule in <code>intops/ops</code>. E.g. <code>intops/ops/add</code> is the submodule that contains various addition flavors.</p>
 <p>These submodules contain the dispatchers that pick the best implementation of the given operation and for the given CPU, OS, and C compiler. I.e., each operation &quot;knows&quot; its best implementation and &quot;decides&quot; which one to run.</p>
 <p>The actual implementations are stored in submodules in <code>intops/impl</code>. For example, <code>intops/impl/intrinsics</code> contains all primitives implemented with C intrinsics.</p>
+<p><span id="api"></span></p>
 <h2>API Conventions</h2>
 <ol>
 <li>intops follows the common Nim convention of calling things in <code>camelCase</code>.</li>
@@ -208,6 +209,7 @@
 <li>Operations that return maximal or mininal type value when a type border is hit are called <strong>saturating</strong>, e.g. <code>saturatingAdd</code>.</li>
 <li>Carry, borrow, and overflow flags are booleans.</li>
 </ol>
+<p><span id="tests"></span></p>
 <h2>Tests</h2>
 <p>The tests for intops are located in a single file <code>tests/tintops.nim</code>.</p>
 <p>These are integration tests that emulate real-lfe usage of the library and check two things:</p>
@@ -258,6 +260,7 @@ targets:
 <ol start="3">
 <li>Run <code>monit run</code></li>
 </ol>
+<p><span id="benchmarks"></span></p>
 <h2>Benchmarks</h2>
 <p>Benchmarking is crucial for a library like intops: you can't really do any reasonable dispatching improvement if you can't argue about the changes with numbers.</p>
 <p>There are two kinds of benchmarks: latency and throughput.</p>
@@ -288,6 +291,7 @@ $ nimble bench --kind:throughput
 <pre><code>$ nimble bench --kind:latency add
 $ nimble bench --kind:throughput sub mul
 </code></pre>
+<p><span id="docs"></span></p>
 <h2>Docs</h2>
 <p>The docs consist of two parts:</p>
 <ul>

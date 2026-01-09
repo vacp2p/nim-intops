@@ -83,7 +83,7 @@ template borrowingSub*(
   Useful for chaining operations.
 
   See also:
-  - `carryingAdd`_
+  - `carryingAdd <add.html#carryingAdd>`_
   ]##
 
   when nimvm:
@@ -107,7 +107,7 @@ template borrowingSub*(
   Useful for chaining operations.
 
   See also:
-  - `carryingAdd`_
+  - `carryingAdd <add.html#carryingAdd>`_
   ]##
 
   when nimvm:
@@ -127,7 +127,7 @@ template borrowingSub*(a, b: int32, borrowIn: bool): (int32, bool) =
   Useful for chaining operations.
 
   See also:
-  - `carryingAdd`_
+  - `carryingAdd <add.html#carryingAdd>`_
   ]##
 
   when nimvm:

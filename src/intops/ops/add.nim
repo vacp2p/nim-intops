@@ -79,7 +79,7 @@ template carryingAdd*(a, b: uint32, carryIn: bool): tuple[res: uint32, carryOut:
   Useful for chaining operations.
 
   See also:
-  - `borrowingSub`_
+  - `borrowingSub <sub.html#borrowingSub>`_
   ]##
 
   when nimvm:
@@ -101,7 +101,7 @@ template carryingAdd*(a, b: int64, carryIn: bool): tuple[res: int64, carryOut: b
   Useful for chaining operations.
 
   See also:
-  - `borrowingSub`_
+  - `borrowingSub <sub.html#borrowingSub>`_
   ]##
 
   when nimvm:
@@ -121,7 +121,7 @@ template carryingAdd*(a, b: int32, carryIn: bool): tuple[res: int32, carryOut: b
   Useful for chaining operations.
 
   See also:
-  - `borrowingSub`_
+  - `borrowingSub <sub.html#borrowingSub>`_
   ]##
 
   when nimvm:

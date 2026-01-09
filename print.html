@@ -3,7 +3,8 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Quickstart - intops</title>
+        <title>intops</title>
+        <meta name="robots" content="noindex">
 
 
         <!-- Custom HTML head -->
@@ -236,15 +237,273 @@ echo not compiles inlineasm.x86.carryingAdd(12'u64, 34'u64, false)
 <p>Of course, you can combine those flags. For example, if you want to use only pure Nim implementations, pass all three forbidding flags:</p>
 <pre><code class="language-shell">$ nim c -d:intopsNoIntrinsics -d:intopsNoInlineAsm -d:intopsNoInlineC mycode.nim
 </code></pre>
-<footer id="open-on-gh">Found a bug? <a href="https://github.com/vacp2p/nim-intops//edit/main/book/src/quickstart.md">Edit this page on GitHub.</a></footer>
+<footer id="open-on-gh">Found a bug? <a href="https://github.com/vacp2p/nim-intops//edit/main/book/src/quickstart.md">Edit this page on GitHub.</a></footer><div style="break-before: page; page-break-before: always;"></div>
+<h1 id="contributors-guide"><a class="header" href="#contributors-guide">Contributor’s Guide</a></h1>
+<p>Optimizing arithmetic operations for a variety of enviroments and consumers is a never-ending chase. There hardly will ever be a moment when intops will be 100% ready: there’s always an older Nim version, and newer GCC version, or an obscure CPU vendor to target.</p>
+<p>Because of that, contributors’ help is essential for intops’ development. You can help improve intops by improving the code, improving the docs, and reporting issues.</p>
+<h2 id="library-structure"><a class="header" href="#library-structure">Library Structure</a></h2>
+<pre><code class="language-shell">src
+│   intops.nim              &lt;- entrypoint for the public API
+│
+└───intops
+    │   consts.nim          &lt;- global constants for environment detection
+    │
+    ├───impl                &lt;- implementations of primitives
+    │   │   inlineasm.nim   &lt;- entrypoint for the Inline ASM family of implementations
+    │   │   inlinec.nim
+    │   │   intrinsics.nim
+    │   │   pure.nim
+    │   │   ...
+    │   │
+    │   ├───inlineasm
+    │   │       arm64.nim   &lt;- implementation in ARM64 Assembly 
+    │   │       x86.nim
+    │   │       ...
+    │   │
+    │   └───...
+    │
+    └───ops                 &lt;- operation families
+            add.nim         &lt;- addition flavors: carrying, saturating, etc.
+            mul.nim
+            sub.nim
+            ...
+</code></pre>
+<p>The entrypoint is the root <code>intops</code> module. It’s the library’s public API and exposes all the available primitives.</p>
+<p>Each operation family has its own submodule in <code>intops/ops</code>. E.g. <code>intops/ops/add</code> is the submodule that contains various addition flavors.</p>
+<p>These submodules contain the dispatchers that pick the best implementation of the given operation and for the given CPU, OS, and C compiler. I.e., each operation “knows” its best implementation and “decides” which one to run.</p>
+<p>The actual implementations are stored in submodules in <code>intops/impl</code>. For example, <code>intops/impl/intrinsics</code> contains all primitives implemented with C intrinsics.</p>
+<h2 id="api-conventions"><a class="header" href="#api-conventions">API Conventions</a></h2>
+<ol>
+<li>intops follows the common Nim convention of calling things in <code>camelCase</code>.</li>
+<li>intops prefers pure functions that return values to the ones that modify mutable arguments.</li>
+<li>The docstrings are mandatory for the dispatchers in <code>intops/ops</code> modules because this is the library public API.</li>
+<li>Operations the return a wider type that the input type are called <strong>widening</strong>. For example <code>wideningMul</code> is multiplication that takes two 64-bit integers and return a single 128-bit integer (althouth represented as a pair of 64-bit integers).</li>
+<li>Operations that return a carry or borrow flag are called <strong>carrying</strong> and <strong>borrowing</strong>, e.g. <code>carryingAdd</code>.</li>
+<li>Operations that return an overflow flag are called <strong>overflowing</strong>, e.g. <code>overflowingSub</code>.</li>
+<li>Operations that return maximal or mininal type value when a type border is hit are called <strong>saturating</strong>, e.g. <code>saturatingAdd</code>.</li>
+<li>Carry, borrow, and overflow flags are booleans.</li>
+</ol>
+<h2 id="tests"><a class="header" href="#tests">Tests</a></h2>
+<p>The tests for intops are located in a single file <code>tests/tintops.nim</code>.</p>
+<p>These are integration tests that emulate real-lfe usage of the library and check two things:</p>
+<ol>
+<li>every dispatcher picks the proper implementation on any environment</li>
+<li>the results are correct no matter the implementation</li>
+</ol>
+<p>To run the tests locally, use <code>nimble test</code> command.</p>
+<p>With this command, the tests are run:</p>
+<ul>
+<li>without compilation flags in runtime mode</li>
+<li>without compilation flags in compile-time mode</li>
+<li>with each compilation flag separately</li>
+<li>with all compilation flags</li>
+</ul>
+<p>When executed on the CI, the tests are run against multiple OS, C compilers, and architectures:</p>
+<ul>
+<li>amd64 + Linux + gcc 13</li>
+<li>amd64 + Linux + gcc 14</li>
+<li>amd64 + Windows + clang 19</li>
+<li>i386 + Linux + gcc 13</li>
+<li>amd64 + macOS + clang 17</li>
+<li>arm46 + macOS + clang 17</li>
+</ul>
+<p>This is hardly reproduceable locally, but you can cover at least some of the cases by passing flags to <code>nimble test</code>. For example, to emulate running the tests in a 32-bit CPU, run <code>nimble --cpu:i386 test</code>. On Windows, you also must pass the path to your GCC installation, e.g. <code>nimble --gcc.path:D:\mingw32\bin\ --cpu:i386 test</code>.
+To run your tests contunously during development, use <a href="https://github.com/jiro4989/monit">monit</a>:</p>
+<ol>
+<li>Install monit with <code>nimble install monit</code>.</li>
+<li>Create a file called .monit.yml in the working directory:</li>
+</ol>
+<pre><code class="language-yaml">%YAML 1.2
+%TAG !n! tag:nimyaml.org,2016:
+---
+!n!custom:MonitorConfig
+sleep: 1
+targets:
+  - name: Run tests
+    paths: [src, tests]
+    commands:
+      - nimble test
+      - nimble --gcc.path:D:\mingw32\bin\ --cpu:i386 test
+    extensions: [.nim]
+    files: []
+    exclude_extensions: []
+    exclude_files: []
+    once: true
+</code></pre>
+<ol start="3">
+<li>Run <code>monit run</code></li>
+</ol>
+<h2 id="benchmarks"><a class="header" href="#benchmarks">Benchmarks</a></h2>
+<p>Benchmarking is crucial for a library like intops: you can’t really do any reasonable dispatching improvement if you can’t argue about the changes with numbers.</p>
+<p>There are two kinds of benchmarks: latency and throughput.</p>
+<p><em>Latency benchmarks</em> measure how long a particular operation takes to complete. For a latency benchmark, we run the same operation against random input many times making sure the next iteration doesn’t start before the previous one completes. The result is measured in nanoseconds per operation.
+<em>Throughput benchmarks</em> measure how many operations of a particluar kind can be executed per unit of time. For a throughput benchmark, we spawn the same operation against random input many times back to back so that multiple instances of the same operation are executed in parallel. The results are measured in millions of operations per second.</p>
+<p>Benchmarks are grouped by kind and operation family, e.g. <code>benchmarks/latency/add.nim</code> contains latency benchmarks for the add operations (overflowingAdd, saturatingAdd, etc.).</p>
+<p>To run the benchmarks locally, use <code>nimble bench</code> command:</p>
+<ul>
+<li>run latency and throughput benchmarks for all operations:</li>
+</ul>
+<pre><code>$ nimble bench
+</code></pre>
+<ul>
+<li>run latency and throughput benchmarks for particular operations:</li>
+</ul>
+<pre><code>$ nimble bench add
+$ nimble bench sub mul
+</code></pre>
+<ul>
+<li>run latency or throughput benchmarks for all operations:</li>
+</ul>
+<pre><code>$ nimble bench --kind:latency
+$ nimble bench --kind:throughput
+</code></pre>
+<ul>
+<li>run particular kind of benchmarks on a particular kind of operations:</li>
+</ul>
+<pre><code>$ nimble bench --kind:latency add
+$ nimble bench --kind:throughput sub mul
+</code></pre>
+<h2 id="docs"><a class="header" href="#docs">Docs</a></h2>
+<p>The docs consist of two parts:</p>
+<ul>
+<li>the book (this is what you’re reading right now)</li>
+<li>the API docs</li>
+</ul>
+<p>The book is created using <a href="https://github.com/pietroppeter/nimibook">nimibook</a>. Each page is a Nim file that can hold Markdown content and Nim code. The Nim code is executed during the build and its output are included in the book.</p>
+<p>The API docs are generated from the source code docstrings.</p>
+<p>To build the docs locally, run:</p>
+<ul>
+<li><code>nimble book</code> to build the book</li>
+<li><code>nimble apidocs</code> to build the API docs</li>
+<li><code>nimble docs</code> to build both</li>
+</ul>
+<footer id="open-on-gh-1">Found a bug? <a href="https://github.com/vacp2p/nim-intops//edit/main/book/src/contrib.md">Edit this page on GitHub.</a></footer><div style="break-before: page; page-break-before: always;"></div>
+<h1 id="operations"><a class="header" href="#operations">Operations</a></h1>
+<h2 id="improving-existing-operations"><a class="header" href="#improving-existing-operations">Improving Existing Operations</a></h2>
+<p>intops’ public API exposes <strong>dispatchers</strong> for each available operation.</p>
+<p>Dispatcher is a Nim template that contains the logic used to select the best available implementation of the given operation for the given environment.</p>
+<p>For example, <code>carryingAdd</code> mentioned in <a href="#quickstart">Quickstart</a> is a dispatcher.</p>
+<p>Let’s examine the code of this dispatcher:</p>
+<pre><code class="language-nim">template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut: bool] =
+  when nimvm:
+    pure.carryingAdd(a, b, carryIn)
+  else:
+    when cpuX86 and compilerMsvc and canUseIntrinsics:
+      intrinsics.x86.carryingAdd(a, b, carryIn)
+    elif compilerGccCompatible and canUseIntrinsics:
+      intrinsics.gcc.carryingAdd(a, b, carryIn)
+    elif cpu64Bit and compilerGccCompatible and canUseInlineC:
+      inlinec.carryingAdd(a, b, carryIn)
+    else:
+      pure.carryingAdd(a, b, carryIn)
+</code></pre>
+<p>As you can see, a dispatcher is just a nested <code>when</code>-condition that checks if:</p>
+<ol>
+<li>the operation called during compilation (<code>when nimvm</code>)</li>
+<li>the code is run on a particular CPU (<code>when cpuX86</code>) and with a particular C compiler (<code>and compilerMsvc</code>)</li>
+<li>particular compilation flags were passed (<code>and canUseIntrinsics</code>)</li>
+</ol>
+<p>Depending on these conditions, a particular implementation is called.</p>
+<p>If you want to improve how intops chooses an implementation, find the corresponding dispatcher and modify the branching in it. All dispatchers are defined in <code>intops/ops</code> modules and are grouped by operation. For example, the dispatchers for addition flavors are defined in <code>intops/ops/add.nim</code>.</p>
+<p>In the dispatchers, you can use the global constants defined in <code>intops/consts.nim</code> to check for the CPU architecture, C compiler, etc. If necessary, feel free to define new constants.</p>
+<p>For example, if you want to prioritize inline C implementation over intrinsics, you could modify the dispatcher like so:</p>
+<pre><code class="language-diff">template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut: bool] =
+  when nimvm:
+    pure.carryingAdd(a, b, carryIn)
+  else:
+-   when cpuX86 and compilerMsvc and canUseIntrinsics:
++   when cpu64Bit and compilerGccCompatible and canUseInlineC:
++     inlinec.carryingAdd(a, b, carryIn)
++   elif cpuX86 and compilerMsvc and canUseIntrinsics:
+      intrinsics.x86.carryingAdd(a, b, carryIn)
+    elif compilerGccCompatible and canUseIntrinsics:
+      intrinsics.gcc.carryingAdd(a, b, carryIn)
+-   elif cpu64Bit and compilerGccCompatible and canUseInlineC:
+-     inlinec.carryingAdd(a, b, carryIn)
+    else:
+      pure.carryingAdd(a, b, carryIn)
+</code></pre>
+<h2 id="adding-new-operations"><a class="header" href="#adding-new-operations">Adding New Operations</a></h2>
+<p>Adding an operation means doing two things:</p>
+<ol>
+<li><strong>Adding a pure Nim implementation for the new operation.</strong> Pure Nim implementations are universal fallbacks for all operations because they are guaranteed to compile everwhere Nim code can compile regardless of the environment. Pure Nim implementations are defined in <code>intops/impl/pure.nim</code>.</li>
+<li><strong>Adding a dispatcher that exposes this implementation.</strong> Find the corresponding module in <code>intops/ops</code> (or create a new one) and add the dispatcher there.</li>
+</ol>
+<p>For example, let’s define a new addition flavor called <strong>magic addition</strong> which adds two uint64 integers and adds the number 42 to the sum (this is our magic component).</p>
+<ol>
+<li>In <code>intops/impl/pure.nim</code>:</li>
+</ol>
+<pre><code class="language-nim">func magicAdd*(a, b: uint64): uint64 =
+  a + b + 42
+</code></pre>
+<ol start="2">
+<li>In <code>intops/ops/add.nim</code>:</li>
+</ol>
+<pre><code class="language-nim">template magicAdd*(a, b: uint64): uint64 =
+  ## Docstring is mandatory for dispatchers.
+
+  pure.magicAdd(a, b)
+</code></pre>
+<h3 id="adding-new-operation-families"><a class="header" href="#adding-new-operation-families">Adding New Operation Families</a></h3>
+<p>If you’re not just adding a new operation to an existing module but adding a new module to <code>intops/ops</code>, you must also expose it in <code>intops.nim</code> so that it becomes part of the public API.</p>
+<p>For example, you’ve added a new module <code>intops/ops/magicadd.nim</code>, do this in <code>intops.nim</code>:</p>
+<pre><code class="language-diff">- import intops/ops/[add, sub, mul, muladd, division, composite]
++ import intops/ops/[add, sub, mul, muladd, division, composite, magicadd]
+
+- export add, sub, mul, muladd, division, composite
++ export add, sub, mul, muladd, division, composite, magicadd
+</code></pre>
+<footer id="open-on-gh-2">Found a bug? <a href="https://github.com/vacp2p/nim-intops//edit/main/book/src/contrib/ops.md">Edit this page on GitHub.</a></footer><div style="break-before: page; page-break-before: always;"></div>
+<h1 id="implementations"><a class="header" href="#implementations">Implementations</a></h1>
+<h2 id="improving-existing-implementations"><a class="header" href="#improving-existing-implementations">Improving Existing Implementations</a></h2>
+<p>In a perfect world, a pure Nim implementation would be enough to cover every operation: the Nim compiler would generate the optimal C code and the C compiler would generate the optimal Assembly code for every environment.</p>
+<p>In reality, this isn’t always so. Since there are so many combinations of a Nim version, OS, CPU, and C compiler, there are inevitable performance gaps that need to be filled manually.</p>
+<p>This is why most operations in intops have multiple implementations and dispatchers exist.</p>
+<p>For improve an existing implementation, find its module in <code>intops/impl</code> and modify the code there. Some implementation families are represented as a single module (e.g. <code>intops/impl/inclinec</code>), some are split into submodules (e.g. <code>intops/intrinsics/x86.nim</code> and <code>intops/intrinsics/gcc.nim</code>).</p>
+<h2 id="adding-new-implementations"><a class="header" href="#adding-new-implementations">Adding New Implementations</a></h2>
+<p>If you want to provide a new implemtation for an existing operation:</p>
+<ol>
+<li>Add a new function to the corresponsing <code>intops/impl</code> submodule (or create a new one).</li>
+<li><a href="#existing">Update the corresponding dispatcher →</a></li>
+</ol>
+<p>For example, let’s implement magic addition from the previous chapter in C.</p>
+<ol>
+<li>In <code>intops/impl/inlinec.nim</code>:</li>
+</ol>
+<pre><code class="language-nim"># This is a guard that prevents the compilation in unsupported environments.
+# In this example, we explicitly say that this implementation works only with 64-bit CPUs.
+# Guards are necessary for the case where a user calls this function directly circumventing
+# the logic in `ops/add.nim`.
+when cpu64Bit:
+  func magicAdd*(a, b: uint64): uint64 {.inline.} =
+    var res: uint64
+
+    {. emit: "`res` = `a` + `b` + ((unsigned __int64)42);" .}
+
+    res
+</code></pre>
+<ol start="2">
+<li>In <code>intops/ops/add.nim</code>:</li>
+</ol>
+<pre><code class="language-diff">template magicAdd*(a, b: uint64): uint64 =
+  ## Docstring is mandatory for dispatchers.
+
+- pure.magicAdd(a, b)
+
++ when nimvm:
++   pure.magicAdd(a, b)
++ else:
++   when cpu64Bit and canUseInlineC:
++     inlinec.magicAdd(a, b)
++   else:
++     pure.magicAdd(a, b)
+</code></pre>
+<footer id="open-on-gh-3">Found a bug? <a href="https://github.com/vacp2p/nim-intops//edit/main/book/src/contrib/impl.md">Edit this page on GitHub.</a></footer>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
 
-                            <a rel="next prefetch" href="contrib.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -253,9 +512,6 @@ echo not compiles inlineasm.x86.carryingAdd(12'u64, 34'u64, false)
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
 
-                    <a rel="next prefetch" href="contrib.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                    </a>
             </nav>
 
         </div>
@@ -283,6 +539,11 @@ echo not compiles inlineasm.x86.carryingAdd(12'u64, 34'u64, false)
 
         <!-- Custom JS scripts -->
 
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
 
 
     </div>

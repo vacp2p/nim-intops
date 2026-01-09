@@ -3,7 +3,8 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Quickstart - intops</title>
+        <title>Page not found - intops</title>
+        <base href="/">
 
 
         <!-- Custom HTML head -->
@@ -174,77 +175,14 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="quickstart"><a class="header" href="#quickstart">Quickstart</a></h1>
-<h2 id="installation"><a class="header" href="#installation">Installation</a></h2>
-<pre><code class="language-shell">$ nimble install -y intops
-</code></pre>
-<p>Add intops to your .nimble file:</p>
-<pre><code class="language-nim">requires "intops"
-</code></pre>
-<h2 id="usage"><a class="header" href="#usage">Usage</a></h2>
-<p>The most straightforward way to use intops is by importing <code>intops</code> and calling the operations from it:</p>
-<pre><code class="language-nim">import intops
+                        <h1 id="document-not-found-404"><a class="header" href="#document-not-found-404">Document not found (404)</a></h1>
+<p>This URL is invalid, sorry. Please use the navigation bar or search to continue.</p>
 
-echo carryingAdd(12'u64, 34'u64, false)
-</code></pre>
-<p>Output:</p>
-<pre><code class="language-nim">(res: 46, carryOut: false)
-</code></pre>
-<p><code>intops.carryingAdd</code> is a <em>dispatcher</em>. When invoked, it calls the best implementation of this operation out of the available ones for the given environment.</p>
-<p>Notice that we call <code>carryingAdd</code> with <code>uint64</code> type set explicitly. This is important because <code>int</code> can mean different things under different circumstances and so intops doesn’t allow this kind of ambiguity.</p>
-<p>If you try to call <code>carryingAdd</code> with an <code>int</code>, your code simply won’t compile:</p>
-<pre><code class="language-nim">echo not compiles carryingAdd(12, 34, false)
-</code></pre>
-<p>Output:</p>
-<pre><code class="language-nim">true
-</code></pre>
-<p>All available dispatchers are listed in the <a href="apidocs/intops.html#6">Imports section of the API docs for intops module</a>.</p>
-<p>The operations are grouped into families, each one living in a separate submodule. For example, <code>carryingAdd</code> operation mentioned above is imported from <code>intops/ops/add</code> submodule, so this is where you find its documentation: <a href="apidocs/intops/ops/add.html#carryingAdd.t%2Cuint64%2Cuint64%2Cbool">/apidocs/intops/ops/add.html</a>.</p>
-<h3 id="calling-specific-implementations"><a class="header" href="#calling-specific-implementations">Calling Specific Implementations</a></h3>
-<p>You may want to override the dispatcher’s choice. To do that, import a particular implementation from <code>intops/impl</code> directly and call the function from it:</p>
-<pre><code class="language-nim">import intops/impl/intrinsics
-
-echo intrinsics.gcc.carryingAdd(12'u64, 34'u64, false)
-</code></pre>
-<p>Output:</p>
-<pre><code class="language-nim">(46, false)
-</code></pre>
-<p>Implementations are also grouped into families: pure Nim, C intrinsics, inline C, and inline Assembly. Each family can be further split into subgroups.</p>
-<p>For example, the <code>carryingAdd</code> implementation above is based on C intrinsics that are specific to GCC/Clang. All such implementations live in <a href="apidocs/intops/impl/intrinsics/gcc.html"><code>intops/impl/intrinsics/gcc</code></a>. There’s also a subgroup that provides an implementation based on Intel/AMD specific C intrinsics—<a href="apidocs/intops/impl/intrinsics/x86.html"><code>intops/impl/intrinsics/x86</code></a>.</p>
-<p>To see all available implementations for a particular operation, find it in the <a href="apidocs/theindex.html#carryingAdd">API index</a>.</p>
-<h4 id="caveat"><a class="header" href="#caveat">Caveat</a></h4>
-<p>When you use a dispatcher, you can be sure that your code will compile in any environment. It is the dispatcher’s job to provide a code path for any case, so you don’t have to worry about it.</p>
-<p>But if you choose to call an implementation manually, it is your job to validate that this implementation is available in the environment you’re using it in. If you attempt to use an implementation that is unavailable, you’ll get a compile-time error.</p>
-<p>For example, trying to use an Inline Assembly implementation with <code>intopsNoInlineAsm</code> flag (more on those in the section below) will cause a compilation error:</p>
-<pre><code class="language-nim">import intops/impl/inlineasm
-
-echo not compiles inlineasm.x86.carryingAdd(12'u64, 34'u64, false)
-</code></pre>
-<p>If compiled with <code>-d:intopsNoInlineAsm</code>, this outputs:</p>
-<pre><code class="language-nim">true
-</code></pre>
-<h2 id="compilation-flags"><a class="header" href="#compilation-flags">Compilation Flags</a></h2>
-<p>You can control which implementations are forbidden to be picked by dispatchers using the compilation flags:</p>
-<ul>
-<li><code>intopsNoIntrinsics</code></li>
-<li><code>intopsNoInlineAsm</code></li>
-<li><code>intopsNoInlineC</code></li>
-</ul>
-<p>For example, to avoid using Inline Assembly implementations, compile your code with <code>-d:intopsNoInlineAsm</code>:</p>
-<pre><code class="language-shell">$ nim c -d:intopsNoInlineAsm mycode.nim
-</code></pre>
-<p>Of course, you can combine those flags. For example, if you want to use only pure Nim implementations, pass all three forbidding flags:</p>
-<pre><code class="language-shell">$ nim c -d:intopsNoIntrinsics -d:intopsNoInlineAsm -d:intopsNoInlineC mycode.nim
-</code></pre>
-<footer id="open-on-gh">Found a bug? <a href="https://github.com/vacp2p/nim-intops//edit/main/book/src/quickstart.md">Edit this page on GitHub.</a></footer>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
 
-                            <a rel="next prefetch" href="contrib.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -253,9 +191,6 @@ echo not compiles inlineasm.x86.carryingAdd(12'u64, 34'u64, false)
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
 
-                    <a rel="next prefetch" href="contrib.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                    </a>
             </nav>
 
         </div>

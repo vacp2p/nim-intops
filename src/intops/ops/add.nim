@@ -11,7 +11,7 @@ template overflowingAdd*[T: SomeInteger](a, b: T): tuple[res: T, didOverflow: bo
   Addition wraps for both signed and unsigned integers, so this operation never raises.
 
   See also:
-  - `overflowingSub`_
+  - `overflowingSub <sub.html#overflowingSub>`_
   ]##
 
   when nimvm:
@@ -29,7 +29,7 @@ template saturatingAdd*[T: SomeInteger](a, b: T): T =
   the maximal possible value is returned.
 
   See also:
-  - `saturatingSub`_
+  - `saturatingSub <sub.html#saturatingSub>`_
   ]##
 
   when nimvm:
@@ -51,7 +51,7 @@ template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut:
   Useful for chaining operations.
 
   See also:
-  - `borrowingSub`_
+  - `borrowingSub <sub.html#borrowingSub>`_
   ]##
 
   when nimvm:
@@ -79,7 +79,7 @@ template carryingAdd*(a, b: uint32, carryIn: bool): tuple[res: uint32, carryOut:
   Useful for chaining operations.
 
   See also:
-  - `borrowingSub`_
+  - `borrowingSub <sub.html#borrowingSub>`_
   ]##
 
   when nimvm:
@@ -101,7 +101,7 @@ template carryingAdd*(a, b: int64, carryIn: bool): tuple[res: int64, carryOut: b
   Useful for chaining operations.
 
   See also:
-  - `borrowingSub`_
+  - `borrowingSub <sub.html#borrowingSub>`_
   ]##
 
   when nimvm:
@@ -121,7 +121,7 @@ template carryingAdd*(a, b: int32, carryIn: bool): tuple[res: int32, carryOut: b
   Useful for chaining operations.
 
   See also:
-  - `borrowingSub`_
+  - `borrowingSub <sub.html#borrowingSub>`_
   ]##
 
   when nimvm:

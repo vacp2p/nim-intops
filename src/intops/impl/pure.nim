@@ -2,7 +2,7 @@
 
 import std/bitops
 
-{.push inline, noinit.}
+{.push raises: [], inline, noinit, gcsafe.}
 
 func overflowingAdd*[T: SomeUnsignedInt](a, b: T): (T, bool) =
   let

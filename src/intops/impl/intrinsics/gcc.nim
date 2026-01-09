@@ -13,17 +13,17 @@ when compilerGccCompatible and canUseIntrinsics:
   ): bool {.importc: "__builtin_sub_overflow", nodecl.}
     ## Checks if a - b overflows. Returns true on overflow.
 
-  {.push inline, noinit.}
+  {.push raises: [], inline, noinit, gcsafe.}
 
   func overflowingAdd*[T: SomeInteger](a, b: T): (T, bool) =
-    var res: T
+    var res {.noinit.}: T
 
     let didOverflow = builtinOverflowingAdd(a, b, res)
 
     (res, didOverflow)
 
   func saturatingAdd*[T: SomeUnsignedInt](a, b: T): T =
-    var res: T
+    var res {.noinit.}: T
 
     let didOverflow = builtinOverflowingAdd(a, b, res)
 
@@ -33,7 +33,7 @@ when compilerGccCompatible and canUseIntrinsics:
     res
 
   func saturatingAdd*[T: SomeSignedInt](a, b: T): T =
-    var res: T
+    var res {.noinit.}: T
 
     let didOverflow = builtinOverflowingAdd(a, b, res)
 
@@ -46,7 +46,7 @@ when compilerGccCompatible and canUseIntrinsics:
     res
 
   func carryingAdd*[T: SomeInteger](a, b: T, carryIn: bool): (T, bool) =
-    var t1, final: T
+    var t1, final {.noinit.}: T
 
     let
       c1 = builtinOverflowingAdd(a, b, t1)
@@ -55,14 +55,14 @@ when compilerGccCompatible and canUseIntrinsics:
     (final, c1 or c2)
 
   func overflowingSub*[T: SomeInteger](a, b: T): (T, bool) =
-    var res: T
+    var res {.noinit.}: T
 
     let didBorrow = builtinOverflowingSub(a, b, res)
 
     (res, didBorrow)
 
   func saturatingSub*[T: SomeUnsignedInt](a, b: T): T =
-    var res: T
+    var res {.noinit.}: T
 
     let didBorrow = builtinOverflowingSub(a, b, res)
 
@@ -72,7 +72,7 @@ when compilerGccCompatible and canUseIntrinsics:
     res
 
   func saturatingSub*[T: SomeSignedInt](a, b: T): T =
-    var res: T
+    var res {.noinit.}: T
 
     let didOverflow = builtinOverflowingSub(a, b, res)
 
@@ -85,7 +85,7 @@ when compilerGccCompatible and canUseIntrinsics:
     res
 
   func borrowingSub*[T: SomeInteger](a, b: T, borrowIn: bool): (T, bool) =
-    var t1, final: T
+    var t1, final {.noinit.}: T
 
     let
       b1 = builtinOverflowingSub(a, b, t1)

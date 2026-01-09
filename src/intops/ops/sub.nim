@@ -11,7 +11,7 @@ template overflowingSub*[T: SomeInteger](a, b: T): tuple[res: T, didOverflow: bo
   Subtraction wraps for both signed and unsigned integers, so this operation never raises.
 
   See also:
-  - `overflowingAdd`_
+  - `overflowingAdd <add.html#overflowingAdd>`_
   ]##
 
   when nimvm:
@@ -29,7 +29,7 @@ template saturatingSub*[T: SomeInteger](a, b: T): T =
   the minimal possible value is returned.
 
   See also:
-  - `saturatingAdd`_
+  - `saturatingAdd <add.html#saturatingAdd>`_
   ]##
 
   when nimvm:
@@ -53,7 +53,7 @@ template borrowingSub*(
   Useful for chaining operations.
 
   See also:
-  - `carryingAdd`_
+  - `carryingAdd <add.html#carryingAdd>`_
   ]##
 
   when nimvm:
@@ -83,7 +83,7 @@ template borrowingSub*(
   Useful for chaining operations.
 
   See also:
-  - `carryingAdd`_
+  - `carryingAdd <add.html#carryingAdd>`_
   ]##
 
   when nimvm:
@@ -107,7 +107,7 @@ template borrowingSub*(
   Useful for chaining operations.
 
   See also:
-  - `carryingAdd`_
+  - `carryingAdd <add.html#carryingAdd>`_
   ]##
 
   when nimvm:
@@ -127,7 +127,7 @@ template borrowingSub*(a, b: int32, borrowIn: bool): (int32, bool) =
   Useful for chaining operations.
 
   See also:
-  - `carryingAdd`_
+  - `carryingAdd <add.html#carryingAdd>`_
   ]##
 
   when nimvm:

@@ -1,7 +1,6 @@
 import unittest2
 
 import intops
-from intops/impl/inlinec import nil
 
 suite "Overflowing operations":
   test "Overflowing addition, unsigned":
@@ -125,21 +124,15 @@ suite "Saturating operations":
 
 suite "Widening operations":
   test "Widening multiplication, unsigned 64-bit integers":
-    when sizeof(int) == 4 and defined(intopsTestNative):
-      check not compiles inlinec.wideningMul(high(uint64), high(uint64))
-    else:
-      check wideningMul(high(uint64), high(uint64)) == (high(uint64) - 1'u64, 1'u64)
+    check wideningMul(high(uint64), high(uint64)) == (high(uint64) - 1'u64, 1'u64)
 
   test "Widening multiplication, unsigned 32-bit integers":
     check wideningMul(high(uint32), high(uint32)) == (high(uint32) - 1'u32, 1'u32)
 
   test "Widening multiplication, signed 64-bit integers":
-    when sizeof(int) == 4 and defined(intopsTestNative):
-      check not compiles inlinec.wideningMul(high(int64), 1'i64)
-    else:
-      check wideningMul(high(int64), 1'i64) == (0'i64, uint64(high(int64)))
-      check wideningMul(-1'i64, -1'i64) == (0'i64, 1'u64)
-      check wideningMul(2'i64, -1'i64) == (-1'i64, high(uint64) - 1'u64)
+    check wideningMul(high(int64), 1'i64) == (0'i64, uint64(high(int64)))
+    check wideningMul(-1'i64, -1'i64) == (0'i64, 1'u64)
+    check wideningMul(2'i64, -1'i64) == (-1'i64, high(uint64) - 1'u64)
 
   test "Widening multiplication, signed 32-bit integers":
     check wideningMul(high(int32), 1'i32) == (0'i32, uint32(high(int32)))

@@ -35,7 +35,7 @@ jobs:
         with:
           crate: mdbook-admonish
           use-tool-cache: true
-          version: "0.5.2"
+          version: "1.20.0"
 
       - uses: jiro4989/setup-nim-action@v2
         with:

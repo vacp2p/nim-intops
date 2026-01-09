@@ -101,9 +101,7 @@
 
   </div>
   <div class="nine columns" id="content">
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/intrinsics/gcc.nim#L1" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/intrinsics/gcc.nim#L1" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
-
+    
     <div id="tocRoot"></div>
     
     <p class="module-desc">GCC/Clang intrinsics-based implementations of arithmetic operations for integers.</p>
@@ -118,14 +116,12 @@
   <dl class="item">
     <div id="borrowingSub-procs-all">
   <div id="borrowingSub,T,T,bool">
-  <dt><pre><span class="Keyword">func</span> <a href="#borrowingSub%2CT%2CT%2Cbool"><span class="Identifier">borrowingSub</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">:</span> <span class="Identifier">SomeInteger</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">;</span> <span class="Identifier">borrowIn</span><span class="Other">:</span> <span class="Identifier">bool</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">T</span><span class="Other">,</span> <span class="Identifier">bool</span><span class="Other">)</span> {.<span class="Identifier">inline</span><span class="Other">,</span>
-    <span class="Identifier">noinit</span>.}</pre></dt>
+  <dt><pre><span class="Keyword">func</span> <a href="#borrowingSub%2CT%2CT%2Cbool"><span class="Identifier">borrowingSub</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">:</span> <span class="Identifier">SomeInteger</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">;</span> <span class="Identifier">borrowIn</span><span class="Other">:</span> <span class="Identifier">bool</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">T</span><span class="Other">,</span> <span class="Identifier">bool</span><span class="Other">)</span> {.
+    <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> </span><span class="Identifier">inline</span><span class="Other">,</span> <span class="Identifier">noinit</span><span class="Other">,</span> <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">gcsafe</span></span>.}</pre></dt>
   <dd>
     
     
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/intrinsics/gcc.nim#L87" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/intrinsics/gcc.nim#L87" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
-
+    
   </dd>
 </div>
 
@@ -137,9 +133,7 @@
   <dd>
     
     Checks if a + b overflows. Returns true on overflow.
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/intrinsics/gcc.nim#L6" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/intrinsics/gcc.nim#L6" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
-
+    
   </dd>
 </div>
 
@@ -151,95 +145,85 @@
   <dd>
     
     Checks if a - b overflows. Returns true on overflow.
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/intrinsics/gcc.nim#L11" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/intrinsics/gcc.nim#L11" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
-
+    
   </dd>
 </div>
 
 </div>
 <div id="carryingAdd-procs-all">
   <div id="carryingAdd,T,T,bool">
-  <dt><pre><span class="Keyword">func</span> <a href="#carryingAdd%2CT%2CT%2Cbool"><span class="Identifier">carryingAdd</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">:</span> <span class="Identifier">SomeInteger</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">;</span> <span class="Identifier">carryIn</span><span class="Other">:</span> <span class="Identifier">bool</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">T</span><span class="Other">,</span> <span class="Identifier">bool</span><span class="Other">)</span> {.<span class="Identifier">inline</span><span class="Other">,</span>
-    <span class="Identifier">noinit</span>.}</pre></dt>
+  <dt><pre><span class="Keyword">func</span> <a href="#carryingAdd%2CT%2CT%2Cbool"><span class="Identifier">carryingAdd</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">:</span> <span class="Identifier">SomeInteger</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">;</span> <span class="Identifier">carryIn</span><span class="Other">:</span> <span class="Identifier">bool</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">T</span><span class="Other">,</span> <span class="Identifier">bool</span><span class="Other">)</span> {.
+    <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> </span><span class="Identifier">inline</span><span class="Other">,</span> <span class="Identifier">noinit</span><span class="Other">,</span> <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">gcsafe</span></span>.}</pre></dt>
   <dd>
     
     
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/intrinsics/gcc.nim#L48" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/intrinsics/gcc.nim#L48" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
-
+    
   </dd>
 </div>
 
 </div>
 <div id="overflowingAdd-procs-all">
   <div id="overflowingAdd,T,T">
-  <dt><pre><span class="Keyword">func</span> <a href="#overflowingAdd%2CT%2CT"><span class="Identifier">overflowingAdd</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">:</span> <span class="Identifier">SomeInteger</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">T</span><span class="Other">,</span> <span class="Identifier">bool</span><span class="Other">)</span> {.<span class="Identifier">inline</span><span class="Other">,</span> <span class="Identifier">noinit</span>.}</pre></dt>
+  <dt><pre><span class="Keyword">func</span> <a href="#overflowingAdd%2CT%2CT"><span class="Identifier">overflowingAdd</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">:</span> <span class="Identifier">SomeInteger</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">T</span><span class="Other">,</span> <span class="Identifier">bool</span><span class="Other">)</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> </span><span class="Identifier">inline</span><span class="Other">,</span>
+    <span class="Identifier">noinit</span><span class="Other">,</span> <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">gcsafe</span></span>.}</pre></dt>
   <dd>
     
     
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/intrinsics/gcc.nim#L18" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/intrinsics/gcc.nim#L18" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
-
+    
   </dd>
 </div>
 
 </div>
 <div id="overflowingSub-procs-all">
   <div id="overflowingSub,T,T">
-  <dt><pre><span class="Keyword">func</span> <a href="#overflowingSub%2CT%2CT"><span class="Identifier">overflowingSub</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">:</span> <span class="Identifier">SomeInteger</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">T</span><span class="Other">,</span> <span class="Identifier">bool</span><span class="Other">)</span> {.<span class="Identifier">inline</span><span class="Other">,</span> <span class="Identifier">noinit</span>.}</pre></dt>
+  <dt><pre><span class="Keyword">func</span> <a href="#overflowingSub%2CT%2CT"><span class="Identifier">overflowingSub</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">:</span> <span class="Identifier">SomeInteger</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">T</span><span class="Other">,</span> <span class="Identifier">bool</span><span class="Other">)</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> </span><span class="Identifier">inline</span><span class="Other">,</span>
+    <span class="Identifier">noinit</span><span class="Other">,</span> <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">gcsafe</span></span>.}</pre></dt>
   <dd>
     
     
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/intrinsics/gcc.nim#L57" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/intrinsics/gcc.nim#L57" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
-
+    
   </dd>
 </div>
 
 </div>
 <div id="saturatingAdd-procs-all">
   <div id="saturatingAdd,T,T_2">
-  <dt><pre><span class="Keyword">func</span> <a href="#saturatingAdd%2CT%2CT_2"><span class="Identifier">saturatingAdd</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">:</span> <span class="Identifier">SomeSignedInt</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">T</span> {.<span class="Identifier">inline</span><span class="Other">,</span> <span class="Identifier">noinit</span>.}</pre></dt>
+  <dt><pre><span class="Keyword">func</span> <a href="#saturatingAdd%2CT%2CT_2"><span class="Identifier">saturatingAdd</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">:</span> <span class="Identifier">SomeSignedInt</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">T</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> </span><span class="Identifier">inline</span><span class="Other">,</span> <span class="Identifier">noinit</span><span class="Other">,</span>
+    <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">gcsafe</span></span>.}</pre></dt>
   <dd>
     
     
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/intrinsics/gcc.nim#L35" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/intrinsics/gcc.nim#L35" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
-
+    
   </dd>
 </div>
 <div id="saturatingAdd,T,T">
-  <dt><pre><span class="Keyword">func</span> <a href="#saturatingAdd%2CT%2CT"><span class="Identifier">saturatingAdd</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">:</span> <span class="Identifier">SomeUnsignedInt</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">T</span> {.<span class="Identifier">inline</span><span class="Other">,</span> <span class="Identifier">noinit</span>.}</pre></dt>
+  <dt><pre><span class="Keyword">func</span> <a href="#saturatingAdd%2CT%2CT"><span class="Identifier">saturatingAdd</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">:</span> <span class="Identifier">SomeUnsignedInt</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">T</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> </span><span class="Identifier">inline</span><span class="Other">,</span> <span class="Identifier">noinit</span><span class="Other">,</span>
+    <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">gcsafe</span></span>.}</pre></dt>
   <dd>
     
     
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/intrinsics/gcc.nim#L25" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/intrinsics/gcc.nim#L25" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
-
+    
   </dd>
 </div>
 
 </div>
 <div id="saturatingSub-procs-all">
   <div id="saturatingSub,T,T_2">
-  <dt><pre><span class="Keyword">func</span> <a href="#saturatingSub%2CT%2CT_2"><span class="Identifier">saturatingSub</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">:</span> <span class="Identifier">SomeSignedInt</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">T</span> {.<span class="Identifier">inline</span><span class="Other">,</span> <span class="Identifier">noinit</span>.}</pre></dt>
+  <dt><pre><span class="Keyword">func</span> <a href="#saturatingSub%2CT%2CT_2"><span class="Identifier">saturatingSub</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">:</span> <span class="Identifier">SomeSignedInt</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">T</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> </span><span class="Identifier">inline</span><span class="Other">,</span> <span class="Identifier">noinit</span><span class="Other">,</span>
+    <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">gcsafe</span></span>.}</pre></dt>
   <dd>
     
     
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/intrinsics/gcc.nim#L74" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/intrinsics/gcc.nim#L74" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
-
+    
   </dd>
 </div>
 <div id="saturatingSub,T,T">
-  <dt><pre><span class="Keyword">func</span> <a href="#saturatingSub%2CT%2CT"><span class="Identifier">saturatingSub</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">:</span> <span class="Identifier">SomeUnsignedInt</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">T</span> {.<span class="Identifier">inline</span><span class="Other">,</span> <span class="Identifier">noinit</span>.}</pre></dt>
+  <dt><pre><span class="Keyword">func</span> <a href="#saturatingSub%2CT%2CT"><span class="Identifier">saturatingSub</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">:</span> <span class="Identifier">SomeUnsignedInt</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">T</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> </span><span class="Identifier">inline</span><span class="Other">,</span> <span class="Identifier">noinit</span><span class="Other">,</span>
+    <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">gcsafe</span></span>.}</pre></dt>
   <dd>
     
     
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/intrinsics/gcc.nim#L64" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/intrinsics/gcc.nim#L64" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
-
+    
   </dd>
 </div>
 
@@ -254,7 +238,7 @@
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2026-01-08 12:04:28 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2026-01-09 11:03:33 UTC</small>
       </div>
     </div>
   </div>

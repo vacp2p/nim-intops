@@ -1,0 +1,149 @@
+## Arithmetic operations for integers implemented in C.
+
+import ../consts
+
+when cpu64Bit and compilerGccCompatible and canUseInlineC:
+  {.push raises: [], inline, noinit, gcsafe.}
+
+  func carryingAdd*(a, b: uint64, carryIn: bool): (uint64, bool) =
+    var
+      sum {.noinit.}: uint64
+      cOut {.noinit.}: uint64
+      cInVal = if carryIn: 1'u64 else: 0'u64
+
+    {.
+      emit:
+        """
+      /* 1. Cast inputs to 128-bit and add */
+      unsigned __int128 res = ((unsigned __int128)`a`) + 
+                              ((unsigned __int128)`b`) + 
+                              ((unsigned __int128)`cInVal`);
+
+      /* 2. Extract the lower 64 bits (The Sum) */
+      `sum` = (unsigned long long)res;
+
+      /* 3. Extract the upper 64 bits (The Carry) */
+      `cOut` = (unsigned long long)(res >> 64);
+    """
+    .}
+
+    (sum, cOut > 0)
+
+  func borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) =
+    var
+      diff {.noinit.}: uint64
+      bOut {.noinit.}: uint64
+      bInVal = if borrowIn: 1'u64 else: 0'u64
+
+    {.
+      emit:
+        """
+        /* 1. Cast inputs to 128-bit and subtract */
+        /* If (a < b + borrow), 'res' wraps to a very large value (high bits become 1s) */
+        unsigned __int128 res = ((unsigned __int128)`a`) -
+                                ((unsigned __int128)`b`) -
+                                ((unsigned __int128)`bInVal`);
+
+        /* 2. Extract the lower 64 bits (The Difference) */
+        `diff` = (unsigned long long)res;
+
+        /* 3. Extract the upper 64 bits (The Borrow) */
+        /* If a borrow occurred, the upper bits will be non-zero (specifically all 1s) */
+        `bOut` = (unsigned long long)(res >> 64);
+        """
+    .}
+
+    (diff, bOut > 0)
+
+  func wideningMul*(a, b: uint64): (uint64, uint64) =
+    var hi, lo {.noinit.}: uint64
+
+    {.
+      emit:
+        """
+      /* 1. Cast inputs to 128-bit and multiply */
+      unsigned __int128 res = ((unsigned __int128)`a`) * ((unsigned __int128)`b`);
+  
+      /* 2. Extract high 64 bits (shift right) */
+      `hi` = (unsigned long long)(res >> 64);
+  
+      /* 3. Extract low 64 bits (cast/truncate) */
+      `lo` = (unsigned long long)(res);
+    """
+    .}
+
+    (hi, lo)
+
+  func wideningMul*(a, b: int64): (int64, uint64) =
+    var
+      hi {.noinit.}: int64
+      lo {.noinit.}: uint64
+
+    {.
+      emit:
+        """
+      /* 1. Cast inputs to native C __int128 (Signed) */
+      __int128 res = ((__int128)`a`) * ((__int128)`b`);
+
+      /* 2. Extract High Word (Arithmetic Shift Right preserves sign) */
+      `hi` = (long long)(res >> 64);
+
+      /* 3. Extract Low Word (Cast to unsigned long long) */
+      `lo` = (unsigned long long)(res);
+    """
+    .}
+
+    (hi, lo)
+
+  func wideningMulAdd*(a, b, c: uint64): (uint64, uint64) =
+    var hi, lo {.noinit.}: uint64
+    {.
+      emit:
+        """
+      typedef unsigned __int128 u128;
+
+      // Calculate a * b + c using 128-bit precision
+      u128 res = ((u128)`a`) * ((u128)`b`) + ((u128)`c`);
+
+      // Split result into high and low 64-bit words
+      `hi` = (unsigned long long)(res >> 64);
+      `lo` = (unsigned long long)res;
+    """
+    .}
+    (hi, lo)
+
+  func wideningMulAdd*(a, b, c, d: uint64): (uint64, uint64) =
+    var hi, lo {.noinit.}: uint64
+    {.
+      emit:
+        """
+      typedef unsigned __int128 u128;
+
+      // Calculate a * b + c + d using 128-bit precision
+      u128 res = ((u128)`a`) * ((u128)`b`) + ((u128)`c`) + ((u128)`d`);
+
+      // Split result
+      `hi` = (unsigned long long)(res >> 64);
+      `lo` = (unsigned long long)res;
+    """
+    .}
+    (hi, lo)
+
+  func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) =
+    var q, r {.noinit.}: uint64
+
+    {.
+      emit:
+        """
+      typedef unsigned __int128 u128;
+
+      // Construct 128-bit integer from high/low parts
+      u128 u = (((u128)`uHi`) << 64) | ((u128)`uLo`);
+
+      // Perform Division
+      `q` = (unsigned long long)(u / `v`);
+      `r` = (unsigned long long)(u % `v`);
+    """
+    .}
+
+    (q, r)

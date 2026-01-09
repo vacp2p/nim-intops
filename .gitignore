@@ -2,6 +2,7 @@
 *.sublime-project
 *.sublime-workspace
 .idea
+dprint.json
 
 *.exe
 *.html
@@ -17,3 +18,7 @@ tests/tintops
 nimble.develop
 nimble.paths
 nimbledeps
+config.nims
+
+.monit.yml
+.monit.docs.yml

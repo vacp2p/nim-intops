@@ -9,9 +9,8 @@ srcDir = "src"
 # Dependencies
 
 requires "nim >= 2.2.6"
-requires "unittest2 ~= 0.2.5"
 
-taskRequires "setupDocs", "nimib >= 0.3.8", "nimibook >= 0.3.1"
+taskRequires "test", "unittest2 ~= 0.2.5"
 
 import std/[os, sequtils, strformat]
 
@@ -32,13 +31,8 @@ task test, "Run tests":
 
     selfExec fmt"r {flags} tests/tintops.nim"
 
-task setupDocs, "Compiles the nimibook CLI-binary used for generating the docs":
-  exec "nim c -d:release nbook.nim"
-  rmDir "docs"
-  exec "./nbook update"
-
 task book, "Generate book":
-  exec "./nbook build"
+  exec "mdbook build book -d docs"
 
 task apidocs, "Generate API docs":
   exec "nimble doc --outdir:docs/apidocs --project --index:on --git.url:https://github.com/vacp2p/nim-intops --git.commit:develop src/intops.nim"

@@ -1,11 +1,6 @@
-import nimib, nimibook
+# Implementations
 
-nbInit(theme = useNimibook)
-
-nbText:
-  """
-<span id="existing"></span>
-# Improving Existing Implementations
+## Improving Existing Implementations
 
 In a perfect world, a pure Nim implementation would be enough to cover every operation: the Nim compiler would generate the optimal C code and the C compiler would generate the optimal Assembly code for every environment.
 
@@ -15,8 +10,7 @@ This is why most operations in intops have multiple implementations and dispatch
 
 For improve an existing implementation, find its module in `intops/impl` and modify the code there. Some implementation families are represented as a single module (e.g. `intops/impl/inclinec`), some are split into submodules (e.g. `intops/intrinsics/x86.nim` and `intops/intrinsics/gcc.nim`).
 
-<span id="new"></span>
-# Adding New Implementations
+## Adding New Implementations
 
 If you want to provide a new implemtation for an existing operation:
 
@@ -57,6 +51,3 @@ template magicAdd*(a, b: uint64): uint64 =
 +   else:
 +     pure.magicAdd(a, b)
 ```
-"""
-
-nbSave

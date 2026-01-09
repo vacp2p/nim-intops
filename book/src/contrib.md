@@ -1,9 +1,3 @@
-import nimib, nimibook
-
-nbInit(theme = useNimibook)
-
-nbText:
-  """
 # Contributor's Guide
 
 Optimizing arithmetic operations for a variety of enviroments and consumers is a never-ending chase. There hardly will ever be a moment when intops will be 100% ready: there's always an older Nim version, and newer GCC version, or an obscure CPU vendor to target.
@@ -48,7 +42,6 @@ These submodules contain the dispatchers that pick the best implementation of th
 
 The actual implementations are stored in submodules in `intops/impl`. For example, `intops/impl/intrinsics` contains all primitives implemented with C intrinsics.
 
-<span id="api"></span>
 ## API Conventions
 
 1. intops follows the common Nim convention of calling things in `camelCase`.
@@ -60,7 +53,6 @@ The actual implementations are stored in submodules in `intops/impl`. For exampl
 1. Operations that return maximal or mininal type value when a type border is hit are called **saturating**, e.g. `saturatingAdd`.
 1. Carry, borrow, and overflow flags are booleans.
 
-<span id="tests"></span>
 ## Tests
 
 The tests for intops are located in a single file `tests/tintops.nim`.
@@ -112,7 +104,6 @@ targets:
 ```
 3. Run `monit run`
 
-<span id="benchmarks"></span>
 ## Benchmarks
 
 Benchmarking is crucial for a library like intops: you can't really do any reasonable dispatching improvement if you can't argue about the changes with numbers.
@@ -120,7 +111,6 @@ Benchmarking is crucial for a library like intops: you can't really do any reaso
 There are two kinds of benchmarks: latency and throughput.
 
 *Latency benchmarks* measure how long a particular operation takes to complete. For a latency benchmark, we run the same operation against random input many times making sure the next iteration doesn't start before the previous one completes. The result is measured in nanoseconds per operation.
-
 *Throughput benchmarks* measure how many operations of a particluar kind can be executed per unit of time. For a throughput benchmark, we spawn the same operation against random input many times back to back so that multiple instances of the same operation are executed in parallel. The results are measured in millions of operations per second.
 
 Benchmarks are grouped by kind and operation family, e.g. `benchmarks/latency/add.nim` contains latency benchmarks for the add operations (overflowingAdd, saturatingAdd, etc.).
@@ -153,7 +143,6 @@ $ nimble bench --kind:latency add
 $ nimble bench --kind:throughput sub mul
 ```
 
-<span id="docs"></span>
 ## Docs
 
 The docs consist of two parts:
@@ -168,6 +157,3 @@ To build the docs locally, run:
 - `nimble book` to build the book
 - `nimble apidocs` to build the API docs
 - `nimble docs` to build both
-"""
-
-nbSave

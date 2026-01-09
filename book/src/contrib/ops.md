@@ -1,11 +1,6 @@
-import nimib, nimibook
+# Operations
 
-nbInit(theme = useNimibook)
-
-nbText:
-  """
-<span id="existing"></span>
-# Improving Existing Operations
+## Improving Existing Operations
 
 intops' public API exposes **dispatchers** for each available operation.
 
@@ -29,7 +24,9 @@ template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut:
     else:
       pure.carryingAdd(a, b, carryIn)
 ```
+
 As you can see, a dispatcher is just a nested `when`-condition that checks if:
+
 1. the operation called during compilation (`when nimvm`)
 1. the code is run on a particular CPU (`when cpuX86`) and with a particular C compiler (`and compilerMsvc`)
 1. particular compilation flags were passed (`and canUseIntrinsics`)
@@ -59,8 +56,8 @@ template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut:
     else:
       pure.carryingAdd(a, b, carryIn)
 ```
-<span id="new"></span>
-# Adding New Operations
+
+## Adding New Operations
 
 Adding an operation means doing two things:
 
@@ -85,7 +82,7 @@ template magicAdd*(a, b: uint64): uint64 =
   pure.magicAdd(a, b)
 ```
 
-## Adding New Operation Families
+### Adding New Operation Families
 
 If you're not just adding a new operation to an existing module but adding a new module to `intops/ops`, you must also expose it in `intops.nim` so that it becomes part of the public API.
 
@@ -98,6 +95,3 @@ For example, you've added a new module `intops/ops/magicadd.nim`, do this in `in
 - export add, sub, mul, muladd, division, composite
 + export add, sub, mul, muladd, division, composite, magicadd
 ```
-"""
-
-nbSave

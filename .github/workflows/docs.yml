@@ -20,18 +20,6 @@ jobs:
         with:
           crate: mdbook
           use-tool-cache: true
-      - uses: actions-rs/install@v0.1
-        with:
-          crate: mdbook-toc
-          use-tool-cache: true
-      - uses: actions-rs/install@v0.1
-        with:
-          crate: mdbook-open-on-gh
-          use-tool-cache: true
-      - uses: actions-rs/install@v0.1
-        with:
-          crate: mdbook-admonish
-          use-tool-cache: true
 
       - uses: jiro4989/setup-nim-action@v2
         with:

@@ -149,7 +149,7 @@ The docs consist of two parts:
 - the book (this is what you're reading right now)
 - the API docs
 
-The book is created using [nimibook](https://github.com/pietroppeter/nimibook). Each page is a Nim file that can hold Markdown content and Nim code. The Nim code is executed during the build and its output are included in the book.
+The book is created using [mdBook](https://rust-lang.github.io/mdBook/).
 
 The API docs are generated from the source code docstrings.
 

@@ -16,7 +16,11 @@ jobs:
       - name: Set up mdBook
         uses: peaceiris/actions-mdbook@v2
         with:
-          mdbook-version: '0.5.2'
+          mdbook-version: "0.5.2"
+
+      - name: Install mdBook preprocessors
+        uses: cargo-bins/cargo-binstall@main
+        run: cargo binstall mdbook-open-on-gh
 
       - name: Set up Nim
         uses: jiro4989/setup-nim-action@v2

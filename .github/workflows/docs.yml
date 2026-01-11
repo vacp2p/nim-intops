@@ -18,8 +18,10 @@ jobs:
         with:
           mdbook-version: "0.5.2"
 
-      - name: Install mdBook preprocessors
+      - name: Install cargo-binstall
         uses: cargo-bins/cargo-binstall@main
+
+      - name: Install mdBook preprocessors
         run: cargo binstall mdbook-open-on-gh
 
       - name: Set up Nim

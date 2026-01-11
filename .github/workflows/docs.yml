@@ -22,7 +22,7 @@ jobs:
         uses: cargo-bins/cargo-binstall@main
 
       - name: Install mdBook preprocessors
-        run: cargo binstall mdbook-open-on-gh
+        run: cargo binstall mdbook-open-on-gh mdbook-toc mdbook-admonish
 
       - name: Set up Nim
         uses: jiro4989/setup-nim-action@v2

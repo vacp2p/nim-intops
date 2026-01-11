@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-e7ecfca2.js";
+            window.path_to_searchindex_js = "searchindex-d0ee3384.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-03047c10.js"></script>
@@ -237,7 +237,7 @@ echo not compiles inlineasm.x86.carryingAdd(12'u64, 34'u64, false)
 <p>Of course, you can combine those flags. For example, if you want to use only pure Nim implementations, pass all three forbidding flags:</p>
 <pre><code class="language-shell">$ nim c -d:intopsNoIntrinsics -d:intopsNoInlineAsm -d:intopsNoInlineC mycode.nim
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div>
+<footer id="open-on-gh">Found a bug? <a href="https://github.com/vacp2p/nim-intops//edit/main/book/src/quickstart.md">Edit this page on GitHub.</a></footer><div style="break-before: page; page-break-before: always;"></div>
 <h1 id="contributors-guide"><a class="header" href="#contributors-guide">Contributor’s Guide</a></h1>
 <p>Optimizing arithmetic operations for a variety of enviroments and consumers is a never-ending chase. There hardly will ever be a moment when intops will be 100% ready: there’s always an older Nim version, and newer GCC version, or an obscure CPU vendor to target.</p>
 <p>Because of that, contributors’ help is essential for intops’ development. You can help improve intops by improving the code, improving the docs, and reporting issues.</p>
@@ -377,7 +377,7 @@ $ nimble bench --kind:throughput sub mul
 <li><code>nimble apidocs</code> to build the API docs</li>
 <li><code>nimble docs</code> to build both</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div>
+<footer id="open-on-gh-1">Found a bug? <a href="https://github.com/vacp2p/nim-intops//edit/main/book/src/contrib.md">Edit this page on GitHub.</a></footer><div style="break-before: page; page-break-before: always;"></div>
 <h1 id="operations"><a class="header" href="#operations">Operations</a></h1>
 <h2 id="improving-existing-operations"><a class="header" href="#improving-existing-operations">Improving Existing Operations</a></h2>
 <p>intops’ public API exposes <strong>dispatchers</strong> for each available operation.</p>
@@ -453,7 +453,7 @@ $ nimble bench --kind:throughput sub mul
 - export add, sub, mul, muladd, division, composite
 + export add, sub, mul, muladd, division, composite, magicadd
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div>
+<footer id="open-on-gh-2">Found a bug? <a href="https://github.com/vacp2p/nim-intops//edit/main/book/src/contrib/ops.md">Edit this page on GitHub.</a></footer><div style="break-before: page; page-break-before: always;"></div>
 <h1 id="implementations"><a class="header" href="#implementations">Implementations</a></h1>
 <h2 id="improving-existing-implementations"><a class="header" href="#improving-existing-implementations">Improving Existing Implementations</a></h2>
 <p>In a perfect world, a pure Nim implementation would be enough to cover every operation: the Nim compiler would generate the optimal C code and the C compiler would generate the optimal Assembly code for every environment.</p>
@@ -498,7 +498,7 @@ when cpu64Bit:
 +   else:
 +     pure.magicAdd(a, b)
 </code></pre>
-
+<footer id="open-on-gh-3">Found a bug? <a href="https://github.com/vacp2p/nim-intops//edit/main/book/src/contrib/impl.md">Edit this page on GitHub.</a></footer>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">

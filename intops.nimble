@@ -9,12 +9,10 @@ srcDir = "src"
 # Dependencies
 
 requires "nim >= 2.2.6"
-requires "unittest2 ~= 0.2.5"
+
+taskRequires "test", "unittest2 ~= 0.2.5"
 
 import std/[os, sequtils, strformat]
-
-task docs, "Generate API docs":
-  exec "nimble doc --outdir:docs/apidocs --project --index:on src/intops.nim"
 
 task test, "Run tests":
   let
@@ -32,3 +30,13 @@ task test, "Run tests":
     echo fmt"# Flags: {flags}"
 
     selfExec fmt"r {flags} tests/tintops.nim"
+
+task book, "Generate book":
+  exec "mdbook build book -d docs"
+
+task apidocs, "Generate API docs":
+  exec "nimble doc --outdir:docs/apidocs --project --index:on --git.url:https://github.com/vacp2p/nim-intops --git.commit:develop src/intops.nim"
+
+task docs, "Generate docs":
+  exec "nimble book"
+  exec "nimble apidocs"

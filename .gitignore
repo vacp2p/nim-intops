@@ -7,6 +7,7 @@ dprint.json
 *.exe
 *.html
 *.idx
+*.log
 htmldocs
 docs
 nbook
@@ -18,7 +19,6 @@ tests/tintops
 nimble.develop
 nimble.paths
 nimbledeps
-config.nims
+/config.nims
 
-.monit.yml
-.monit.docs.yml
+.monit*yml

@@ -1,6 +1,6 @@
 nimTitle	mul	intops/ops/mul.html	module src/intops/ops/mul		0
-nim	wideningMul	intops/ops/mul.html#wideningMul.t,uint64,uint64	template wideningMul(a, b: uint64): tuple[hi, lo: uint64]		4
-nim	wideningMul	intops/ops/mul.html#wideningMul.t,uint32,uint32	template wideningMul(a, b: uint32): tuple[hi, lo: uint32]		21
-nim	wideningMul	intops/ops/mul.html#wideningMul.t,int64,int64	template wideningMul(a, b: int64): tuple[hi: int64, lo: uint64]		30
-nim	wideningMul	intops/ops/mul.html#wideningMul.t,int32,int32	template wideningMul(a, b: int32): tuple[hi: int32, lo: uint32]		45
-nimgrp	wideningmul	intops/ops/mul.html#wideningMul-templates-all	template		4
+nim	wideningMul	intops/ops/mul.html#wideningMul.t,uint64,uint64	template wideningMul(a, b: uint64): tuple[hi, lo: uint64]		13
+nim	wideningMul	intops/ops/mul.html#wideningMul.t,uint32,uint32	template wideningMul(a, b: uint32): tuple[hi, lo: uint32]		30
+nim	wideningMul	intops/ops/mul.html#wideningMul.t,int64,int64	template wideningMul(a, b: int64): tuple[hi: int64, lo: uint64]		39
+nim	wideningMul	intops/ops/mul.html#wideningMul.t,int32,int32	template wideningMul(a, b: int32): tuple[hi: int32, lo: uint32]		54
+nimgrp	wideningmul	intops/ops/mul.html#wideningMul-templates-all	template		13

@@ -1,10 +1,10 @@
 nimTitle	inlinec	intops/impl/inlinec.html	module src/intops/impl/inlinec		0
-nim	carryingAdd	intops/impl/inlinec.html#carryingAdd,uint64,uint64,bool	proc carryingAdd(a, b: uint64; carryIn: bool): (uint64, bool)		8
-nim	borrowingSub	intops/impl/inlinec.html#borrowingSub,uint64,uint64,bool	proc borrowingSub(a, b: uint64; borrowIn: bool): (uint64, bool)		32
-nim	wideningMul	intops/impl/inlinec.html#wideningMul,uint64,uint64	proc wideningMul(a, b: uint64): (uint64, uint64)		58
-nim	wideningMul	intops/impl/inlinec.html#wideningMul,int64,int64	proc wideningMul(a, b: int64): (int64, uint64)		77
-nim	wideningMulAdd	intops/impl/inlinec.html#wideningMulAdd,uint64,uint64,uint64	proc wideningMulAdd(a, b, c: uint64): (uint64, uint64)		98
-nim	wideningMulAdd	intops/impl/inlinec.html#wideningMulAdd,uint64,uint64,uint64,uint64	proc wideningMulAdd(a, b, c, d: uint64): (uint64, uint64)		115
-nim	narrowingDiv	intops/impl/inlinec.html#narrowingDiv,uint64,uint64,uint64	proc narrowingDiv(uHi, uLo, v: uint64): (uint64, uint64)		132
-nimgrp	wideningmuladd	intops/impl/inlinec.html#wideningMulAdd-procs-all	proc		98
-nimgrp	wideningmul	intops/impl/inlinec.html#wideningMul-procs-all	proc		58
+nim	carryingAdd	intops/impl/inlinec.html#carryingAdd,uint64,uint64,bool	proc carryingAdd(a, b: uint64; carryIn: bool): (uint64, bool)		17
+nim	borrowingSub	intops/impl/inlinec.html#borrowingSub,uint64,uint64,bool	proc borrowingSub(a, b: uint64; borrowIn: bool): (uint64, bool)		41
+nim	wideningMul	intops/impl/inlinec.html#wideningMul,uint64,uint64	proc wideningMul(a, b: uint64): (uint64, uint64)		67
+nim	wideningMul	intops/impl/inlinec.html#wideningMul,int64,int64	proc wideningMul(a, b: int64): (int64, uint64)		86
+nim	wideningMulAdd	intops/impl/inlinec.html#wideningMulAdd,uint64,uint64,uint64	proc wideningMulAdd(a, b, c: uint64): (uint64, uint64)		107
+nim	wideningMulAdd	intops/impl/inlinec.html#wideningMulAdd,uint64,uint64,uint64,uint64	proc wideningMulAdd(a, b, c, d: uint64): (uint64, uint64)		124
+nim	narrowingDiv	intops/impl/inlinec.html#narrowingDiv,uint64,uint64,uint64	proc narrowingDiv(uHi, uLo, v: uint64): (uint64, uint64)		141
+nimgrp	wideningmuladd	intops/impl/inlinec.html#wideningMulAdd-procs-all	proc		107
+nimgrp	wideningmul	intops/impl/inlinec.html#wideningMul-procs-all	proc		67

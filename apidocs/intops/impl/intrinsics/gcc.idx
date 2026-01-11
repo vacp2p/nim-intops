@@ -1,13 +1,13 @@
 nimTitle	gcc	intops/impl/intrinsics/gcc.html	module src/intops/impl/intrinsics/gcc		0
-nim	builtinOverflowingAdd	intops/impl/intrinsics/gcc.html#builtinOverflowingAdd,T,T,T	proc builtinOverflowingAdd[T: SomeInteger](a, b: T; res: var T): bool		6
-nim	builtinOverflowingSub	intops/impl/intrinsics/gcc.html#builtinOverflowingSub,T,T,T	proc builtinOverflowingSub[T: SomeInteger](a, b: T; res: var T): bool		11
-nim	overflowingAdd	intops/impl/intrinsics/gcc.html#overflowingAdd,T,T	proc overflowingAdd[T: SomeInteger](a, b: T): (T, bool)		18
-nim	saturatingAdd	intops/impl/intrinsics/gcc.html#saturatingAdd,T,T	proc saturatingAdd[T: SomeUnsignedInt](a, b: T): T		25
-nim	saturatingAdd	intops/impl/intrinsics/gcc.html#saturatingAdd,T,T_2	proc saturatingAdd[T: SomeSignedInt](a, b: T): T		35
-nim	carryingAdd	intops/impl/intrinsics/gcc.html#carryingAdd,T,T,bool	proc carryingAdd[T: SomeInteger](a, b: T; carryIn: bool): (T, bool)		48
-nim	overflowingSub	intops/impl/intrinsics/gcc.html#overflowingSub,T,T	proc overflowingSub[T: SomeInteger](a, b: T): (T, bool)		57
-nim	saturatingSub	intops/impl/intrinsics/gcc.html#saturatingSub,T,T	proc saturatingSub[T: SomeUnsignedInt](a, b: T): T		64
-nim	saturatingSub	intops/impl/intrinsics/gcc.html#saturatingSub,T,T_2	proc saturatingSub[T: SomeSignedInt](a, b: T): T		74
-nim	borrowingSub	intops/impl/intrinsics/gcc.html#borrowingSub,T,T,bool	proc borrowingSub[T: SomeInteger](a, b: T; borrowIn: bool): (T, bool)		87
-nimgrp	saturatingadd	intops/impl/intrinsics/gcc.html#saturatingAdd-procs-all	proc		25
-nimgrp	saturatingsub	intops/impl/intrinsics/gcc.html#saturatingSub-procs-all	proc		64
+nim	builtinOverflowingAdd	intops/impl/intrinsics/gcc.html#builtinOverflowingAdd,T,T,T	proc builtinOverflowingAdd[T: SomeInteger](a, b: T; res: var T): bool		15
+nim	builtinOverflowingSub	intops/impl/intrinsics/gcc.html#builtinOverflowingSub,T,T,T	proc builtinOverflowingSub[T: SomeInteger](a, b: T; res: var T): bool		20
+nim	overflowingAdd	intops/impl/intrinsics/gcc.html#overflowingAdd,T,T	proc overflowingAdd[T: SomeInteger](a, b: T): (T, bool)		27
+nim	saturatingAdd	intops/impl/intrinsics/gcc.html#saturatingAdd,T,T	proc saturatingAdd[T: SomeUnsignedInt](a, b: T): T		34
+nim	saturatingAdd	intops/impl/intrinsics/gcc.html#saturatingAdd,T,T_2	proc saturatingAdd[T: SomeSignedInt](a, b: T): T		44
+nim	carryingAdd	intops/impl/intrinsics/gcc.html#carryingAdd,T,T,bool	proc carryingAdd[T: SomeInteger](a, b: T; carryIn: bool): (T, bool)		57
+nim	overflowingSub	intops/impl/intrinsics/gcc.html#overflowingSub,T,T	proc overflowingSub[T: SomeInteger](a, b: T): (T, bool)		66
+nim	saturatingSub	intops/impl/intrinsics/gcc.html#saturatingSub,T,T	proc saturatingSub[T: SomeUnsignedInt](a, b: T): T		73
+nim	saturatingSub	intops/impl/intrinsics/gcc.html#saturatingSub,T,T_2	proc saturatingSub[T: SomeSignedInt](a, b: T): T		83
+nim	borrowingSub	intops/impl/intrinsics/gcc.html#borrowingSub,T,T,bool	proc borrowingSub[T: SomeInteger](a, b: T; borrowIn: bool): (T, bool)		96
+nimgrp	saturatingadd	intops/impl/intrinsics/gcc.html#saturatingAdd-procs-all	proc		34
+nimgrp	saturatingsub	intops/impl/intrinsics/gcc.html#saturatingSub-procs-all	proc		73

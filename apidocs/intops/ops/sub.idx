@@ -1,8 +1,8 @@
 nimTitle	sub	intops/ops/sub.html	module src/intops/ops/sub		0
-nim	overflowingSub	intops/ops/sub.html#overflowingSub.t,T,T	template overflowingSub[T: SomeInteger](a, b: T): tuple[res: T, didOverflow: bool]		5
-nim	saturatingSub	intops/ops/sub.html#saturatingSub.t,T,T	template saturatingSub[T: SomeInteger](a, b: T): T		25
-nim	borrowingSub	intops/ops/sub.html#borrowingSub.t,uint64,uint64,bool	template borrowingSub(a, b: uint64; borrowIn: bool): tuple[res: uint64, borrowOut: bool]		45
-nim	borrowingSub	intops/ops/sub.html#borrowingSub.t,uint32,uint32,bool	template borrowingSub(a, b: uint32; borrowIn: bool): tuple[res: uint32, borrowOut: bool]		75
-nim	borrowingSub	intops/ops/sub.html#borrowingSub.t,int64,int64,bool	template borrowingSub(a, b: int64; borrowIn: bool): tuple[res: int64, borrowOut: bool]		99
-nim	borrowingSub	intops/ops/sub.html#borrowingSub.t,int32,int32,bool	template borrowingSub(a, b: int32; borrowIn: bool): (int32, bool)		121
-nimgrp	borrowingsub	intops/ops/sub.html#borrowingSub-templates-all	template		45
+nim	overflowingSub	intops/ops/sub.html#overflowingSub.t,T,T	template overflowingSub[T: SomeInteger](a, b: T): tuple[res: T, didOverflow: bool]		14
+nim	saturatingSub	intops/ops/sub.html#saturatingSub.t,T,T	template saturatingSub[T: SomeInteger](a, b: T): T		34
+nim	borrowingSub	intops/ops/sub.html#borrowingSub.t,uint64,uint64,bool	template borrowingSub(a, b: uint64; borrowIn: bool): tuple[res: uint64, borrowOut: bool]		54
+nim	borrowingSub	intops/ops/sub.html#borrowingSub.t,uint32,uint32,bool	template borrowingSub(a, b: uint32; borrowIn: bool): tuple[res: uint32, borrowOut: bool]		84
+nim	borrowingSub	intops/ops/sub.html#borrowingSub.t,int64,int64,bool	template borrowingSub(a, b: int64; borrowIn: bool): tuple[res: int64, borrowOut: bool]		108
+nim	borrowingSub	intops/ops/sub.html#borrowingSub.t,int32,int32,bool	template borrowingSub(a, b: int32; borrowIn: bool): (int32, bool)		130
+nimgrp	borrowingsub	intops/ops/sub.html#borrowingSub-templates-all	template		54

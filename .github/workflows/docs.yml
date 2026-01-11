@@ -19,7 +19,7 @@ jobs:
           mdbook-version: '0.5.2'
 
       - name: Set up Nim
-      - uses: jiro4989/setup-nim-action@v2
+        uses: jiro4989/setup-nim-action@v2
         with:
           nim-version: 2.2.6
 

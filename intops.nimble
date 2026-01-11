@@ -9,12 +9,10 @@ srcDir = "src"
 # Dependencies
 
 requires "nim >= 2.2.6"
-requires "unittest2 ~= 0.2.5"
 
-import std/[os, sequtils, strformat]
+taskRequires "test", "unittest2 ~= 0.2.5"
 
-task docs, "Generate API docs":
-  exec "nimble doc --outdir:docs/apidocs --project --index:on src/intops.nim"
+import std/[os, sequtils, strformat, parseopt]
 
 task test, "Run tests":
   let
@@ -32,8 +30,6 @@ task test, "Run tests":
     echo fmt"# Flags: {flags}"
 
     selfExec fmt"r {flags} tests/tintops.nim"
-
-import std/parseopt
 
 task bench, "Run benchmarks":
   var
@@ -79,3 +75,13 @@ task bench, "Run benchmarks":
         len(modNames) == 0
       ):
         selfExec fmt"r {flags} {item.path}"
+
+task book, "Generate book":
+  exec "mdbook build book -d docs"
+
+task apidocs, "Generate API docs":
+  exec "nimble doc --outdir:docs/apidocs --project --index:on --git.url:https://github.com/vacp2p/nim-intops --git.commit:develop src/intops.nim"
+
+task docs, "Generate docs":
+  exec "nimble book"
+  exec "nimble apidocs"

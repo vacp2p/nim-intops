@@ -7,6 +7,6 @@
 - [t]—test suite improvement
 - [d]—docs improvement
 
-## 1.0.0 (WIP)
+## 1.0.0
 
 - 🎉 initial release.

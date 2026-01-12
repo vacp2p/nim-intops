@@ -1,9 +1,9 @@
 # Package
 
-version = "0.1.0"
+version = "1.0.0"
 author = "Constantine Molchanov"
 description = "Core arithmetic operations for CPU-sized integers."
-license = "MIT"
+license = "MIT or Apache License 2.0"
 srcDir = "src"
 
 # Dependencies

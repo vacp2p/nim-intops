@@ -14,5 +14,5 @@ jobs:
     with:
       nim-versions: '["version-2-2"]'
       test-command: |
-        nimble install -y nimble && nimble --dev install -y
+        nimble install -y nimble@#head && nimble --dev install -y
         nimble test

@@ -10,9 +10,10 @@ srcDir = "src"
 
 requires "nim >= 2.2.6"
 
-taskRequires "test", "unittest2 ~= 0.2.5"
-
 import std/[os, sequtils, strformat]
+
+dev:
+  requires "unittest2 ~= 0.2.5"
 
 task test, "Run tests":
   let

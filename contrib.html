@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-d0ee3384.js";
+            window.path_to_searchindex_js = "searchindex-488c30a6.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-03047c10.js"></script>
@@ -226,7 +226,8 @@
 <li>every dispatcher picks the proper implementation on any environment</li>
 <li>the results are correct no matter the implementation</li>
 </ol>
-<p>To run the tests locally, use <code>nimble test</code> command.</p>
+<p>To run the tests locally, use <code>nimble test</code> command. This command requires <code>unittest2</code> package, which can be installed with <code>nimble --features:tests install -dy</code> command.</p>
+<p>Important! Development version of Nimble is required to use the features feature, install it with <code>nimble install nimble@#head </code>.</p>
 <p>With this command, the tests are run:</p>
 <ul>
 <li>without compilation flags in runtime mode</li>

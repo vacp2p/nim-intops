@@ -10,9 +10,16 @@ on:
 
 jobs:
   tests:
-    uses: status-im/nimbus-common-workflow/.github/workflows/common.yml@main
-    with:
-      nim-versions: '["version-2-2"]'
-      test-command: |
-        nimble install -y nimble && nimble install -y
-        nimble test
+    - name: Setup Nimble
+      uses: nim-lang/setup-nimble-action@v1
+      with:
+        nimble-version: "nightly"
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Run tests
+      uses: status-im/nimbus-common-workflow/.github/workflows/common.yml@main
+      with:
+        nim-versions: '["version-2-2"]'
+        test-command: |
+          nimble install -y
+          nimble test

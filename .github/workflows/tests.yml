@@ -13,7 +13,7 @@ jobs:
     uses: status-im/nimbus-common-workflow/.github/workflows/common.yml@main
     with:
       nim-versions: '["version-2-2"]'
-      nimble-version: 'head'
+      nimble-version: '6e8ae9b85050aa0c5cc5a55639be2d12c8fb7e8e'
       test-command: |
         nimble install -y
         nimble test

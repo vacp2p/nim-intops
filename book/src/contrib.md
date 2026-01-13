@@ -61,7 +61,9 @@ These are integration tests that emulate real-lfe usage of the library and check
 1. every dispatcher picks the proper implementation on any environment
 2. the results are correct no matter the implementation
 
-To run the tests locally, use `nimble test` command.
+To run the tests locally, use `nimble test` command. This command requires `unittest2` package, which can be installed with `nimble --features:tests install -dy` command.
+
+Important! Development version of Nimble is required to use the features feature, install it with `nimble install nimble@#head `.
 
 With this command, the tests are run:
 - without compilation flags in runtime mode

@@ -153,7 +153,7 @@ func wideningMul*(a, b: uint32): (uint32, uint32) =
   let
     res = uint64(a) * uint64(b)
     hi = uint32(res shr 32)
-    lo = uint32(res)
+    lo = uint32(res and 0xFFFFFFFF'u64)
 
   return (hi, lo)
 

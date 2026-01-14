@@ -159,10 +159,13 @@ suite "Narrowing operations":
     check narrowingDiv(0'u64, 100'u64, 10'u64) == (10'u64, 0'u64)
     check narrowingDiv(0'u64, 105'u64, 10'u64) == (10'u64, 5'u64)
     check narrowingDiv(0'u64, high(uint64), high(uint64)) == (1'u64, 0'u64)
+
     check narrowingDiv(1'u64, 0'u64, 2'u64) == (0x8000000000000000'u64, 0'u64)
     check narrowingDiv(1'u64, 1'u64, 2'u64) == (0x8000000000000000'u64, 1'u64)
+
     check narrowingDiv(1'u64, 0x800000000000000F'u64, 3'u64) ==
       (0x8000000000000005'u64, 0'u64)
+
     check narrowingDiv(high(uint64) - 1'u64, high(uint64) - 1'u64, high(uint64)) ==
       (high(uint64), high(uint64) - 2)
 
@@ -171,6 +174,24 @@ suite "Narrowing operations":
     )
 
     check q == 0xFFFFFFFFFFFFFFFF'u64
+    check r > 0
+
+  test "Narrowing division, unsigned 32-bit integers":
+    check narrowingDiv(0'u32, 100'u32, 10'u32) == (10'u32, 0'u32)
+    check narrowingDiv(0'u32, 105'u32, 10'u32) == (10'u32, 5'u32)
+    check narrowingDiv(0'u32, high(uint32), high(uint32)) == (1'u32, 0'u32)
+
+    check narrowingDiv(1'u32, 0'u32, 2'u32) == (0x80000000'u32, 0'u32)
+    check narrowingDiv(1'u32, 1'u32, 2'u32) == (0x80000000'u32, 1'u32)
+
+    check narrowingDiv(1'u32, 0x8000000F'u32, 3'u32) == (0x80000005'u32, 0'u32)
+
+    check narrowingDiv(high(uint32) - 1'u32, high(uint32) - 1'u32, high(uint32)) ==
+      (high(uint32), high(uint32) - 2'u32)
+
+    let (q, r) = narrowingDiv(0xFFFEFFFF'u32, 0xFFFFFFFF'u32, 0xFFFF0000'u32)
+
+    check q == 0xFFFFFFFF'u32
     check r > 0
 
 suite "Composite operations":

@@ -10,8 +10,7 @@ srcDir = "src"
 
 requires "nim >= 2.2.6"
 
-feature "tests":
-  requires "unittest2 ~= 0.2.5"
+taskRequires "test", "unittest2 ~= 0.2.5"
 
 import std/[os, sequtils, strformat]
 

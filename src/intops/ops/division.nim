@@ -28,3 +28,13 @@ template narrowingDiv*(uHi, uLo, v: uint64): tuple[q, r: uint64] =
       intrinsics.x86.narrowingDiv(uHi, uLo, v)
     else:
       pure.narrowingDiv(uHi, uLo, v)
+
+template narrowingDiv*(uHi, uLo, v: uint32): tuple[q, r: uint32] =
+  ##[ Narrowing division with remainder of an unsigned 64-bit by an unsigned 32-bit integer.
+
+  Takes three unsigned 32-bit integers: the dividend high word, the dividend low word, and the divisor.
+
+  Returns the quotient and the remainder.
+  ]##
+
+  pure.narrowingDiv(uHi, uLo, v)

@@ -1,14 +1,14 @@
 # Package
 
-version = "0.1.0"
+version = "1.0.0"
 author = "Constantine Molchanov"
 description = "Core arithmetic operations for CPU-sized integers."
-license = "MIT"
+license = "MIT or Apache License 2.0"
 srcDir = "src"
 
 # Dependencies
 
-requires "nim >= 2.2.6"
+requires "nim >= 1.6.16"
 
 taskRequires "test", "unittest2 ~= 0.2.5"
 

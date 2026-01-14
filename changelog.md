@@ -10,6 +10,7 @@
 ## 1.0.1 (WIP)
 
 - [+] Added support for Nim 1.6.* and 2.0.*.
+- [+] Added narrowingDiv for uint32.
 
 ## 1.0.0 (January 12, 2026)
 

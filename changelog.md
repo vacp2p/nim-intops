@@ -7,6 +7,10 @@
 - [t]—test suite improvement
 - [d]—docs improvement
 
-## 1.0.0
+## 1.0.1 (WIP)
+
+- [+] Added support for Nim 1.6.* and 2.0.*.
+
+## 1.0.0 (January 12, 2026)
 
 - 🎉 initial release.

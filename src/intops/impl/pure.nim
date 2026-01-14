@@ -285,6 +285,31 @@ func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) =
 
   (finalQ, finalR)
 
+func narrowingDiv*(uHi, uLo, v: uint32): (uint32, uint32) =
+  ##[ Division uint64 by uint32.
+
+  Warning:
+    - if uHi == d, quotient does not fit in an uint32
+    - if uHi > d result is undefined
+
+  To avoid issues, uHi, uLo, and v are normalized i.e. shifted
+  (== multiplied by the same power of 2) so that the most significant bit in d is set.
+  ]##
+
+  if v == 0:
+    raise newException(DivByZeroDefect, "Division by zero")
+
+  if uHi == 0:
+    return (uLo div v, uLo mod v)
+
+  let
+    dividend = (uint64(uHi) shl 32) or uint64(uLo)
+    divisor = uint64(v)
+    q = uint32(dividend div divisor)
+    r = uint32(dividend mod divisor)
+
+  (q, r)
+
 func mulDoubleAdd2*[T: uint64 | uint32](a, b, c, dHi, dLo: T): (T, T, T) =
   var (r1, r0) = pure.wideningMul(a, b)
 

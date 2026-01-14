@@ -8,7 +8,7 @@ srcDir = "src"
 
 # Dependencies
 
-requires "nim >= 2.0.16"
+requires "nim >= 1.6.16"
 
 taskRequires "test", "unittest2 ~= 0.2.5"
 

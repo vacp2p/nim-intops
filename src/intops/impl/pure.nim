@@ -212,7 +212,7 @@ func wideningMulAdd*(a, b, c, d: uint64): (uint64, uint64) =
   (hi, lo)
 
 func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) =
-  ## Knuth's Algorithm D (Division of nonnegative integers) implementation.
+  ## Knuth's Algorithm D implementation.
 
   if v == 0:
     raise newException(DivByZeroDefect, "Division by zero")
@@ -227,7 +227,15 @@ func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) =
   # Normalization shift to ensure v's MSB is 1
   let shift = countLeadingZeroBits(v)
 
-  let
+  var vNorm, uHiNorm, uLoNorm: uint64
+
+  # Handle the case where v is already normalized (shift == 0)
+  # preventing undefined behavior (shr 64).
+  if shift == 0:
+    vNorm = v
+    uHiNorm = uHi
+    uLoNorm = uLo
+  else:
     vNorm = v shl shift
     uHiNorm = (uHi shl shift) or (uLo shr (64 - shift))
     uLoNorm = uLo shl shift
@@ -313,43 +321,37 @@ func narrowingDiv*(uHi, uLo, v: uint32): (uint32, uint32) =
 func mulDoubleAdd2*[T: uint64 | uint32](a, b, c, dHi, dLo: T): (T, T, T) =
   var (r1, r0) = pure.wideningMul(a, b)
 
-  let (r0_new, c1) = carryingAdd(r0, r0, false)
+  let (r0_new, c1) = pure.carryingAdd(r0, r0, false)
   r0 = r0_new
 
-  let (r1_new, c2) = carryingAdd(r1, r1, c1)
+  let (r1_new, c2) = pure.carryingAdd(r1, r1, c1)
   r1 = r1_new
 
-  var r2 =
-    if c2:
-      T(1)
-    else:
-      T(0)
+  var r2 = T(c2)
 
   let
-    (sum0, c3) = carryingAdd(r0, c, false)
-    (sum1, c4) = carryingAdd(r1, T(0), c3)
+    (sum0, c3) = pure.carryingAdd(r0, c, false)
+    (sum1, c4) = pure.carryingAdd(r1, T(0), c3)
 
   r0 = sum0
   r1 = sum1
-  if c4:
-    r2 += T(1)
+  r2 += T(c4)
 
   let
-    (final0, c5) = carryingAdd(r0, dLo, false)
-    (final1, c6) = carryingAdd(r1, dHi, c5)
+    (final0, c5) = pure.carryingAdd(r0, dLo, false)
+    (final1, c6) = pure.carryingAdd(r1, dHi, c5)
 
   r0 = final0
   r1 = final1
-  if c6:
-    r2 += T(1)
+  r2 += T(c6)
 
   (r2, r1, r0)
 
 func mulAcc*[T: uint64 | uint32](t, u, v: T, a, b: T): (T, T, T) =
   let
     (pHi, pLo) = pure.wideningMul(a, b)
-    (newV, carry1) = carryingAdd(v, pLo, false)
-    (newU, carry2) = carryingAdd(u, pHi, carry1)
-    newT = t + (if carry2: T(1) else: T(0))
+    (newV, carry1) = pure.carryingAdd(v, pLo, false)
+    (newU, carry2) = pure.carryingAdd(u, pHi, carry1)
+    newT = t + T(carry2)
 
   (newT, newU, newV)

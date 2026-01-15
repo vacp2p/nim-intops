@@ -1,6 +1,6 @@
 # Package
 
-version = "1.0.1"
+version = "1.0.2"
 author = "Constantine Molchanov"
 description = "Core arithmetic operations for CPU-sized integers."
 license = "MIT or Apache License 2.0"
@@ -8,9 +8,7 @@ srcDir = "src"
 
 # Dependencies
 
-requires "nim >= 1.6.16"
-
-taskRequires "test", "unittest2 ~= 0.2.5"
+requires "nim >= 1.6.16", "unittest2 ~= 0.2.5"
 
 import std/[os, sequtils, strformat, parseopt]
 

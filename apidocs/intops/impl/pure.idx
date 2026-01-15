@@ -18,9 +18,9 @@ nim	wideningMul	intops/impl/pure.html#wideningMul,int32,int32	proc wideningMul(a
 nim	wideningMulAdd	intops/impl/pure.html#wideningMulAdd,uint64,uint64,uint64	proc wideningMulAdd(a, b, c: uint64): (uint64, uint64)		195
 nim	wideningMulAdd	intops/impl/pure.html#wideningMulAdd,uint64,uint64,uint64,uint64	proc wideningMulAdd(a, b, c, d: uint64): (uint64, uint64)		204
 nim	narrowingDiv	intops/impl/pure.html#narrowingDiv,uint64,uint64,uint64	proc narrowingDiv(uHi, uLo, v: uint64): (uint64, uint64)		214
-nim	narrowingDiv	intops/impl/pure.html#narrowingDiv,uint32,uint32,uint32	proc narrowingDiv(uHi, uLo, v: uint32): (uint32, uint32)		288
-nim	mulDoubleAdd2	intops/impl/pure.html#mulDoubleAdd2,T,T,T,T,T	proc mulDoubleAdd2[T: uint64 | uint32](a, b, c, dHi, dLo: T): (T, T, T)		313
-nim	mulAcc	intops/impl/pure.html#mulAcc,T,T,T,T,T	proc mulAcc[T: uint64 | uint32](t, u, v: T; a, b: T): (T, T, T)		348
+nim	narrowingDiv	intops/impl/pure.html#narrowingDiv,uint32,uint32,uint32	proc narrowingDiv(uHi, uLo, v: uint32): (uint32, uint32)		296
+nim	mulDoubleAdd2	intops/impl/pure.html#mulDoubleAdd2,T,T,T,T,T	proc mulDoubleAdd2[T: uint64 | uint32](a, b, c, dHi, dLo: T): (T, T, T)		321
+nim	mulAcc	intops/impl/pure.html#mulAcc,T,T,T,T,T	proc mulAcc[T: uint64 | uint32](t, u, v: T; a, b: T): (T, T, T)		350
 nimgrp	borrowingsub	intops/impl/pure.html#borrowingSub-procs-all	proc		79
 nimgrp	saturatingadd	intops/impl/pure.html#saturatingAdd-procs-all	proc		46
 nimgrp	carryingadd	intops/impl/pure.html#carryingAdd-procs-all	proc		30

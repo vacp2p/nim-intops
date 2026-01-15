@@ -7,6 +7,10 @@
 - [t]—test suite improvement
 - [d]—docs improvement
 
+## 1.0.3 (January 15, 2026)
+
+- [f] Nimble: Removed unsupported requirement constraint.
+
 ## 1.0.2 (January 15, 2026)
 
 - [+] Added support for pre-0.20.1 Nimble versions.

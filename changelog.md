@@ -7,6 +7,10 @@
 - [t]—test suite improvement
 - [d]—docs improvement
 
+## 1.0.4 (January 15, 2026)
+
+- [f] narrowingDiv: Fix an undefined behavior bug caused by redundant normalization of an already normalized divisor.
+
 ## 1.0.3 (January 15, 2026)
 
 - [f] Nimble: Removed unsupported requirement constraint.

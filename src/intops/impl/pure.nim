@@ -212,7 +212,7 @@ func wideningMulAdd*(a, b, c, d: uint64): (uint64, uint64) =
   (hi, lo)
 
 func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) =
-  ## Knuth's Algorithm D (Division of nonnegative integers) implementation.
+  ## Knuth's Algorithm D implementation.
 
   if v == 0:
     raise newException(DivByZeroDefect, "Division by zero")
@@ -227,7 +227,15 @@ func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) =
   # Normalization shift to ensure v's MSB is 1
   let shift = countLeadingZeroBits(v)
 
-  let
+  var vNorm, uHiNorm, uLoNorm: uint64
+
+  # Handle the case where v is already normalized (shift == 0)
+  # preventing undefined behavior (shr 64).
+  if shift == 0:
+    vNorm = v
+    uHiNorm = uHi
+    uLoNorm = uLo
+  else:
     vNorm = v shl shift
     uHiNorm = (uHi shl shift) or (uLo shr (64 - shift))
     uLoNorm = uLo shl shift

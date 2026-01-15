@@ -172,9 +172,13 @@ suite "Narrowing operations":
     let (q, r) = narrowingDiv(
       0xFFFFFFFEFFFFFFFF'u64, 0xFFFFFFFFFFFFFFFF'u64, 0xFFFFFFFF00000000'u64
     )
-
     check q == 0xFFFFFFFFFFFFFFFF'u64
     check r > 0
+
+    # Cover stint's "bug #133: SIGFPE" test
+    check narrowingDiv(
+      3415582276580904276'u64, 18446744073709551615'u64, 15030568110056696491'u64
+    ) == (4191882279993773940'u64, 3585259921241417091'u64)
 
   test "Narrowing division, unsigned 32-bit integers":
     check narrowingDiv(0'u32, 100'u32, 10'u32) == (10'u32, 0'u32)

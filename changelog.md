@@ -7,6 +7,10 @@
 - [t]—test suite improvement
 - [d]—docs improvement
 
+## 1.0.2 (January 15, 2026)
+
+- [+] Added support for pre-0.20.1 Nimble versions.
+
 ## 1.0.1 (January 14, 2026)
 
 - [+] Added support for Nim 1.6.* and 2.0.*.

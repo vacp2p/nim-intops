@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-488c30a6.js";
+            window.path_to_searchindex_js = "searchindex-d0ee3384.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-03047c10.js"></script>
@@ -226,8 +226,7 @@
 <li>every dispatcher picks the proper implementation on any environment</li>
 <li>the results are correct no matter the implementation</li>
 </ol>
-<p>To run the tests locally, use <code>nimble test</code> command. This command requires <code>unittest2</code> package, which can be installed with <code>nimble --features:tests install -dy</code> command.</p>
-<p>Important! Development version of Nimble is required to use the features feature, install it with <code>nimble install nimble@#head </code>.</p>
+<p>To run the tests locally, use <code>nimble test</code> command.</p>
 <p>With this command, the tests are run:</p>
 <ul>
 <li>without compilation flags in runtime mode</li>
@@ -273,8 +272,8 @@ targets:
 <h2 id="benchmarks"><a class="header" href="#benchmarks">Benchmarks</a></h2>
 <p>Benchmarking is crucial for a library like intops: you can’t really do any reasonable dispatching improvement if you can’t argue about the changes with numbers.</p>
 <p>There are two kinds of benchmarks: latency and throughput.</p>
-<p><em>Latency benchmarks</em> measure how long a particular operation takes to complete. For a latency benchmark, we run the same operation against random input many times making sure the next iteration doesn’t start before the previous one completes. The result is measured in nanoseconds per operation.
-<em>Throughput benchmarks</em> measure how many operations of a particluar kind can be executed per unit of time. For a throughput benchmark, we spawn the same operation against random input many times back to back so that multiple instances of the same operation are executed in parallel. The results are measured in millions of operations per second.</p>
+<p><em>Latency benchmarks</em> measure how long a particular operation takes to complete. For a latency benchmark, we run the same operation against random input many times making sure the next iteration doesn’t start before the previous one completes. The result is measured in nanoseconds per operation.</p>
+<p><em>Throughput benchmarks</em> measure how many operations of a particluar kind can be executed per unit of time. For a throughput benchmark, we spawn the same operation against random input many times back to back so that multiple instances of the same operation are executed in parallel. The results are measured in millions of operations per second.</p>
 <p>Benchmarks are grouped by kind and operation family, e.g. <code>benchmarks/latency/add.nim</code> contains latency benchmarks for the add operations (overflowingAdd, saturatingAdd, etc.).</p>
 <p>To run the benchmarks locally, use <code>nimble bench</code> command:</p>
 <ul>

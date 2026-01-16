@@ -59,7 +59,9 @@
     <summary><a class="reference reference-toplevel" href="#18" id="68">Templates</a></summary>
     <ul class="simple simple-toc-section">
       <ul class="simple nested-toc-section">wideningMulAdd
-  <li><a class="reference" href="#wideningMulAdd.t%2Cuint64%2Cuint64%2Cuint64%2Cuint64" title="wideningMulAdd(a, b, c, d: uint64): tuple[hi, lo: uint64]">wideningMulAdd(a, b, c, d: uint64): tuple[hi, lo: uint64]</a></li>
+  <li><a class="reference" href="#wideningMulAdd.t%2Cuint32%2Cuint32%2Cuint32%2Cuint32" title="wideningMulAdd(a, b, c, d: uint32): tuple[hi, lo: uint32]">wideningMulAdd(a, b, c, d: uint32): tuple[hi, lo: uint32]</a></li>
+<li><a class="reference" href="#wideningMulAdd.t%2Cuint64%2Cuint64%2Cuint64%2Cuint64" title="wideningMulAdd(a, b, c, d: uint64): tuple[hi, lo: uint64]">wideningMulAdd(a, b, c, d: uint64): tuple[hi, lo: uint64]</a></li>
+<li><a class="reference" href="#wideningMulAdd.t%2Cuint32%2Cuint32%2Cuint32" title="wideningMulAdd(a, b, c: uint32): tuple[hi, lo: uint32]">wideningMulAdd(a, b, c: uint32): tuple[hi, lo: uint32]</a></li>
 <li><a class="reference" href="#wideningMulAdd.t%2Cuint64%2Cuint64%2Cuint64" title="wideningMulAdd(a, b, c: uint64): tuple[hi, lo: uint64]">wideningMulAdd(a, b, c: uint64): tuple[hi, lo: uint64]</a></li>
 
 </ul>
@@ -88,12 +90,36 @@
   <h1><a class="toc-backref" href="#18">Templates</a></h1>
   <dl class="item">
     <div id="wideningMulAdd-templates-all">
-  <div id="wideningMulAdd.t,uint64,uint64,uint64,uint64">
+  <div id="wideningMulAdd.t,uint32,uint32,uint32,uint32">
+  <dt><pre><span class="Keyword">template</span> <a href="#wideningMulAdd.t%2Cuint32%2Cuint32%2Cuint32%2Cuint32"><span class="Identifier">wideningMulAdd</span></a><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">,</span> <span class="Identifier">c</span><span class="Other">,</span> <span class="Identifier">d</span><span class="Other">:</span> <span class="Identifier">uint32</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">tuple</span><span class="Other">[</span><span class="Identifier">hi</span><span class="Other">,</span> <span class="Identifier">lo</span><span class="Other">:</span> <span class="Identifier">uint32</span><span class="Other">]</span></pre></dt>
+  <dd>
+    
+    <p>Widening multiplication + addition + addition on unsigned 32-bit integers.</p>
+<p>Takes four unsigned integers and returns the product of the first two ones plus the third one plus the fourth one as a pair of unsigned ints: the high word and the low word. </p>
+
+    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/ops/muladd.nim#L60" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/ops/muladd.nim#L60" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+
+  </dd>
+</div>
+<div id="wideningMulAdd.t,uint64,uint64,uint64,uint64">
   <dt><pre><span class="Keyword">template</span> <a href="#wideningMulAdd.t%2Cuint64%2Cuint64%2Cuint64%2Cuint64"><span class="Identifier">wideningMulAdd</span></a><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">,</span> <span class="Identifier">c</span><span class="Other">,</span> <span class="Identifier">d</span><span class="Other">:</span> <span class="Identifier">uint64</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">tuple</span><span class="Other">[</span><span class="Identifier">hi</span><span class="Other">,</span> <span class="Identifier">lo</span><span class="Other">:</span> <span class="Identifier">uint64</span><span class="Other">]</span></pre></dt>
   <dd>
     
     <p>Widening multiplication + addition + addition.</p>
 <p>Takes four unsigned integers and returns the product of the first two ones plus the third one plus the fourth one as a pair of unsigned ints: the high word and the low word. </p>
+
+    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/ops/muladd.nim#L42" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/ops/muladd.nim#L42" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+
+  </dd>
+</div>
+<div id="wideningMulAdd.t,uint32,uint32,uint32">
+  <dt><pre><span class="Keyword">template</span> <a href="#wideningMulAdd.t%2Cuint32%2Cuint32%2Cuint32"><span class="Identifier">wideningMulAdd</span></a><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">,</span> <span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">uint32</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">tuple</span><span class="Other">[</span><span class="Identifier">hi</span><span class="Other">,</span> <span class="Identifier">lo</span><span class="Other">:</span> <span class="Identifier">uint32</span><span class="Other">]</span></pre></dt>
+  <dd>
+    
+    <p>Widening multiplication + addition on unsigned 32-bit integers.</p>
+<p>Takes three unsigned integers and returns the product of the first two ones plus the third one as a pair of unsigned ints: the high word and the low word. </p>
 
     <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/ops/muladd.nim#L33" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
 <a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/ops/muladd.nim#L33" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
@@ -124,7 +150,7 @@
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2026-01-16 11:37:31 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2026-01-16 19:46:39 UTC</small>
       </div>
     </div>
   </div>

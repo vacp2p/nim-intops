@@ -106,7 +106,9 @@
 
 </ul>
 <ul class="simple nested-toc-section">wideningMulAdd
-  <li><a class="reference" href="#wideningMulAdd%2Cuint64%2Cuint64%2Cuint64%2Cuint64" title="wideningMulAdd(a, b, c, d: uint64): (uint64, uint64)">wideningMulAdd(a, b, c, d: uint64): (uint64, uint64)</a></li>
+  <li><a class="reference" href="#wideningMulAdd%2Cuint32%2Cuint32%2Cuint32%2Cuint32" title="wideningMulAdd(a, b, c, d: uint32): (uint32, uint32)">wideningMulAdd(a, b, c, d: uint32): (uint32, uint32)</a></li>
+<li><a class="reference" href="#wideningMulAdd%2Cuint64%2Cuint64%2Cuint64%2Cuint64" title="wideningMulAdd(a, b, c, d: uint64): (uint64, uint64)">wideningMulAdd(a, b, c, d: uint64): (uint64, uint64)</a></li>
+<li><a class="reference" href="#wideningMulAdd%2Cuint32%2Cuint32%2Cuint32" title="wideningMulAdd(a, b, c: uint32): (uint32, uint32)">wideningMulAdd(a, b, c: uint32): (uint32, uint32)</a></li>
 <li><a class="reference" href="#wideningMulAdd%2Cuint64%2Cuint64%2Cuint64" title="wideningMulAdd(a, b, c: uint64): (uint64, uint64)">wideningMulAdd(a, b, c: uint64): (uint64, uint64)</a></li>
 
 </ul>
@@ -185,8 +187,8 @@
   <dd>
     
     
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/pure.nim#L350" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/pure.nim#L350" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/pure.nim#L378" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/pure.nim#L378" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -199,8 +201,8 @@
   <dd>
     
     
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/pure.nim#L321" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/pure.nim#L321" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/pure.nim#L349" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/pure.nim#L349" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -219,8 +221,8 @@
 </ul>
 <p>To avoid issues, uHi, uLo, and v are normalized i.e. shifted (== multiplied by the same power of 2) so that the most significant bit in d is set. </p>
 
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/pure.nim#L296" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/pure.nim#L296" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/pure.nim#L324" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/pure.nim#L324" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -230,8 +232,8 @@
   <dd>
     
     Knuth's Algorithm D implementation.
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/pure.nim#L214" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/pure.nim#L214" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/pure.nim#L242" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/pure.nim#L242" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -385,8 +387,30 @@
 
 </div>
 <div id="wideningMulAdd-procs-all">
-  <div id="wideningMulAdd,uint64,uint64,uint64,uint64">
+  <div id="wideningMulAdd,uint32,uint32,uint32,uint32">
+  <dt><pre><span class="Keyword">func</span> <a href="#wideningMulAdd%2Cuint32%2Cuint32%2Cuint32%2Cuint32"><span class="Identifier">wideningMulAdd</span></a><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">,</span> <span class="Identifier">c</span><span class="Other">,</span> <span class="Identifier">d</span><span class="Other">:</span> <span class="Identifier">uint32</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">uint32</span><span class="Other">,</span> <span class="Identifier">uint32</span><span class="Other">)</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> </span><span class="Identifier">inline</span><span class="Other">,</span>
+    <span class="Identifier">noinit</span><span class="Other">,</span> <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">gcsafe</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+  <dd>
+    
+    
+    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/pure.nim#L228" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/pure.nim#L228" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+
+  </dd>
+</div>
+<div id="wideningMulAdd,uint64,uint64,uint64,uint64">
   <dt><pre><span class="Keyword">func</span> <a href="#wideningMulAdd%2Cuint64%2Cuint64%2Cuint64%2Cuint64"><span class="Identifier">wideningMulAdd</span></a><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">,</span> <span class="Identifier">c</span><span class="Other">,</span> <span class="Identifier">d</span><span class="Other">:</span> <span class="Identifier">uint64</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">uint64</span><span class="Other">,</span> <span class="Identifier">uint64</span><span class="Other">)</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> </span><span class="Identifier">inline</span><span class="Other">,</span>
+    <span class="Identifier">noinit</span><span class="Other">,</span> <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">gcsafe</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+  <dd>
+    
+    
+    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/pure.nim#L218" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/pure.nim#L218" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+
+  </dd>
+</div>
+<div id="wideningMulAdd,uint32,uint32,uint32">
+  <dt><pre><span class="Keyword">func</span> <a href="#wideningMulAdd%2Cuint32%2Cuint32%2Cuint32"><span class="Identifier">wideningMulAdd</span></a><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">,</span> <span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">uint32</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">uint32</span><span class="Other">,</span> <span class="Identifier">uint32</span><span class="Other">)</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> </span><span class="Identifier">inline</span><span class="Other">,</span>
     <span class="Identifier">noinit</span><span class="Other">,</span> <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">gcsafe</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
   <dd>
     
@@ -419,7 +443,7 @@
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2026-01-16 11:37:31 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2026-01-16 19:46:39 UTC</small>
       </div>
     </div>
   </div>

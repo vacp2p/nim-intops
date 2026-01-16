@@ -58,20 +58,20 @@ The actual implementations are stored in submodules in `intops/impl`. For exampl
 The tests for intops are located in a single file `tests/tintops.nim`.
 
 These are integration tests that emulate real-lfe usage of the library and check two things:
+
 1. every dispatcher picks the proper implementation on any environment
 2. the results are correct no matter the implementation
 
-To run the tests locally, use `nimble test` command. This command requires `unittest2` package, which can be installed with `nimble --features:tests install -dy` command.
-
-Important! Development version of Nimble is required to use the features feature, install it with `nimble install nimble@#head `.
+To run the tests locally, use `nimble test` command.
 
 With this command, the tests are run:
+
 - without compilation flags in runtime mode
 - without compilation flags in compile-time mode
 - with each compilation flag separately
 - with all compilation flags
 
-When executed on the CI, the tests are run against multiple OS, C compilers, and architectures: 
+When executed on the CI, the tests are run against multiple OS, C compilers, and architectures:
 
 - amd64 + Linux + gcc 13
 - amd64 + Linux + gcc 14
@@ -104,6 +104,7 @@ targets:
     exclude_files: []
     once: true
 ```
+
 3. Run `monit run`
 
 ## Benchmarks
@@ -112,8 +113,9 @@ Benchmarking is crucial for a library like intops: you can't really do any reaso
 
 There are two kinds of benchmarks: latency and throughput.
 
-*Latency benchmarks* measure how long a particular operation takes to complete. For a latency benchmark, we run the same operation against random input many times making sure the next iteration doesn't start before the previous one completes. The result is measured in nanoseconds per operation.
-*Throughput benchmarks* measure how many operations of a particluar kind can be executed per unit of time. For a throughput benchmark, we spawn the same operation against random input many times back to back so that multiple instances of the same operation are executed in parallel. The results are measured in millions of operations per second.
+_Latency benchmarks_ measure how long a particular operation takes to complete. For a latency benchmark, we run the same operation against random input many times making sure the next iteration doesn't start before the previous one completes. The result is measured in nanoseconds per operation.
+
+_Throughput benchmarks_ measure how many operations of a particluar kind can be executed per unit of time. For a throughput benchmark, we spawn the same operation against random input many times back to back so that multiple instances of the same operation are executed in parallel. The results are measured in millions of operations per second.
 
 Benchmarks are grouped by kind and operation family, e.g. `benchmarks/latency/add.nim` contains latency benchmarks for the add operations (overflowingAdd, saturatingAdd, etc.).
 
@@ -133,6 +135,7 @@ $ nimble bench sub mul
 ```
 
 - run latency or throughput benchmarks for all operations:
+
 ```
 $ nimble bench --kind:latency
 $ nimble bench --kind:throughput
@@ -148,6 +151,7 @@ $ nimble bench --kind:throughput sub mul
 ## Docs
 
 The docs consist of two parts:
+
 - the book (this is what you're reading right now)
 - the API docs
 
@@ -156,6 +160,7 @@ The book is created using [mdBook](https://rust-lang.github.io/mdBook/).
 The API docs are generated from the source code docstrings.
 
 To build the docs locally, run:
+
 - `nimble book` to build the book
 - `nimble apidocs` to build the API docs
 - `nimble docs` to build both

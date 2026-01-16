@@ -7,6 +7,10 @@
 - [t]—test suite improvement
 - [d]—docs improvement
 
+## 1.0.5 (January 16, 2026)
+
+- [+] Added wideningMulAdd for uint32.
+
 ## 1.0.4 (January 15, 2026)
 
 - [f] narrowingDiv: Fix an undefined behavior bug caused by redundant normalization of an already normalized divisor.

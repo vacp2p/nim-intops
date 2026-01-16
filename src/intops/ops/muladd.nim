@@ -30,6 +30,15 @@ template wideningMulAdd*(a, b, c: uint64): tuple[hi, lo: uint64] =
     else:
       pure.wideningMulAdd(a, b, c)
 
+template wideningMulAdd*(a, b, c: uint32): tuple[hi, lo: uint32] =
+  ##[ Widening multiplication + addition on unsigned 32-bit integers.
+
+  Takes three unsigned integers and returns the product of the first two ones
+  plus the third one as a pair of unsigned ints: the high word and the low word.
+  ]##
+
+  pure.wideningMulAdd(a, b, c)
+
 template wideningMulAdd*(a, b, c, d: uint64): tuple[hi, lo: uint64] =
   ##[ Widening multiplication + addition + addition.
 
@@ -47,3 +56,13 @@ template wideningMulAdd*(a, b, c, d: uint64): tuple[hi, lo: uint64] =
       intrinsics.x86.wideningMulAdd(a, b, c, d)
     else:
       pure.wideningMulAdd(a, b, c, d)
+
+template wideningMulAdd*(a, b, c, d: uint32): tuple[hi, lo: uint32] =
+  ##[ Widening multiplication + addition + addition on unsigned 32-bit integers.
+
+  Takes four unsigned integers and returns the product of the first two ones
+  plus the third one plus the fourth one as a pair of unsigned ints:
+  the high word and the low word.
+  ]##
+
+  pure.wideningMulAdd(a, b, c, d)

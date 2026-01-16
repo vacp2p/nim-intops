@@ -201,6 +201,20 @@ func wideningMulAdd*(a, b, c: uint64): (uint64, uint64) =
 
   (hi, lo)
 
+func wideningMulAdd*(a, b, c: uint32): (uint32, uint32) =
+  let
+    dblPrec = uint64(a) * uint64(b) + uint64(c)
+    hi = uint32(dblPrec shr 32)
+
+  var lo: uint32
+
+  when nimvm:
+    lo = uint32(dblPrec and 0xFFFFFFFF'u64)
+  else:
+    lo = uint32(dblPrec)
+
+  (hi, lo)
+
 func wideningMulAdd*(a, b, c, d: uint64): (uint64, uint64) =
   let
     (prodHi, prodLo) = wideningMul(a, b)
@@ -208,6 +222,20 @@ func wideningMulAdd*(a, b, c, d: uint64): (uint64, uint64) =
     (sumLo2, carry2) = carryingAdd(sumLo1, d, false)
     lo = sumLo2
     hi = prodHi + (if carry1: 1'u64 else: 0'u64) + (if carry2: 1'u64 else: 0'u64)
+
+  (hi, lo)
+
+func wideningMulAdd*(a, b, c, d: uint32): (uint32, uint32) =
+  let
+    dblPrec = uint64(a) * uint64(b) + uint64(c) + uint64(d)
+    hi = uint32(dblPrec shr 32)
+
+  var lo: uint32
+
+  when nimvm:
+    lo = uint32(dblPrec and 0xFFFFFFFF'u64)
+  else:
+    lo = uint32(dblPrec)
 
   (hi, lo)
 

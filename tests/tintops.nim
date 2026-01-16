@@ -139,20 +139,27 @@ suite "Widening operations":
     check wideningMul(-1'i32, -1'i32) == (0'i32, 1'u32)
     check wideningMul(2'i32, -1'i32) == (-1'i32, high(uint32) - 1'u32)
 
-  test "Widening multiplication with addition, unsigned 64-bit integers":
-    check wideningMulAdd(0'u64, 0'u64, 0'u64) == (0'u64, 0'u64)
-    check wideningMulAdd(2'u64, 3'u64, 4'u64) == (0'u64, 10'u64)
-    check wideningMulAdd(high(uint64), 1'u64, 1'u64) == (1'u64, 0'u64)
-    check wideningMulAdd(high(uint64), high(uint64), high(uint64)) ==
-      (high(uint64), 0'u64)
+  test "Widening multiplication with addition, unsigned":
+    template testWideningMulAdd[T: SomeUnsignedInt]() =
+      check:
+        wideningMulAdd(T(0), T(0), T(0)) == (T(0), T(0))
+        wideningMulAdd(T(2), T(3), T(4)) == (T(0), T(10))
+        wideningMulAdd(high(T), T(1), T(1)) == (T(1), T(0))
+        wideningMulAdd(high(T), high(T), high(T)) == (high(T), T(0))
 
-  test "Widening multiplication with double addition, unsigned 64-bit integers":
-    check wideningMulAdd(0'u64, 0'u64, 0'u64, 0'u64) == (0'u64, 0'u64)
-    check wideningMulAdd(2'u64, 3'u64, 4'u64, 5'u64) == (0'u64, 15'u64)
-    check wideningMulAdd(0'u64, 0'u64, high(uint64), high(uint64)) ==
-      (1'u64, high(uint64) - 1'u64)
-    check wideningMulAdd(high(uint64), high(uint64), high(uint64), high(uint64)) ==
-      (high(uint64), high(uint64))
+    testWideningMulAdd[uint32]()
+    testWideningMulAdd[uint64]()
+
+  test "Widening multiplication with double addition, unsigned":
+    template testWideningMulAdd[T: SomeUnsignedInt]() =
+      check:
+        wideningMulAdd(T(0), T(0), T(0), T(0)) == (T(0), T(0))
+        wideningMulAdd(T(2), T(3), T(4), T(5)) == (T(0), T(15))
+        wideningMulAdd(T(0), T(0), high(T), high(T)) == (T(1), high(T) - T(1))
+        wideningMulAdd(high(T), high(T), high(T), high(T)) == (high(T), high(T))
+
+    testWideningMulAdd[uint32]()
+    testWideningMulAdd[uint64]()
 
 suite "Narrowing operations":
   test "Narrowing division, unsigned 64-bit integers":

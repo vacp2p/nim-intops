@@ -375,7 +375,7 @@ func mulDoubleAdd2*[T: uint64 | uint32](a, b, c, dHi, dLo: T): (T, T, T) =
 
   (r2, r1, r0)
 
-func mulAcc*[T: uint64 | uint32](t, u, v: T, a, b: T): (T, T, T) =
+func mulAcc*[T: uint64 | uint32](t, u, v, a, b: T): (T, T, T) =
   let
     (pHi, pLo) = pure.wideningMul(a, b)
     (newV, carry1) = pure.carryingAdd(v, pLo, false)

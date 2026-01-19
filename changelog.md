@@ -7,13 +7,18 @@
 - [t]—test suite improvement
 - [d]—docs improvement
 
+## 1.0.6 (January 19, 2026)
+
+- [+] Ops: composite: Updated mulAcc and mulDoudleAdd2 to use the optimal implementations internally instead of pure Nim.
+- [r] Impl: pure: Removed mulAcc and mulDoubleAdd2 because they no longer are guaranteed to rely on pure Nim.
+
 ## 1.0.5 (January 16, 2026)
 
-- [+] Added wideningMulAdd for uint32.
+- [+] Ops: muladd: Added wideningMulAdd for uint32.
 
 ## 1.0.4 (January 15, 2026)
 
-- [f] narrowingDiv: Fix an undefined behavior bug caused by redundant normalization of an already normalized divisor.
+- [f] Ops: division: narrowingDiv: Fix an undefined behavior bug caused by redundant normalization of an already normalized divisor.
 
 ## 1.0.3 (January 15, 2026)
 
@@ -26,7 +31,7 @@
 ## 1.0.1 (January 14, 2026)
 
 - [+] Added support for Nim 1.6.* and 2.0.*.
-- [+] Added narrowingDiv for uint32.
+- [+] Ops: division: Added narrowingDiv for uint32.
 
 ## 1.0.0 (January 12, 2026)
 

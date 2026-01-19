@@ -12,7 +12,5 @@ jobs:
   benchmarks:
     uses: status-im/nimbus-common-workflow/.github/workflows/common.yml@main
     with:
-      nim-versions: '["version-2-2"]'
-      test-command: |
-        nimble install -y nimble && nimble install -y
-        nimble bench
+      nim-versions: '["version-1-6", "version-2-0", "version-2-2", "devel"]'
+      test-command: nimble bench

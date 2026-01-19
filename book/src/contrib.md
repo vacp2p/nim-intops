@@ -42,6 +42,12 @@ These submodules contain the dispatchers that pick the best implementation of th
 
 The actual implementations are stored in submodules in `intops/impl`. For example, `intops/impl/intrinsics` contains all primitives implemented with C intrinsics.
 
+### Composite Operations
+
+Operations defined in `ops/composite.nim` are a little special. Their purpose is to provide conveienvce operations that glue other ones together. Think of them as syntactic sugar for calling several primitives in a row.
+
+Dispatchers in `ops/composite.nim` to not have the typical `when` branching you see in the primitive dispatchers. Instead they are just templates that define the operations to be called and let their dispatchers decide which implementation to use.
+
 ## API Conventions
 
 1. intops follows the common Nim convention of calling things in `camelCase`.

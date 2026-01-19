@@ -56,21 +56,13 @@
 </li>
 <li>
   <details open>
-    <summary><a class="reference reference-toplevel" href="#12" id="62">Procs</a></summary>
-    <ul class="simple simple-toc-section">
-      <ul class="simple nested-toc-section">mulAcc
-  <li><a class="reference" href="#mulAcc%2CT%2CT%2CT%2CT%2CT" title="mulAcc[T: uint64 | uint32](t, u, v: T; a, b: T): tuple[t, u, v: T]">mulAcc[T: uint64 | uint32](t, u, v: T; a, b: T): tuple[t, u, v: T]</a></li>
-
-</ul>
-
-    </ul>
-  </details>
-</li>
-<li>
-  <details open>
     <summary><a class="reference reference-toplevel" href="#18" id="68">Templates</a></summary>
     <ul class="simple simple-toc-section">
-      <ul class="simple nested-toc-section">mulDoubleAdd2
+      <ul class="simple nested-toc-section">mulAcc
+  <li><a class="reference" href="#mulAcc.t%2CT%2CT%2CT%2CT%2CT" title="mulAcc[T: uint64 | uint32](t, u, v: T; a, b: T): tuple[t, u, v: T]">mulAcc[T: uint64 | uint32](t, u, v: T; a, b: T): tuple[t, u, v: T]</a></li>
+
+</ul>
+<ul class="simple nested-toc-section">mulDoubleAdd2
   <li><a class="reference" href="#mulDoubleAdd2.t%2CT%2CT%2CT%2CT%2CT" title="mulDoubleAdd2[T: uint64 | uint32](a, b, c, dHi, dLo: T): tuple[t2, r1, r0: T]">mulDoubleAdd2[T: uint64 | uint32](a, b, c, dHi, dLo: T): tuple[t2, r1, r0: T]</a></li>
 
 </ul>
@@ -92,32 +84,26 @@
     <div class="section" id="6">
   <h1><a class="toc-backref" href="#6">Imports</a></h1>
   <dl class="item">
-    <a class="reference external" href="../impl/pure.html">../impl/pure</a>
-  </dl>
-</div>
-<div class="section" id="12">
-  <h1><a class="toc-backref" href="#12">Procs</a></h1>
-  <dl class="item">
-    <div id="mulAcc-procs-all">
-  <div id="mulAcc,T,T,T,T,T">
-  <dt><pre><span class="Keyword">func</span> <a href="#mulAcc%2CT%2CT%2CT%2CT%2CT"><span class="Identifier">mulAcc</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">:</span> <span class="Identifier">uint64</span> <span class="Operator">|</span> <span class="Identifier">uint32</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">t</span><span class="Other">,</span> <span class="Identifier">u</span><span class="Other">,</span> <span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">;</span> <span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">tuple</span><span class="Other">[</span><span class="Identifier">t</span><span class="Other">,</span> <span class="Identifier">u</span><span class="Other">,</span> <span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">]</span></pre></dt>
-  <dd>
-    
-    Calculates: (t, u, v) &lt;- (t, u, v) + a * b Used for Comba multiplication column accumulation. 
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/ops/composite.nim#L21" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/ops/composite.nim#L21" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
-
-  </dd>
-</div>
-
-</div>
-
+    <a class="reference external" href="../../intops.html">../../intops</a>
   </dl>
 </div>
 <div class="section" id="18">
   <h1><a class="toc-backref" href="#18">Templates</a></h1>
   <dl class="item">
-    <div id="mulDoubleAdd2-templates-all">
+    <div id="mulAcc-templates-all">
+  <div id="mulAcc.t,T,T,T,T,T">
+  <dt><pre><span class="Keyword">template</span> <a href="#mulAcc.t%2CT%2CT%2CT%2CT%2CT"><span class="Identifier">mulAcc</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">:</span> <span class="Identifier">uint64</span> <span class="Operator">|</span> <span class="Identifier">uint32</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">t</span><span class="Other">,</span> <span class="Identifier">u</span><span class="Other">,</span> <span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">;</span> <span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">tuple</span><span class="Other">[</span><span class="Identifier">t</span><span class="Other">,</span> <span class="Identifier">u</span><span class="Other">,</span> <span class="Identifier">v</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">]</span></pre></dt>
+  <dd>
+    
+    Calculates: (t, u, v) &lt;- (t, u, v) + a * b Used for Comba multiplication column accumulation. 
+    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/ops/composite.nim#L47" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/ops/composite.nim#L47" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+
+  </dd>
+</div>
+
+</div>
+<div id="mulDoubleAdd2-templates-all">
   <div id="mulDoubleAdd2.t,T,T,T,T,T">
   <dt><pre><span class="Keyword">template</span> <a href="#mulDoubleAdd2.t%2CT%2CT%2CT%2CT%2CT"><span class="Identifier">mulDoubleAdd2</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">:</span> <span class="Identifier">uint64</span> <span class="Operator">|</span> <span class="Identifier">uint32</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">,</span> <span class="Identifier">c</span><span class="Other">,</span> <span class="Identifier">dHi</span><span class="Other">,</span> <span class="Identifier">dLo</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">tuple</span><span class="Other">[</span>
     <span class="Identifier">t2</span><span class="Other">,</span> <span class="Identifier">r1</span><span class="Other">,</span> <span class="Identifier">r0</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">]</span></pre></dt>
@@ -141,7 +127,7 @@
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2026-01-16 19:46:39 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2026-01-19 10:41:10 UTC</small>
       </div>
     </div>
   </div>

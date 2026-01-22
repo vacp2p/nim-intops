@@ -11,8 +11,7 @@ max-level = 2
 [preprocessor.open-on-gh]
 command = "mdbook-open-on-gh"
 renderer = ["html"]
+git-branch = "develop"
 
 [output.html]
 git-repository-url = "https://github.com/vacp2p/nim-intops/"
-git-branch = "develop"
-additional-css = ["open-in.css"]

@@ -12,7 +12,7 @@ template benchLatencyWidening3*(typ: typedesc, op: untyped) =
   elif typeof(op(default(typ), default(typ), default(typ))[0]) isnot typ:
     echo alignLeft(opName, 35), " -"
   else:
-    measureLatency(typ, opName):
+    measureLatency(typ, opName & "(3)"):
       var
         currentA {.inject.} = inputsA[0]
         loFlush {.inject.}: typ
@@ -31,7 +31,7 @@ template benchLatencyWidening4*(typ: typedesc, op: untyped) =
   elif typeof(op(default(typ), default(typ), default(typ), default(typ))[0]) isnot typ:
     echo alignLeft(opName, 35), " -"
   else:
-    measureLatency(typ, opName):
+    measureLatency(typ, opName & "(4)"):
       var
         currentA {.inject.} = inputsA[0]
         loFlush {.inject.}: typ

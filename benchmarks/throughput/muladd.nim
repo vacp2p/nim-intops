@@ -12,7 +12,7 @@ template benchThroughputWidening3*(typ: typedesc, op: untyped) =
   elif typeof(op(default(typ), default(typ), default(typ))[0]) isnot typ:
     echo alignLeft(opName, 35), " -"
   else:
-    measureThroughput(typ, opName):
+    measureThroughput(typ, opName & "(3)"):
       var
         hiFlush {.inject.}: typ
         loFlush {.inject.}: typ
@@ -32,7 +32,7 @@ template benchThroughputWidening4*(typ: typedesc, op: untyped) =
   elif typeof(op(default(typ), default(typ), default(typ), default(typ))[0]) isnot typ:
     echo alignLeft(opName, 35), " -"
   else:
-    measureThroughput(typ, opName):
+    measureThroughput(typ, opName & "(4)"):
       var
         hiFlush {.inject.}: typ
         loFlush {.inject.}: typ

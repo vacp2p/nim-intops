@@ -56,6 +56,9 @@ task bench, "Run benchmarks":
     optFlagStr = """-d:danger --passC:"-march=native -O3""""
     flags = fmt"{archFlagStr} {optFlagStr}"
 
+  rmFile "results.csv"
+  rmFile "results.json"
+
   echo fmt"# Flags: {flags}"
 
   if benchKind in ["all", "latency"]:

@@ -10,7 +10,7 @@ srcDir = "src"
 
 requires "nim >= 1.6.16", "unittest2 >= 0.2.5"
 
-import std/[os, sequtils, strformat, parseopt]
+import std/[os, sequtils, strformat, parseopt, json]
 
 task test, "Run tests":
   let
@@ -76,6 +76,26 @@ task bench, "Run benchmarks":
         len(modNames) == 0
       ):
         selfExec fmt"r {flags} {item.path}"
+
+task bencher, "Generate results.json in Bencher Measurement Format (BMF)":
+  var entries = newJObject()
+
+  for line in readFile("results.csv").splitLines:
+    if len(line) == 0:
+      continue
+
+    let
+      components = line.split(",")
+      entryKind = components[0]
+      entryName = components[1] & "_" & components[2]
+      entryVal = parseFloat(components[3])
+
+    if entryName notin entries:
+      entries.add(entryName, %*{})
+
+    entries[entryName].add(entryKind, %*entryVal)
+
+  writeFile("results.json", pretty entries)
 
 task book, "Generate book":
   exec "mdbook build book -d docs"

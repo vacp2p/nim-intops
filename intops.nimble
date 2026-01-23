@@ -93,9 +93,11 @@ task bencher, "Generate results.json in Bencher Measurement Format (BMF)":
     if entryName notin entries:
       entries.add(entryName, %*{})
 
-    entries[entryName].add(entryKind, %*entryVal)
+    entries[entryName].add(entryKind, %*{"value": entryVal})
 
   writeFile("results.json", pretty entries)
+
+  echo "Benchmark results saved to results.json."
 
 task book, "Generate book":
   exec "mdbook build book -d docs"

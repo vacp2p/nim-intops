@@ -62,6 +62,10 @@ template measureLatency*(
       timeDelta = (timeFinish - timeStart).inNanoseconds
       nanosecsPerOp = float64(timeDelta) / float64(iterations)
 
+    var resultsFile = open("results.csv", fmAppend)
+    resultsFile.writeLine ["latency", opName, astToStr(typ), $nanosecsPerOp].join(",")
+    close resultsFile
+
     echo alignLeft(opName, 35), " ", formatFloat(nanosecsPerOp, ffDecimal, 3), " ns/op"
 
 template measureThroughput*(
@@ -117,6 +121,10 @@ template measureThroughput*(
       seconds = totalNs / 1_000_000_000.0
       opsPerSec = float64(iterations) / seconds
       mops = opsPerSec / 1_000_000.0
+
+    var resultsFile = open("results.csv", fmAppend)
+    resultsFile.writeLine ["throughput", opName, astToStr(typ), $mops].join(",")
+    close resultsFile
 
     echo alignLeft(opName, 35), " ", mops.formatFloat(ffDecimal, 3), " Mops/s"
 

@@ -10,7 +10,7 @@ on:
 
 jobs:
   benchmarks:
-    uses: moigagoo/nimbus-common-workflow/.github/workflows/common.yml@feature/secrets
+    uses: status-im/nimbus-common-workflow/.github/workflows/common.yml@main
     secrets:
       EXTERNAL_SERVICE_TOKEN: ${{ secrets.BENCHER_API_TOKEN }}
     with:

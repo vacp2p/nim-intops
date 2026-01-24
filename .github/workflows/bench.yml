@@ -10,19 +10,23 @@ on:
 
 jobs:
   benchmarks:
-    uses: moigagoo/nimbus-common-workflow/.github/workflows/common.yml@feature/expose_environment_attrs
+    uses: moigagoo/nimbus-common-workflow/.github/workflows/common.yml@feature/secrets
+    secrets:
+      EXTERNAL_SERVICE_TOKEN: ${{ secrets.BENCHER_API_TOKEN }}
     with:
       nim-versions: '["version-1-6", "version-2-0", "version-2-2", "devel"]'
       test-command: |
         curl -L https://bencher.dev/download/install.sh | sh
         export PATH="$HOME/.bencher:$PATH"
+
         nimble bench
         nimble bencher
+
         bencher run \
           --project nim-intops \
-          --token '${{ secrets.BENCHER_API_TOKEN }}' \
-          --adapter json
+          --token "$EXTERNAL_SERVICE_TOKEN" \
+          --adapter json \
           --file results.json \
-          --branch '${{ github.ref_name }}' \
-          --testbed "${OS}_${PLATFORM}-${CPU}-${NIM_VERSION}" \
+          --branch '${{ github.head_ref || github.ref_name }}' \
+          --testbed "${OS}-${PLATFORM}-${CPU}-${NIM_VERSION}" \
           --err

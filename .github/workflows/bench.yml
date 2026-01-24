@@ -16,7 +16,7 @@ jobs:
     with:
       nim-versions: '["version-1-6", "version-2-0", "version-2-2", "devel"]'
       test-command: |
-        curl -fsSL https://raw.githubusercontent.com/bencherdev/bencher/main/install.sh | sh
+        curl --proto '=https' --tlsv1.2 -sSfL https://bencher.dev/download/install-cli.sh | sh
         export PATH="$HOME/.bencher:$PATH"
 
         nimble bench

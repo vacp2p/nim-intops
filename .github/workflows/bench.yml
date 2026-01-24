@@ -16,8 +16,13 @@ jobs:
     with:
       nim-versions: '["version-1-6", "version-2-0", "version-2-2", "devel"]'
       test-command: |
-        curl --proto '=https' --tlsv1.2 -sSfL https://bencher.dev/download/install-cli.sh | sh
-        export PATH="$HOME/.bencher:$PATH"
+        if [[ "$OS" == "windows" ]]; then
+          powershell -c "irm https://bencher.dev/download/install-cli.ps1 | iex"
+          export PATH="$HOME/bencher:$PATH"
+        else
+          curl --proto '=https' --tlsv1.2 -sSfL https://bencher.dev/download/install-cli.sh | sh
+          export PATH="$HOME/.bencher:$PATH"
+        fi
 
         nimble bench
         nimble bencher

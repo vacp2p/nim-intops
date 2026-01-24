@@ -8,6 +8,7 @@ intops offers a clean high-level API that hides the implementation details of an
 - [API Index →](https://vacp2p.github.io/nim-intops/apidocs/theindex.html)
 - [Issues →](https://github.com/vacp2p/nim-intops/issues)
 - [Contributor's Guide →](https://vacp2p.github.io/nim-intops/contrib.html)
+- [Benchmark Stats →](https://bencher.dev/console/projects/nim-intops/perf)
 
 intops aims to satisfy the following requirements:
 

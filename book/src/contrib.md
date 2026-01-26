@@ -111,10 +111,6 @@ targets:
     once: true
 ```
 
-### Writing Tests
-
-
-
 3. Run `monit run`
 
 ## Benchmarks
@@ -161,6 +157,7 @@ $ nimble bench --kind:throughput sub mul
 ### Writing Benchmarks
 
 intops ships with a ready-to-use test harness for latency and throughput benchmarks available in `benchmarks/utils.nim`:
+
 1. `measureLatency` and `measureThroughput` templates run the actual code to be measured and produce the output (stdout and results.json).
 2. `benchTypesAndImpls` template lets you measure all availalbe implementations against 32- and 64-bit types.
 

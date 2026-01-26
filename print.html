@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-c50db5d5.js";
+            window.path_to_searchindex_js = "searchindex-04b99869.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-03047c10.js"></script>
@@ -336,6 +336,7 @@ targets:
     exclude_files: []
     once: true
 </code></pre>
+<h3 id="writing-tests"><a class="header" href="#writing-tests">Writing Tests</a></h3>
 <ol start="3">
 <li>Run <code>monit run</code></li>
 </ol>
@@ -368,6 +369,72 @@ $ nimble bench --kind:throughput
 </ul>
 <pre><code>$ nimble bench --kind:latency add
 $ nimble bench --kind:throughput sub mul
+</code></pre>
+<h3 id="writing-benchmarks"><a class="header" href="#writing-benchmarks">Writing Benchmarks</a></h3>
+<p>intops ships with a ready-to-use test harness for latency and throughput benchmarks available in <code>benchmarks/utils.nim</code>:</p>
+<ol>
+<li><code>measureLatency</code> and <code>measureThroughput</code> templates run the actual code to be measured and produce the output (stdout and results.json).</li>
+<li><code>benchTypesAndImpls</code> template lets you measure all availalbe implementations against 32- and 64-bit types.</li>
+</ol>
+<p>Here’s an existing example of a <code>latency</code> benchmark for multiplication from <code>benchmarks/latency/mul.add</code> with additional comments:</p>
+<pre><code class="language-nim"># We need this for `alignLeft`.
+import std/strutils
+
+# Import all available implementations.
+import intops/impl/[pure, intrinsics, inlinec, inlineasm]
+
+# Import the test harness.
+import ../utils
+
+# In this template, we define how the benchmakr must be set up, run, and wrapped up.
+# The convention is to call these templates `bench(Latency|Throughput)&lt;OperationKind&gt;`.
+# The template accepts a type and a fully-qualified operation name.
+template benchLatencyWidening*(typ: typedesc, op: untyped) =
+  let opName = astToStr(op)
+
+  # Check is the given operation compiles in the current environment.
+  when not compiles op(default(typ), default(typ)):
+    echo alignLeft(opName, 35), " -"
+  elif typeof(op(default(typ), default(typ))[0]) isnot typ:
+  # Check that we're not falling back to an operation for a different type,
+  # e.g. if we call the operation on uint32, we don't want the uint64 variant to be called.
+    echo alignLeft(opName, 35), " -"
+  else:
+    # This is the actual meat of the benchmark.
+    measureLatency(typ, opName):
+      # First, we define and initialize the variables we'll need during the benchmark.
+      # `inputsA` (and several more, not used here) is an array of random data provided by `measureLatency`.
+      var
+        currentA {.inject.} = inputsA[0]
+        flush {.inject.}: typ
+    do:
+      # Second, we define the actual benchmarking logic.
+      # In this example, since we're measuring latency, we must ensure that iterations happen one after another,
+      # so the next value must depend on the previous calculation result.
+      # `op` is the operation we're benchmarking.
+      let (hi, lo) = op(currentA, inputsB[idx])
+      currentA = hi
+      flush = flush xor cast[typ](lo)
+    do:
+      # Finally, we do what's necessary to properly wrap up the benchmark.
+      # Typically, we'll call `doNotOptimize` to force the compiler not to optimize away unused variables.
+      # `doNotOptimize` is defined in `benchmarks/utils.nim` and tricks the compiler to believe the variable
+      # is used in an Assembly block.
+      doNotOptimize(flush)
+
+# Wrap the template call in a `noinline` function so that the Nim compiler wouldn't produce
+# one huge source code file; this would affect the benchmark results.
+proc runLatencyWidening() {.noinline.} =
+  # `benchTypesAndImpls` measures a given operation (e.g. `wideningMul`) with a given benchmark
+  # routine (e.g. `benchLatancyWidening`) against all available implementations and types. 
+  benchTypesAndImpls(benchLatencyWidening, wideningMul)
+
+when isMainModule:
+  # This is purely for the stdout reading convenience.
+  echo "\n# Latency, Multiplication"
+
+  # Call the benchmarking function.
+  runLatencyWidening()
 </code></pre>
 <h2 id="docs"><a class="header" href="#docs">Docs</a></h2>
 <p>The docs consist of two parts:</p>

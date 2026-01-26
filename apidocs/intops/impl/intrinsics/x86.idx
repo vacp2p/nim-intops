@@ -1,15 +1,13 @@
 nimTitle	x86	intops/impl/intrinsics/x86.html	module src/intops/impl/intrinsics/x86		0
-nim	builtinCarryingAdd	intops/impl/intrinsics/x86.html#builtinCarryingAdd,uint8,uint32,uint32,uint32	proc builtinCarryingAdd(carryIn: uint8; a, b: uint32; res: var uint32): uint8		20
-nim	builtinBorrowingSub	intops/impl/intrinsics/x86.html#builtinBorrowingSub,uint8,uint32,uint32,uint32	proc builtinBorrowingSub(borrowIn: uint8; a, b: uint32; res: var uint32): uint8		24
+nim	builtinCarryingAdd	intops/impl/intrinsics/x86.html#builtinCarryingAdd,uint8,cuint,cuint,ptr.cuint	proc builtinCarryingAdd(carryIn: uint8; a, b: cuint; res: ptr cuint): uint8		20
+nim	builtinBorrowingSub	intops/impl/intrinsics/x86.html#builtinBorrowingSub,uint8,cuint,cuint,ptr.uint32	proc builtinBorrowingSub(borrowIn: uint8; a, b: cuint; res: ptr uint32): uint8		24
 nim	carryingAdd	intops/impl/intrinsics/x86.html#carryingAdd,uint32,uint32,bool	proc carryingAdd(a, b: uint32; carryIn: bool): (uint32, bool)		30
-nim	borrowingSub	intops/impl/intrinsics/x86.html#borrowingSub,uint32,uint32,bool	proc borrowingSub(a, b: uint32; borrowIn: bool): (uint32, bool)		39
-nim	builtinCarryingAdd	intops/impl/intrinsics/x86.html#builtinCarryingAdd,uint8,uint64,uint64,uint64	proc builtinCarryingAdd(carryIn: uint8; a, b: uint64; res: var uint64): uint8		49
-nim	builtinBorrowingSub	intops/impl/intrinsics/x86.html#builtinBorrowingSub,uint8,uint64,uint64,uint64	proc builtinBorrowingSub(borrowIn: uint8; a, b: uint64; res: var uint64): uint8		53
-nim	builtinNarrowingDiv	intops/impl/intrinsics/x86.html#builtinNarrowingDiv,uint64,uint64,uint64,uint64	proc builtinNarrowingDiv(uHi, uLo, v: uint64; r: var uint64): uint64		57
-nim	carryingAdd	intops/impl/intrinsics/x86.html#carryingAdd,uint64,uint64,bool	proc carryingAdd(a, b: uint64; carryIn: bool): (uint64, bool)		63
-nim	borrowingSub	intops/impl/intrinsics/x86.html#borrowingSub,uint64,uint64,bool	proc borrowingSub(a, b: uint64; borrowIn: bool): (uint64, bool)		72
-nim	narrowingDiv	intops/impl/intrinsics/x86.html#narrowingDiv,uint64,uint64,uint64	proc narrowingDiv(uHi, uLo, v: uint64): (uint64, uint64)		80
-nimgrp	borrowingsub	intops/impl/intrinsics/x86.html#borrowingSub-procs-all	proc		39
+nim	borrowingSub	intops/impl/intrinsics/x86.html#borrowingSub,uint32,uint32,bool	proc borrowingSub(a, b: uint32; borrowIn: bool): (uint32, bool)		38
+nim	builtinCarryingAdd	intops/impl/intrinsics/x86.html#builtinCarryingAdd,uint8,culonglong,culonglong,ptr.culonglong	proc builtinCarryingAdd(carryIn: uint8; a, b: culonglong; res: ptr culonglong): uint8		48
+nim	builtinBorrowingSub	intops/impl/intrinsics/x86.html#builtinBorrowingSub,uint8,culonglong,culonglong,ptr.culonglong	proc builtinBorrowingSub(borrowIn: uint8; a, b: culonglong; res: ptr culonglong): uint8		52
+nim	carryingAdd	intops/impl/intrinsics/x86.html#carryingAdd,uint64,uint64,bool	proc carryingAdd(a, b: uint64; carryIn: bool): (uint64, bool)		58
+nim	borrowingSub	intops/impl/intrinsics/x86.html#borrowingSub,uint64,uint64,bool	proc borrowingSub(a, b: uint64; borrowIn: bool): (uint64, bool)		67
+nimgrp	borrowingsub	intops/impl/intrinsics/x86.html#borrowingSub-procs-all	proc		38
 nimgrp	carryingadd	intops/impl/intrinsics/x86.html#carryingAdd-procs-all	proc		30
 nimgrp	builtinborrowingsub	intops/impl/intrinsics/x86.html#builtinBorrowingSub-procs-all	proc		24
 nimgrp	builtincarryingadd	intops/impl/intrinsics/x86.html#builtinCarryingAdd-procs-all	proc		20

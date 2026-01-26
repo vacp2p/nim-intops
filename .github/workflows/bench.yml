@@ -11,8 +11,6 @@ on:
 jobs:
   benchmarks:
     uses: status-im/nimbus-common-workflow/.github/workflows/common.yml@main
-    permissions:
-      checks: write
     secrets:
       EXTERNAL_SERVICE_TOKEN: ${{ secrets.BENCHER_API_TOKEN }}
     with:
@@ -36,5 +34,4 @@ jobs:
           --file results.json \
           --branch '${{ github.head_ref || github.ref_name }}' \
           --testbed "${OS}-${PLATFORM}-${CPU}-${NIM_VERSION}" \
-          --github-actions '${{ secrets.GITHUB_TOKEN }}' \
           --err

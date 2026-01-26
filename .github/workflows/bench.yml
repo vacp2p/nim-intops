@@ -27,6 +27,12 @@ jobs:
         nimble bench
         nimble bencher
 
+        BENCHER_FLAGS=""
+
+        if [[ -n "${{ github.base_ref }}" ]]; then
+          BENCHER_FLAGS="--start-point ${{ github.base_ref }} --start-point-reset --start-point-clone-thresholds"
+        fi
+
         bencher run \
           --project nim-intops \
           --token "$EXTERNAL_SERVICE_TOKEN" \
@@ -34,4 +40,5 @@ jobs:
           --file results.json \
           --branch '${{ github.head_ref || github.ref_name }}' \
           --testbed "${OS}-${PLATFORM}-${CPU}-${NIM_VERSION}" \
-          --err
+          --err \
+          $BENCHER_FLAGS

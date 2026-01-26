@@ -8,6 +8,7 @@ intops offers a clean high-level API that hides the implementation details of an
 - [API Index →](https://vacp2p.github.io/nim-intops/apidocs/theindex.html)
 - [Issues →](https://github.com/vacp2p/nim-intops/issues)
 - [Contributor's Guide →](https://vacp2p.github.io/nim-intops/contrib.html)
+- [Benchmark Stats →](https://bencher.dev/console/projects/nim-intops/perf)
 
 intops aims to satisfy the following requirements:
 
@@ -24,10 +25,10 @@ intops aims to satisfy the following requirements:
 
 Licensed and distributed under either of
 
-- MIT license: [LICENSE-MIT](LICENSE-MIT) or http://opensource.org/licenses/MIT
+- MIT license: [LICENSE-MIT](./LICENSE-MIT) or http://opensource.org/licenses/MIT
 
 or
 
-- Apache License, Version 2.0, ([LICENSE-APACHEv2](LICENSE-APACHEv2) or http://www.apache.org/licenses/LICENSE-2.0)
+- Apache License, Version 2.0, ([LICENSE-APACHEv2](./LICENSE-APACHEv2) or http://www.apache.org/licenses/LICENSE-2.0)
 
 at your option. This file may not be copied, modified, or distributed except according to those terms.

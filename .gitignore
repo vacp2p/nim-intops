@@ -16,6 +16,9 @@ nimcache/
 
 tests/tintops
 
+results.csv
+results.json
+
 nimble.develop
 nimble.paths
 nimbledeps

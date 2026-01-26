@@ -1,0 +1,51 @@
+name: Run Benchmarks
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  benchmarks:
+    uses: status-im/nimbus-common-workflow/.github/workflows/common.yml@main
+    secrets:
+      EXTERNAL_SERVICE_TOKEN: ${{ secrets.BENCHER_API_TOKEN }}
+    with:
+      nim-versions: '["version-1-6", "version-2-0", "version-2-2", "devel"]'
+      test-command: |
+        if [[ "$OS" == "windows" ]]; then
+          powershell -c "irm https://bencher.dev/download/install-cli.ps1 | iex"
+          export PATH="$HOME/bencher:$PATH"
+        else
+          curl --proto '=https' --tlsv1.2 -sSfL https://bencher.dev/download/install-cli.sh | sh
+          export PATH="$HOME/.bencher:$PATH"
+        fi
+
+        BENCHER_FLAGS=""
+        if [[ -n "${{ github.base_ref }}" ]]; then
+          BENCHER_FLAGS="--start-point ${{ github.base_ref }} --start-point-reset --start-point-clone-thresholds"
+        fi
+
+        nimble bench
+        nimble bencher
+
+        bencher run \
+          --project nim-intops \
+          --token "$EXTERNAL_SERVICE_TOKEN" \
+          --adapter json \
+          --file results.json \
+          --branch '${{ github.head_ref || github.ref_name }}' \
+          --testbed "${OS}-${PLATFORM}-${CPU}-${NIM_VERSION}" \
+          --err \
+          --threshold-measure latency \
+          --threshold-test t_test \
+          --threshold-lower-boundary _ \
+          --threshold-upper-boundary 0.99 \
+          --threshold-measure throughput \
+          --threshold-test t_test \
+          --threshold-lower-boundary 0.99 \
+          --threshold-upper-boundary _ \
+          $BENCHER_FLAGS

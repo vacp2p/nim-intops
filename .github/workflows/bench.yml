@@ -41,9 +41,11 @@ jobs:
           --testbed "${OS}-${PLATFORM}-${CPU}-${NIM_VERSION}" \
           --err \
           --threshold-measure latency \
+          --threshold-test t_test \
           --threshold-lower-boundary _ \
           --threshold-upper-boundary 0.99 \
           --threshold-measure throughput \
+          --threshold-test t_test \
           --threshold-lower-boundary 0.99 \
           --threshold-upper-boundary _ \
           $BENCHER_FLAGS

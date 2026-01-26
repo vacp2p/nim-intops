@@ -24,14 +24,13 @@ jobs:
           export PATH="$HOME/.bencher:$PATH"
         fi
 
-        nimble bench
-        nimble bencher
-
         BENCHER_FLAGS=""
-
         if [[ -n "${{ github.base_ref }}" ]]; then
           BENCHER_FLAGS="--start-point ${{ github.base_ref }} --start-point-reset --start-point-clone-thresholds"
         fi
+
+        nimble bench
+        nimble bencher
 
         bencher run \
           --project nim-intops \
@@ -41,4 +40,10 @@ jobs:
           --branch '${{ github.head_ref || github.ref_name }}' \
           --testbed "${OS}-${PLATFORM}-${CPU}-${NIM_VERSION}" \
           --err \
+          --threshold-measure latency \
+          --threshold-lower-boundary _ \
+          --threshold-upper-boundary 0.99 \
+          --threshold-measure throughput \
+          --threshold-lower-boundary 0.99 \
+          --threshold-upper-boundary _ \
           $BENCHER_FLAGS

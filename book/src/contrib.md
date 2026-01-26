@@ -111,6 +111,10 @@ targets:
     once: true
 ```
 
+### Writing Tests
+
+
+
 3. Run `monit run`
 
 ## Benchmarks
@@ -152,6 +156,75 @@ $ nimble bench --kind:throughput
 ```
 $ nimble bench --kind:latency add
 $ nimble bench --kind:throughput sub mul
+```
+
+### Writing Benchmarks
+
+intops ships with a ready-to-use test harness for latency and throughput benchmarks available in `benchmarks/utils.nim`:
+1. `measureLatency` and `measureThroughput` templates run the actual code to be measured and produce the output (stdout and results.json).
+2. `benchTypesAndImpls` template lets you measure all availalbe implementations against 32- and 64-bit types.
+
+Here's an existing example of a `latency` benchmark for multiplication from `benchmarks/latency/mul.add` with additional comments:
+
+```nim
+# We need this for `alignLeft`.
+import std/strutils
+
+# Import all available implementations.
+import intops/impl/[pure, intrinsics, inlinec, inlineasm]
+
+# Import the test harness.
+import ../utils
+
+# In this template, we define how the benchmakr must be set up, run, and wrapped up.
+# The convention is to call these templates `bench(Latency|Throughput)<OperationKind>`.
+# The template accepts a type and a fully-qualified operation name.
+template benchLatencyWidening*(typ: typedesc, op: untyped) =
+  let opName = astToStr(op)
+
+  # Check is the given operation compiles in the current environment.
+  when not compiles op(default(typ), default(typ)):
+    echo alignLeft(opName, 35), " -"
+  elif typeof(op(default(typ), default(typ))[0]) isnot typ:
+  # Check that we're not falling back to an operation for a different type,
+  # e.g. if we call the operation on uint32, we don't want the uint64 variant to be called.
+    echo alignLeft(opName, 35), " -"
+  else:
+    # This is the actual meat of the benchmark.
+    measureLatency(typ, opName):
+      # First, we define and initialize the variables we'll need during the benchmark.
+      # `inputsA` (and several more, not used here) is an array of random data provided by `measureLatency`.
+      var
+        currentA {.inject.} = inputsA[0]
+        flush {.inject.}: typ
+    do:
+      # Second, we define the actual benchmarking logic.
+      # In this example, since we're measuring latency, we must ensure that iterations happen one after another,
+      # so the next value must depend on the previous calculation result.
+      # `op` is the operation we're benchmarking.
+      let (hi, lo) = op(currentA, inputsB[idx])
+      currentA = hi
+      flush = flush xor cast[typ](lo)
+    do:
+      # Finally, we do what's necessary to properly wrap up the benchmark.
+      # Typically, we'll call `doNotOptimize` to force the compiler not to optimize away unused variables.
+      # `doNotOptimize` is defined in `benchmarks/utils.nim` and tricks the compiler to believe the variable
+      # is used in an Assembly block.
+      doNotOptimize(flush)
+
+# Wrap the template call in a `noinline` function so that the Nim compiler wouldn't produce
+# one huge source code file; this would affect the benchmark results.
+proc runLatencyWidening() {.noinline.} =
+  # `benchTypesAndImpls` measures a given operation (e.g. `wideningMul`) with a given benchmark
+  # routine (e.g. `benchLatancyWidening`) against all available implementations and types. 
+  benchTypesAndImpls(benchLatencyWidening, wideningMul)
+
+when isMainModule:
+  # This is purely for the stdout reading convenience.
+  echo "\n# Latency, Multiplication"
+
+  # Call the benchmarking function.
+  runLatencyWidening()
 ```
 
 ## Docs

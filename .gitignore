@@ -10,6 +10,7 @@ dprint.json
 *.log
 htmldocs
 docs
+book/book
 nbook
 
 nimcache/

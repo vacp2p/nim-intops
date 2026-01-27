@@ -38,7 +38,7 @@ jobs:
           --adapter json \
           --file results.json \
           --branch '${{ github.head_ref || github.ref_name }}' \
-          --testbed "${OS}-${PLATFORM}-${CPU}-${NIM_VERSION}" \
+          --testbed '${{ matrix.target.os }}'-'${{ matrix.target.platform }}'-'${{ matrix.target.cpu }}'-'${{ matrix.branch }}' \
           --err \
           --threshold-measure latency \
           --threshold-test t_test \

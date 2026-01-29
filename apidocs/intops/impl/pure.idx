@@ -20,7 +20,7 @@ nim	wideningMulAdd	intops/impl/pure.html#wideningMulAdd,uint32,uint32,uint32	pro
 nim	wideningMulAdd	intops/impl/pure.html#wideningMulAdd,uint64,uint64,uint64,uint64	proc wideningMulAdd(a, b, c, d: uint64): (uint64, uint64)		218
 nim	wideningMulAdd	intops/impl/pure.html#wideningMulAdd,uint32,uint32,uint32,uint32	proc wideningMulAdd(a, b, c, d: uint32): (uint32, uint32)		228
 nim	narrowingDiv	intops/impl/pure.html#narrowingDiv,uint64,uint64,uint64	proc narrowingDiv(uHi, uLo, v: uint64): (uint64, uint64)		242
-nim	narrowingDiv	intops/impl/pure.html#narrowingDiv,uint32,uint32,uint32	proc narrowingDiv(uHi, uLo, v: uint32): (uint32, uint32)		324
+nim	narrowingDiv	intops/impl/pure.html#narrowingDiv,uint32,uint32,uint32	proc narrowingDiv(uHi, uLo, v: uint32): (uint32, uint32)		321
 nimgrp	borrowingsub	intops/impl/pure.html#borrowingSub-procs-all	proc		79
 nimgrp	saturatingadd	intops/impl/pure.html#saturatingAdd-procs-all	proc		46
 nimgrp	carryingadd	intops/impl/pure.html#carryingAdd-procs-all	proc		30

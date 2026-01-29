@@ -242,9 +242,6 @@ func wideningMulAdd*(a, b, c, d: uint32): (uint32, uint32) =
 func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) =
   ## Knuth's Algorithm D implementation.
 
-  if v == 0:
-    raise newException(DivByZeroDefect, "Division by zero")
-
   if uHi == 0:
     return (uLo div v, uLo mod v)
 
@@ -331,9 +328,6 @@ func narrowingDiv*(uHi, uLo, v: uint32): (uint32, uint32) =
   To avoid issues, uHi, uLo, and v are normalized i.e. shifted
   (== multiplied by the same power of 2) so that the most significant bit in d is set.
   ]##
-
-  if v == 0:
-    raise newException(DivByZeroDefect, "Division by zero")
 
   if uHi == 0:
     return (uLo div v, uLo mod v)

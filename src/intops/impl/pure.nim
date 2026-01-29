@@ -243,80 +243,80 @@ func narrowingDiv*(uHi, uLo, v: uint64): (uint64, uint64) =
   ## Knuth's Algorithm D implementation.
 
   if uHi == 0:
-    return (uLo div v, uLo mod v)
-
-  const
-    Base32 = 0x100000000'u64
-    Max32 = 0xFFFFFFFF'u64
-
-  # Normalization shift to ensure v's MSB is 1
-  let shift = countLeadingZeroBits(v)
-
-  var vNorm, uHiNorm, uLoNorm: uint64
-
-  # Handle the case where v is already normalized (shift == 0)
-  # preventing undefined behavior (shr 64).
-  if shift == 0:
-    vNorm = v
-    uHiNorm = uHi
-    uLoNorm = uLo
+    (uLo div v, uLo mod v)
   else:
-    vNorm = v shl shift
-    uHiNorm = (uHi shl shift) or (uLo shr (64 - shift))
-    uLoNorm = uLo shl shift
+    const
+      Base32 = 0x100000000'u64
+      Max32 = 0xFFFFFFFF'u64
 
-  # Split normalized divisor
-  let
-    vHi = vNorm shr 32
-    vLo = vNorm and Max32
+    # Normalization shift to ensure v's MSB is 1
+    let shift = countLeadingZeroBits(v)
 
-  # Split lower part of normalized dividend
-  let
-    u1 = uLoNorm shr 32
-    u0 = uLoNorm and Max32
+    var vNorm, uHiNorm, uLoNorm: uint64
 
-  # --- High Word Calculation ---
-  # Estimate qHi = uHiNorm / vHi
-  var
-    qHi = uHiNorm div vHi
-    rHat = uHiNorm mod vHi
+    # Handle the case where v is already normalized (shift == 0)
+    # preventing undefined behavior (shr 64).
+    if shift == 0:
+      vNorm = v
+      uHiNorm = uHi
+      uLoNorm = uLo
+    else:
+      vNorm = v shl shift
+      uHiNorm = (uHi shl shift) or (uLo shr (64 - shift))
+      uLoNorm = uLo shl shift
 
-  # Refine qHi
-  # While (qHi * vLo) > (rHat * 2^32 + u1), decrement qHi
-  while qHi >= Base32 or (qHi * vLo > ((rHat shl 32) or u1)):
-    qHi -= 1
-    rHat += vHi
-    if rHat >= Base32:
-      break
+    # Split normalized divisor
+    let
+      vHi = vNorm shr 32
+      vLo = vNorm and Max32
 
-  # Calculate remainder after high word: rem = (uHiNorm:u1) - qHi * vNorm
-  let
-    uPartialHi = (uHiNorm shl 32) or u1
-    remHi = uPartialHi - qHi * vNorm
+    # Split lower part of normalized dividend
+    let
+      u1 = uLoNorm shr 32
+      u0 = uLoNorm and Max32
 
-  # --- Low Word Calculation ---
-  # Estimate qLo = remHi / vHi
-  var qLo = remHi div vHi
-  rHat = remHi mod vHi
+    # --- High Word Calculation ---
+    # Estimate qHi = uHiNorm / vHi
+    var
+      qHi = uHiNorm div vHi
+      rHat = uHiNorm mod vHi
 
-  # Refine qLo
-  while qLo >= Base32 or (qLo * vLo > ((rHat shl 32) or u0)):
-    qLo -= 1
-    rHat += vHi
-    if rHat >= Base32:
-      break
+    # Refine qHi
+    # While (qHi * vLo) > (rHat * 2^32 + u1), decrement qHi
+    while qHi >= Base32 or (qHi * vLo > ((rHat shl 32) or u1)):
+      qHi -= 1
+      rHat += vHi
+      if rHat >= Base32:
+        break
 
-  # Calculate final remainder: rem = (remHi:u0) - qLo * vNorm
-  let
-    uPartialLo = (remHi shl 32) or u0
-    remFinal = uPartialLo - qLo * vNorm
+    # Calculate remainder after high word: rem = (uHiNorm:u1) - qHi * vNorm
+    let
+      uPartialHi = (uHiNorm shl 32) or u1
+      remHi = uPartialHi - qHi * vNorm
 
-  # --- Denormalize ---
-  let
-    finalQ = (qHi shl 32) or qLo
-    finalR = remFinal shr shift
+    # --- Low Word Calculation ---
+    # Estimate qLo = remHi / vHi
+    var qLo = remHi div vHi
+    rHat = remHi mod vHi
 
-  (finalQ, finalR)
+    # Refine qLo
+    while qLo >= Base32 or (qLo * vLo > ((rHat shl 32) or u0)):
+      qLo -= 1
+      rHat += vHi
+      if rHat >= Base32:
+        break
+
+    # Calculate final remainder: rem = (remHi:u0) - qLo * vNorm
+    let
+      uPartialLo = (remHi shl 32) or u0
+      remFinal = uPartialLo - qLo * vNorm
+
+    # --- Denormalize ---
+    let
+      finalQ = (qHi shl 32) or qLo
+      finalR = remFinal shr shift
+
+    (finalQ, finalR)
 
 func narrowingDiv*(uHi, uLo, v: uint32): (uint32, uint32) =
   ##[ Division uint64 by uint32.
@@ -330,12 +330,12 @@ func narrowingDiv*(uHi, uLo, v: uint32): (uint32, uint32) =
   ]##
 
   if uHi == 0:
-    return (uLo div v, uLo mod v)
+    (uLo div v, uLo mod v)
+  else:
+    let
+      dividend = (uint64(uHi) shl 32) or uint64(uLo)
+      divisor = uint64(v)
+      q = uint32(dividend div divisor)
+      r = uint32(dividend mod divisor)
 
-  let
-    dividend = (uint64(uHi) shl 32) or uint64(uLo)
-    divisor = uint64(v)
-    q = uint32(dividend div divisor)
-    r = uint32(dividend mod divisor)
-
-  (q, r)
+    (q, r)

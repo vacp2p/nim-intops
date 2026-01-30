@@ -2,8 +2,8 @@ name: Run Benchmarks
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - '*'
   pull_request:
     branches:
       - develop

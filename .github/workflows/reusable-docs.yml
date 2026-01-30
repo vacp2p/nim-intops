@@ -1,5 +1,4 @@
 name: Docs
-run-name: Build & Deploy Docs (${{ github.ref_name }})
 
 # This workflow builds documentation using mdBook and Nim,
 # then publishes the resulting static files to GitHub Pages.

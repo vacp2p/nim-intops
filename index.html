@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-998733ed.js";
+            window.path_to_searchindex_js = "searchindex-5faa9f62.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-03047c10.js"></script>
@@ -203,6 +203,28 @@ echo carryingAdd(12'u64, 34'u64, false)
 </code></pre>
 <p>All available dispatchers are listed in the <a href="apidocs/intops.html#6">Imports section of the API docs for intops module</a>.</p>
 <p>The operations are grouped into families, each one living in a separate submodule. For example, <code>carryingAdd</code> operation mentioned above is imported from <code>intops/ops/add</code> submodule, so this is where you find its documentation: <a href="apidocs/intops/ops/add.html#carryingAdd.t%2Cuint64%2Cuint64%2Cbool">/apidocs/intops/ops/add.html</a>.</p>
+<h3 id="calling-specific-operations"><a class="header" href="#calling-specific-operations">Calling Specific Operations</a></h3>
+<p><code>import intops</code> imports all available operations.</p>
+<p>If you only need specific operations, you can import them individually:</p>
+<pre><code class="language-nim">import intops/ops/[add, sub]
+
+echo compiles carryingAdd(12'u64, 34'u64, false)
+echo not compiles wideningMul(12'u64, 34'u64)
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-nim">true
+true
+</code></pre>
+<h3 id="composite-operations"><a class="header" href="#composite-operations">Composite Operations</a></h3>
+<p>On top of the primitive operations like addition and multiplication, intops offers convenience operations that combine several primitives as a single composite operation:</p>
+<pre><code class="language-nim">import intops/ops/composite
+
+echo mulDoubleAdd2(12'u64, 34'u64, 45'u64, 78'u64, 90'u64)
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-nim">(t2: 0, r1: 78, r0: 951)
+</code></pre>
+<p>Read more in the API docs for <a href="/apidocs/intops/ops/composite.html">composite module</a>.</p>
 <h3 id="calling-specific-implementations"><a class="header" href="#calling-specific-implementations">Calling Specific Implementations</a></h3>
 <p>You may want to override the dispatcher’s choice. To do that, import a particular implementation from <code>intops/impl</code> directly and call the function from it:</p>
 <pre><code class="language-nim">import intops/impl/intrinsics

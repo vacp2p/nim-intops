@@ -7,6 +7,11 @@
 - [t]—test suite improvement
 - [d]—docs improvement
 
+## 1.0.7 (February 2, 2026)
+
+- [f] Ops: composite: Added missing imports that prevented individual import of `intops/ops/composite` (#23).
+- [d] Added into about individual imports and composite operations.
+
 ## 1.0.6 (January 19, 2026)
 
 - [+] Ops: composite: Updated mulAcc and mulDoudleAdd2 to use the optimal implementations internally instead of pure Nim.

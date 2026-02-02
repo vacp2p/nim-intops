@@ -48,6 +48,44 @@ All available dispatchers are listed in the [Imports section of the API docs for
 
 The operations are grouped into families, each one living in a separate submodule. For example, `carryingAdd` operation mentioned above is imported from `intops/ops/add` submodule, so this is where you find its documentation: [/apidocs/intops/ops/add.html](apidocs/intops/ops/add.html#carryingAdd.t%2Cuint64%2Cuint64%2Cbool).
 
+### Calling Specific Operations
+
+`import intops` imports all available operations.
+
+If you only need specific operations, you can import them individually:
+
+```nim
+import intops/ops/[add, sub]
+
+echo compiles carryingAdd(12'u64, 34'u64, false)
+echo not compiles wideningMul(12'u64, 34'u64)
+```
+
+Output:
+
+```nim
+true
+true
+```
+
+### Composite Operations
+
+On top of the primitive operations like addition and multiplication, intops offers convenience operations that combine several primitives as a single composite operation:
+
+```nim
+import intops/ops/composite
+
+echo mulDoubleAdd2(12'u64, 34'u64, 45'u64, 78'u64, 90'u64)
+```
+
+Output:
+
+```nim
+(t2: 0, r1: 78, r0: 951)
+```
+
+Read more in the API docs for [composite module](/apidocs/intops/ops/composite.html).
+
 ### Calling Specific Implementations
 
 You may want to override the dispatcher's choice. To do that, import a particular implementation from `intops/impl` directly and call the function from it:

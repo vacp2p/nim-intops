@@ -8,7 +8,7 @@
 # at your option. This file may not be copied, modified, or distributed except according to those terms.
 
 
-import intops/ops/[add, mul]
+import ../ops/[add, mul]
 
 template mulDoubleAdd2*[T: uint64 | uint32](
     a, b, c, dHi, dLo: T

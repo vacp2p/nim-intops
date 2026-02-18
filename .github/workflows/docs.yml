@@ -10,10 +10,8 @@ jobs:
   docs:
     uses: status-im/nimbus-common-workflow/.github/workflows/docs.yml@main
     with:
-      mdbook-version: "0.4"
+      mdbook-version: "0.5"
       mdbook-preprocessors: >-
         [
-          "mdbook-open-on-gh@2",
-          "mdbook-toc@0.14",
-          "mdbook-admonish@1"
+          "mdbook-open-on-gh@3"
         ]

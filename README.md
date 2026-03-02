@@ -1,6 +1,6 @@
 # intops
 
-intops is a Nim library with ready-to-use core primitives for CPU-sized integers. It is intended to be used as a foundation for other libraries that rely on manipulations with big integers, e.g. cryptography libraries.
+intops is a Nim library with ready-to-use arithmetic operations for integers. It is intended to be used as a foundation for other libraries that rely on manipulations with big integers, e.g. cryptography libraries.
 
 intops offers a clean high-level API that hides the implementation details of an operation behind a dispatcher which tries to offer the best implementation for the given environment. However, you can override the dispatcher's choice and call any implementation manually.
 

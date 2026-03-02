@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-5faa9f62.js";
+            window.path_to_searchindex_js = "searchindex-91a32e5d.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-03047c10.js"></script>
@@ -179,6 +179,35 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="quickstart"><a class="header" href="#quickstart">Quickstart</a></h1>
+<p>intops is a Nim library that implements multi-precision arithmetic operations for integers. Unlike Nim’s stdlib, intops offers multiple flavors for each operations and multiple implementations of each flavors. On top of that, intops chooses the best implementation for each OS, CPU architecture, and C compiler combo.</p>
+<p>intops is designed for Nim developers working on bigint-related projects, e.g. crypto libraries.</p>
+<h2 id="whats-included-in-the-package"><a class="header" href="#whats-included-in-the-package">What’s included in the package</a></h2>
+<p>intops implements the following operations for signed and unsigned 32- and 64-bit integers:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th>addition</th><th>subtraction</th><th>multiplication</th><th>division</th><th>muladd</th></tr>
+</thead>
+<tbody>
+<tr><td>overflowing</td><td>Nim, intrinsics</td><td>Nim, intrinsics</td><td></td><td></td><td></td></tr>
+<tr><td>saturating</td><td>Nim, intrinsics, ASM</td><td>Nim, intrinsics, ASM</td><td></td><td></td><td></td></tr>
+<tr><td>carrying</td><td>Nim, intrinsics, C</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>borrowing</td><td></td><td>Nim, intrinsics, C</td><td></td><td></td><td></td></tr>
+<tr><td>widening</td><td></td><td></td><td>Nim, intrinsics, C</td><td></td><td>Nim, intrinsics, C</td></tr>
+<tr><td>narrowing</td><td></td><td></td><td></td><td>Nim, intrinsics, ASM</td><td></td></tr>
+</tbody>
+</table>
+</div>
+<p><em>Overflowing</em> operations return an explicit <code>didOverflow</code> bool flag that tells you if an overflow happened during the operation. These operations wrap for both signed and unsigned integers.</p>
+<p><em>Saturating</em> operations do not return an overflow flag but silently return the highest or the lowest available value for a given type if an overflow is to occur.</p>
+<p><em>Carrying</em> and <em>borrowing</em> operations accept two operands and a flag that determines if an overflow happened earlier and should be taken into account. These operations return the new flag value along with the calculated result.</p>
+<p><em>Widening</em> operations accept two single-word operands and return a two-word results, i.e. widen the resulting type compared to the input type.</p>
+<p><em>Narrowing</em> operations do the opposite: accepting a two-word operand, they return a single-word result.</p>
+<p>Additionally, intops ships with composite operations that purely combine other primitives to offer convenience operations for cryptography calculations:</p>
+<ul>
+<li>Square and accumulate (mulDoubleAdd2)</li>
+<li>Column accumulator for Comba multiplication (mulAcc)</li>
+</ul>
 <h2 id="installation"><a class="header" href="#installation">Installation</a></h2>
 <pre><code class="language-shell">$ nimble install -y intops
 </code></pre>

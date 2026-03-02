@@ -1,5 +1,37 @@
 # Quickstart
 
+intops is a Nim library that implements multi-precision arithmetic operations for integers. Unlike Nim's stdlib, intops offers multiple flavors for each operations and multiple implementations of each flavors. On top of that, intops chooses the best implementation for each OS, CPU architecture, and C compiler combo.
+
+intops is designed for Nim developers working on bigint-related projects, e.g. crypto libraries.
+
+## What's included in the package
+
+intops implements the following operations for signed and unsigned 32- and 64-bit integers:
+
+|             | addition             | subtraction          | multiplication     | division             | muladd             |
+| ----------- | -------------------- | -------------------- | ------------------ | -------------------- | ------------------ |
+| overflowing | Nim, intrinsics      | Nim, intrinsics      |                    |                      |                    |
+| saturating  | Nim, intrinsics, ASM | Nim, intrinsics, ASM |                    |                      |                    |
+| carrying    | Nim, intrinsics, C   |                      |                    |                      |                    |
+| borrowing   |                      | Nim, intrinsics, C   |                    |                      |                    |
+| widening    |                      |                      | Nim, intrinsics, C |                      | Nim, intrinsics, C |
+| narrowing   |                      |                      |                    | Nim, intrinsics, ASM |                    |
+
+_Overflowing_ operations return an explicit `didOverflow` bool flag that tells you if an overflow happened during the operation. These operations wrap for both signed and unsigned integers.
+
+_Saturating_ operations do not return an overflow flag but silently return the highest or the lowest available value for a given type if an overflow is to occur.
+
+_Carrying_ and _borrowing_ operations accept two operands and a flag that determines if an overflow happened earlier and should be taken into account. These operations return the new flag value along with the calculated result.
+
+_Widening_ operations accept two single-word operands and return a two-word results, i.e. widen the resulting type compared to the input type.
+
+_Narrowing_ operations do the opposite: accepting a two-word operand, they return a single-word result.
+
+Additionally, intops ships with composite operations that purely combine other primitives to offer convenience operations for cryptography calculations:
+
+- Square and accumulate (mulDoubleAdd2)
+- Column accumulator for Comba multiplication (mulAcc)
+
 ## Installation
 
 ```shell

@@ -67,13 +67,10 @@ template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut:
     pure.carryingAdd(a, b, carryIn)
   else:
     when cpuX86 and compilerMsvc and canUseIntrinsics:
-      # Intel/AMD intrinsics for MSVC (_addcarry_u64)
       intrinsics.x86.carryingAdd(a, b, carryIn)
     elif compilerGccCompatible and canUseIntrinsics:
-      # Generic GCC/Clang intrinsics otherwise (__builtin_sub_overflow)
       intrinsics.gcc.carryingAdd(a, b, carryIn)
     elif cpu64Bit and compilerGccCompatible and canUseInlineC:
-      # Inline C on 64-bit systems if builtins are unavailable
       inlinec.carryingAdd(a, b, carryIn)
     else:
       # Universal fallback

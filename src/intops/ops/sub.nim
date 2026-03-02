@@ -69,16 +69,12 @@ template borrowingSub*(
     pure.borrowingSub(a, b, borrowIn)
   else:
     when cpuX86 and compilerMsvc and canUseIntrinsics:
-      # Intel/AMD intrinsics for MSVC (_subborrow_u64)
       intrinsics.x86.borrowingSub(a, b, borrowIn)
     elif compilerGccCompatible and canUseIntrinsics:
-      # Generic GCC/Clang intrinsics otherwise (__builtin_sub_overflow)
       intrinsics.gcc.borrowingSub(a, b, borrowIn)
     elif cpu64Bit and compilerGccCompatible and canUseInlineC:
-      # Inline C on 64-bit systems if builtins are unavailable
       inlinec.borrowingSub(a, b, borrowIn)
     else:
-      # Universal fallback
       pure.borrowingSub(a, b, borrowIn)
 
 template borrowingSub*(

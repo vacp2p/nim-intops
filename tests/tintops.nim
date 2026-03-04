@@ -46,6 +46,21 @@ suite "Overflowing operations":
     testOverflowingSub[int32]()
     testOverflowingSub[int64]()
 
+suite "Raising operations":
+  test "Raising addition, unsigned and signed":
+    template testRaisingAdd[T: SomeInteger]() =
+      check raisingAdd(T(1), T(1)) == (T(2))
+      check raisingAdd(high(T), T(0)) == (high(T))
+      expect OverflowDefect:
+        discard raisingAdd(high(T), T(1))
+      expect OverflowDefect:
+        discard raisingAdd(high(T) - T(5), T(10))
+
+    testRaisingAdd[uint32]()
+    testRaisingAdd[uint64]()
+    testRaisingAdd[int32]()
+    testRaisingAdd[int64]()
+
 suite "Carrying and borrowing operations":
   test "Carrying addition (ADC), unsigned":
     template testCarryingAdd[T: SomeUnsignedInt]() =

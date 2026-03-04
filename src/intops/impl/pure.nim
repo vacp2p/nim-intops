@@ -27,6 +27,14 @@ func overflowingAdd*[T: SomeSignedInt](a, b: T): (T, bool) =
 
   (res, didOverflow)
 
+func raisingAdd*[T: SomeInteger](a, b: T): T {.raises: [OverflowDefect].} =
+  let (res, didOverflow) = pure.overflowingAdd(a, b)
+
+  if didOverflow:
+    raise newException(OverflowDefect, "overflow")
+  else:
+    res
+
 func carryingAdd*[T: SomeUnsignedInt](a, b: T, carryIn: bool): (T, bool) =
   let
     sum = a + b
@@ -75,6 +83,14 @@ func overflowingSub*[T: SomeSignedInt](a, b: T): (T, bool) =
     didOverflow = ((a xor b) < 0) and ((a xor res) < 0)
 
   (res, didOverflow)
+
+func raisingSub*[T: SomeInteger](a, b: T): T {.raises: [OverflowDefect].} =
+  let (res, didOverflow) = pure.overflowingSub(a, b)
+
+  if didOverflow:
+    raise newException(OverflowDefect, "underflow")
+  else:
+    res
 
 func borrowingSub*[T: SomeUnsignedInt](a, b: T, borrowIn: bool): (T, bool) =
   let

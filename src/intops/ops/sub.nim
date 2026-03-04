@@ -17,7 +17,7 @@ template overflowingSub*[T: SomeInteger](a, b: T): tuple[res: T, didOverflow: bo
   Takes two integers and returns their difference along with the overflow flag (OF):
   ``true`` means overflow happened, ``false`` means overflow didn't happen.
 
-  Subtraction wraps for both signed and unsigned integers, so this operation never raises.
+  Wraps for both signed and unsigned integers, so this operation never raises.
 
   See also:
   - `overflowingAdd <add.html#overflowingAdd>`_
@@ -30,6 +30,16 @@ template overflowingSub*[T: SomeInteger](a, b: T): tuple[res: T, didOverflow: bo
       intrinsics.gcc.overflowingSub(a, b)
     else:
       pure.overflowingSub(a, b)
+
+template raisingSub*[T: SomeInteger](a, b: T): T =
+  ##[ Raising subtraction.
+
+  _Guaranteed_ to raise `OverflowDefect` if the operation overflows
+  regardless of the compilation flags, e.g. `-d:danger`
+  (unlike Nim's builtin `-` operator).
+  ]##
+
+  pure.raisingSub(a, b)
 
 template saturatingSub*[T: SomeInteger](a, b: T): T =
   ##[ Saturating subtraction.

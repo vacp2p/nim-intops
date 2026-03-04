@@ -54,8 +54,9 @@ template saturatingAdd*[T: SomeInteger](a, b: T): T =
 template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut: bool] =
   ##[ Carrying addition for unsigned 64-bit integers.
 
-  Takes two integers and returns their sum along with the carrying flag (CF): 
-  ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+  Takes two integers and a carrying flag: ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+
+  Returns the sum along with the new carrying flag.
 
   Useful for chaining operations.
 
@@ -79,8 +80,9 @@ template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut:
 template carryingAdd*(a, b: uint32, carryIn: bool): tuple[res: uint32, carryOut: bool] =
   ##[ Carrying addition for unsigned 32-bit integers.
 
-  Takes two integers and returns their sum along with the carrying flag (CF): 
-  ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+  Takes two integers and a carrying flag: ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+
+  Returns the sum along with the new carrying flag.
 
   Useful for chaining operations.
 
@@ -101,8 +103,9 @@ template carryingAdd*(a, b: uint32, carryIn: bool): tuple[res: uint32, carryOut:
 template carryingAdd*(a, b: int64, carryIn: bool): tuple[res: int64, carryOut: bool] =
   ##[ Carrying addition for signed 64-bit integers.
 
-  Takes two integers and returns their sum along with the carrying flag (CF): 
-  ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+  Takes two integers and a carrying flag: ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+
+  Returns the sum along with the new carrying flag.
 
   Useful for chaining operations.
 
@@ -121,8 +124,9 @@ template carryingAdd*(a, b: int64, carryIn: bool): tuple[res: int64, carryOut: b
 template carryingAdd*(a, b: int32, carryIn: bool): tuple[res: int32, carryOut: bool] =
   ##[ Carrying addition for signed 32-bit integers.
 
-  Takes two integers and returns their sum along with the carrying flag (CF): 
-  ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+  Takes two integers and a carrying flag: ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+
+  Returns the sum along with the new carrying flag.
 
   Useful for chaining operations.
 

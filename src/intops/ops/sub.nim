@@ -56,8 +56,9 @@ template borrowingSub*(
 ): tuple[res: uint64, borrowOut: bool] =
   ##[ Borrowing subtraction for unsigned 64-bit integers.
 
-  Takes two integers and returns their difference along with the borrow flag (BF): 
-  ``true`` means the previous subtraction had overflown, ``false`` means it hadn't.
+  Takes two integers and a borrowing flag: ``true`` means the previous subtraction had overflown, ``false`` means it hadn't.
+
+  Returns the difference along with the new borrowing flag.
 
   Useful for chaining operations.
 
@@ -82,8 +83,9 @@ template borrowingSub*(
 ): tuple[res: uint32, borrowOut: bool] =
   ##[ Borrowing subtraction for unsigned 32-bit integers.
 
-  Takes two integers and returns their difference along with the borrow flag (BF): 
-  ``true`` means the previous subtraction had overflown, ``false`` means it hadn't.
+  Takes two integers and a borrowing flag: ``true`` means the previous subtraction had overflown, ``false`` means it hadn't.
+
+  Returns the difference along with the new borrowing flag.
 
   Useful for chaining operations.
 
@@ -106,8 +108,9 @@ template borrowingSub*(
 ): tuple[res: int64, borrowOut: bool] =
   ##[ Borrowing subtraction for signed 64-bit integers.
 
-  Takes two integers and returns their difference along with the borrow flag (BF):
-  ``true`` means the previous subtraction had overflown, ``false`` means it hadn't.
+  Takes two integers and a borrowing flag: ``true`` means the previous subtraction had overflown, ``false`` means it hadn't.
+
+  Returns the difference along with the new borrowing flag.
 
   Useful for chaining operations.
 
@@ -126,8 +129,9 @@ template borrowingSub*(
 template borrowingSub*(a, b: int32, borrowIn: bool): (int32, bool) =
   ##[ Borrowing subtraction for signed 32-bit integers.
 
-  Takes two integers and returns their difference along with the borrow flag (BF): 
-  ``true`` means the previous subtraction had overflown, ``false`` means it hadn't.
+  Takes two integers and a borrowing flag: ``true`` means the previous subtraction had overflown, ``false`` means it hadn't.
+
+  Returns the difference along with the new borrowing flag.
 
   Useful for chaining operations.
 

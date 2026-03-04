@@ -36,10 +36,19 @@ template raisingAdd*[T: SomeInteger](a, b: T): T =
 
   _Guaranteed_ to raise `OverflowDefect` if the operation overflows
   regardless of the compilation flags, e.g. `-d:danger`
-  (unlike Nim's builtin `+` operator).
+  (unlike Nim's builtin `+` operator for signed ints).
   ]##
 
   pure.raisingAdd(a, b)
+
+template wrappingAdd*[T: SomeInteger](a, b: T): T =
+  ##[ Wrapping addition.
+
+  Silently wraps for both unsigned and signed ints
+  (unlike Nim's builtin `+` operator for signed ints).
+  ]##
+
+  pure.wrappingAdd(a, b)
 
 template saturatingAdd*[T: SomeInteger](a, b: T): T =
   ##[ Saturating addition.

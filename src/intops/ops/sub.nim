@@ -36,10 +36,19 @@ template raisingSub*[T: SomeInteger](a, b: T): T =
 
   _Guaranteed_ to raise `OverflowDefect` if the operation overflows
   regardless of the compilation flags, e.g. `-d:danger`
-  (unlike Nim's builtin `-` operator).
+  (unlike Nim's builtin `-` operator for signed ints).
   ]##
 
   pure.raisingSub(a, b)
+
+template wrappingSub*[T: SomeInteger](a, b: T): T =
+  ##[ Wrapping subtraction.
+
+  Silently wraps for both unsigned and signed ints
+  (unlike Nim's builtin `-` operator for signed ints).
+  ]##
+
+  pure.wrappingSub(a, b)
 
 template saturatingSub*[T: SomeInteger](a, b: T): T =
   ##[ Saturating subtraction.

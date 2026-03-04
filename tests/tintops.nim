@@ -75,6 +75,27 @@ suite "Raising operations":
     testRaisingSub[int32]()
     testRaisingSub[int64]()
 
+suite "Wrapping operations":
+  test "Wrapping addition, unsigned and signed":
+    template testWrappingAdd[T: SomeInteger]() =
+      check wrappingAdd(high(T), T(1)) == low(T)
+      check wrappingAdd(high(T) - 5, T(10)) == low(T) + T(4)
+
+    testWrappingAdd[uint32]()
+    testWrappingAdd[uint64]()
+    testWrappingAdd[int32]()
+    testWrappingAdd[int64]()
+
+  test "Wrapping subtraction, unsigned and signed":
+    template testWrappingSub[T: SomeInteger]() =
+      check wrappingSub(low(T), T(1)) == high(T)
+      check wrappingSub(low(T) + 5, T(10)) == high(T) - T(4)
+
+    testWrappingSub[uint32]()
+    testWrappingSub[uint64]()
+    testWrappingSub[int32]()
+    testWrappingSub[int64]()
+
 suite "Carrying and borrowing operations":
   test "Carrying addition (ADC), unsigned":
     template testCarryingAdd[T: SomeUnsignedInt]() =

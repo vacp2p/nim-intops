@@ -7,6 +7,9 @@
 - [t]—test suite improvement
 - [d]—docs improvement
 
+## 1.0.8 (WIP)
+- [+] Ops: Added raising and wrapping flavors to addition and subtraction (#15).
+
 ## 1.0.7 (February 2, 2026)
 
 - [f] Ops: composite: Added missing imports that prevented individual import of `intops/ops/composite` (#23).

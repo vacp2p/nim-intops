@@ -8,6 +8,9 @@ proc runLatencyOverflowing() {.noinline.} =
 proc runLatencyRaising() {.noinline.} =
   benchTypesAndImpls(benchLatencyRaising, raisingAdd)
 
+proc runLatencyWrapping() {.noinline.} =
+  benchTypesAndImpls(benchLatencyWrapping, wrappingAdd)
+
 proc runLatencySaturating() {.noinline.} =
   benchTypesAndImpls(benchLatencySaturating, saturatingAdd)
 
@@ -19,5 +22,6 @@ when isMainModule:
 
   runLatencyOverflowing()
   runLatencyRaising()
+  runLatencyWrapping()
   runLatencySaturating()
   runLatencyCarrying()

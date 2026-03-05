@@ -183,18 +183,38 @@ template benchLatencyRaising*(typ: typedesc, op: untyped) =
     echo alignLeft(opName, 35), " -"
   else:
     measureLatency(typ, opName):
-      # Use a bitwise mask to keep values in a range that won't overflow.
-      const mask = (high(typ) shr 2)
+      # Normalize inputs so that the operation never overflows:
+      # cap `inputsB` to 1/4 of the type range,
+      # constain `inputsA` between 1/4 and 1/2.
+      const quarter = (high(typ) shr 2)
 
       for i in 0 ..< bufSize:
-        inputsB[i] = inputsB[i] and mask
+        inputsB[i] = inputsB[i] and (quarter - 1)
 
       var
         flush {.inject.}: typ
-        currentA {.inject.} = inputsA[0] and mask
+        currentA {.inject.} = (inputsA[0] and (quarter - 1)) + quarter
     do:
       let res = op(currentA, inputsB[idx])
-      currentA = res and mask
+      currentA = (res and (quarter - 1)) + quarter
+      flush = currentA
+    do:
+      doNotOptimize(flush)
+
+template benchLatencyWrapping*(typ: typedesc, op: untyped) =
+  let opName = astToStr(op)
+
+  when not compiles op(default(typ), default(typ)):
+    echo alignLeft(opName, 35), " -"
+  elif typeof(op(default(typ), default(typ))) isnot typ:
+    echo alignLeft(opName, 35), " -"
+  else:
+    measureLatency(typ, opName):
+      var
+        currentA {.inject.} = inputsA[0]
+        flush {.inject.}: typ
+    do:
+      currentA = op(currentA, inputsB[idx])
       flush = currentA
     do:
       doNotOptimize(flush)
@@ -249,6 +269,44 @@ template benchThroughputOverflowing*(typ: typedesc, op: untyped) =
     do:
       let (res, didOverflow) = op(inputsA[idx], inputsB[idx])
       flush = flush xor res xor cast[typ](didOverflow)
+    do:
+      doNotOptimize(flush)
+
+template benchThroughputRaising*(typ: typedesc, op: untyped) =
+  let opName = astToStr(op)
+
+  when not compiles op(default(typ), default(typ)):
+    echo alignLeft(opName, 35), " -"
+  elif typeof(op(default(typ), default(typ))) isnot typ:
+    echo alignLeft(opName, 35), " -"
+  else:
+    measureThroughput(typ, opName):
+      const quarter = (high(typ) shr 2)
+
+      var flush {.inject.}: typ
+
+      for i in 0 ..< bufSize:
+        inputsA[i] = (inputsA[i] and (quarter - 1)) + quarter
+        inputsB[i] = inputsB[i] and (quarter - 1)
+    do:
+      let res = op(inputsA[idx], inputsB[idx])
+      flush = flush xor res
+    do:
+      doNotOptimize(flush)
+
+template benchThroughputWrapping*(typ: typedesc, op: untyped) =
+  let opName = astToStr(op)
+
+  when not compiles op(default(typ), default(typ)):
+    echo alignLeft(opName, 35), " -"
+  elif typeof(op(default(typ), default(typ))) isnot typ:
+    echo alignLeft(opName, 35), " -"
+  else:
+    measureThroughput(typ, opName):
+      var flush {.inject.}: typ
+    do:
+      let res = op(inputsA[idx], inputsB[idx])
+      flush = flush xor res
     do:
       doNotOptimize(flush)
 

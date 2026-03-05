@@ -27,7 +27,7 @@ func overflowingAdd*[T: SomeSignedInt](a, b: T): (T, bool) =
 
   (res, didOverflow)
 
-func raisingAdd*[T: SomeInteger](a, b: T): T {.raises: [OverflowDefect].} =
+func raisingAdd*[T: SomeInteger](a, b: T): T =
   let (res, didOverflow) = pure.overflowingAdd(a, b)
 
   if didOverflow:
@@ -35,10 +35,11 @@ func raisingAdd*[T: SomeInteger](a, b: T): T {.raises: [OverflowDefect].} =
   else:
     res
 
-func wrappingAdd*[T: SomeInteger](a, b: T): T =
-  let (res, _) = pure.overflowingAdd(a, b)
+func wrappingAdd*[T: SomeUnsignedInt](a, b: T): T =
+  a + b
 
-  res
+func wrappingAdd*[T: SomeSignedInt](a, b: T): T =
+  a +% b
 
 func carryingAdd*[T: SomeUnsignedInt](a, b: T, carryIn: bool): (T, bool) =
   let
@@ -89,7 +90,7 @@ func overflowingSub*[T: SomeSignedInt](a, b: T): (T, bool) =
 
   (res, didOverflow)
 
-func raisingSub*[T: SomeInteger](a, b: T): T {.raises: [OverflowDefect].} =
+func raisingSub*[T: SomeInteger](a, b: T): T =
   let (res, didOverflow) = pure.overflowingSub(a, b)
 
   if didOverflow:
@@ -97,10 +98,11 @@ func raisingSub*[T: SomeInteger](a, b: T): T {.raises: [OverflowDefect].} =
   else:
     res
 
-func wrappingSub*[T: SomeInteger](a, b: T): T =
-  let (res, _) = pure.overflowingSub(a, b)
+func wrappingSub*[T: SomeUnsignedInt](a, b: T): T =
+  a - b
 
-  res
+func wrappingSub*[T: SomeSignedInt](a, b: T): T =
+  a -% b
 
 func borrowingSub*[T: SomeUnsignedInt](a, b: T, borrowIn: bool): (T, bool) =
   let

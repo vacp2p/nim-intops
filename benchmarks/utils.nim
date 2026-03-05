@@ -174,6 +174,31 @@ template benchLatencyOverflowing*(typ: typedesc, op: untyped) =
       doNotOptimize(resFlush)
       doNotOptimize(ovfFlush)
 
+template benchLatencyRaising*(typ: typedesc, op: untyped) =
+  let opName = astToStr(op)
+
+  when not compiles op(default(typ), default(typ)):
+    echo alignLeft(opName, 35), " -"
+  elif typeof(op(default(typ), default(typ))) isnot typ:
+    echo alignLeft(opName, 35), " -"
+  else:
+    measureLatency(typ, opName):
+      # Use a bitwise mask to keep values in a range that won't overflow.
+      const mask = (high(typ) shr 2)
+
+      for i in 0 ..< bufSize:
+        inputsB[i] = inputsB[i] and mask
+
+      var
+        flush {.inject.}: typ
+        currentA {.inject.} = inputsA[0] and mask
+    do:
+      let res = op(currentA, inputsB[idx])
+      currentA = res and mask
+      flush = currentA
+    do:
+      doNotOptimize(flush)
+
 template benchLatencySaturating*(typ: typedesc, op: untyped) =
   let opName = astToStr(op)
 

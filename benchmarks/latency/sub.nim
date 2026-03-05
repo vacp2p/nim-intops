@@ -5,6 +5,9 @@ import ../utils
 proc runLatencyOverflowing() {.noinline.} =
   benchTypesAndImpls(benchLatencyOverflowing, overflowingSub)
 
+proc runLatencyRaising() {.noinline.} =
+  benchTypesAndImpls(benchLatencyRaising, raisingSub)
+
 proc runLatencySaturating() {.noinline.} =
   benchTypesAndImpls(benchLatencySaturating, saturatingSub)
 
@@ -15,5 +18,6 @@ when isMainModule:
   echo "\n# Latency, Subtraction"
 
   runLatencyOverflowing()
+  runLatencyRaising()
   runLatencySaturating()
   runLatencyCarrying()

@@ -39,7 +39,13 @@ template raisingSub*[T: SomeInteger](a, b: T): T =
   (unlike Nim's builtin `-` operator for signed ints).
   ]##
 
-  pure.raisingSub(a, b)
+  when nimvm:
+    pure.raisingSub(a, b)
+  else:
+    when compilerGccCompatible and canUseIntrinsics:
+      intrinsics.gcc.raisingSub(a, b)
+    else:
+      pure.raisingSub(a, b)
 
 template wrappingSub*[T: SomeInteger](a, b: T): T =
   ##[ Wrapping subtraction.

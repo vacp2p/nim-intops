@@ -31,6 +31,16 @@ when compilerGccCompatible and canUseIntrinsics:
 
     (res, didOverflow)
 
+  func raisingAdd*[T: SomeInteger](a, b: T): T {.raises: [OverflowDefect].} =
+    var res {.noinit.}: T
+
+    let didOverflow = builtinOverflowingAdd(a, b, res)
+
+    if unlikely(didOverflow):
+      raise newException(OverflowDefect, "overflow")
+
+    res
+
   func saturatingAdd*[T: SomeUnsignedInt](a, b: T): T =
     var res {.noinit.}: T
 
@@ -69,6 +79,16 @@ when compilerGccCompatible and canUseIntrinsics:
     let didBorrow = builtinOverflowingSub(a, b, res)
 
     (res, didBorrow)
+
+  func raisingSub*[T: SomeInteger](a, b: T): T =
+    var res {.noinit.}: T
+
+    let didOverflow = builtinOverflowingSub(a, b, res)
+
+    if unlikely(didOverflow):
+      raise newException(OverflowDefect, "underflow")
+
+    res
 
   func saturatingSub*[T: SomeUnsignedInt](a, b: T): T =
     var res {.noinit.}: T

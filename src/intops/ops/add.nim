@@ -39,7 +39,13 @@ template raisingAdd*[T: SomeInteger](a, b: T): T =
   (unlike Nim's builtin `+` operator for signed ints).
   ]##
 
-  pure.raisingAdd(a, b)
+  when nimvm:
+    pure.raisingAdd(a, b)
+  else:
+    when compilerGccCompatible and canUseIntrinsics:
+      intrinsics.gcc.raisingAdd(a, b)
+    else:
+      pure.raisingAdd(a, b)
 
 template wrappingAdd*[T: SomeInteger](a, b: T): T =
   ##[ Wrapping addition.

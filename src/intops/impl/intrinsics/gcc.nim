@@ -80,7 +80,7 @@ when compilerGccCompatible and canUseIntrinsics:
 
     (res, didBorrow)
 
-  func raisingSub*[T: SomeInteger](a, b: T): T =
+  func raisingSub*[T: SomeInteger](a, b: T): T {.raises: [OverflowDefect].} =
     var res {.noinit.}: T
 
     let didOverflow = builtinOverflowingSub(a, b, res)

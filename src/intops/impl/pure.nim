@@ -85,7 +85,7 @@ func overflowingSub*[T: SomeUnsignedInt](a, b: T): (T, bool) =
 
 func overflowingSub*[T: SomeSignedInt](a, b: T): (T, bool) =
   let
-    res = T(a -% b)
+    res = a -% b
     didOverflow = ((a xor b) < 0) and ((a xor res) < 0)
 
   (res, didOverflow)

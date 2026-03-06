@@ -90,7 +90,7 @@ func overflowingSub*[T: SomeSignedInt](a, b: T): (T, bool) =
 
   (res, didOverflow)
 
-func raisingSub*[T: SomeInteger](a, b: T): T =
+func raisingSub*[T: SomeInteger](a, b: T): T {.raises: [OverflowDefect].} =
   let (res, didOverflow) = pure.overflowingSub(a, b)
 
   if didOverflow:

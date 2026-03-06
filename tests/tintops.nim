@@ -47,8 +47,8 @@ suite "Overflowing operations":
     testOverflowingSub[int64]()
 
 suite "Raising operations":
-  test "Raising addition, unsigned and signed":
-    template testRaisingAdd[T: SomeInteger]() =
+  test "Raising addition, unsigned":
+    template testRaisingAdd[T: SomeUnsignedInt]() =
       check raisingAdd(T(1), T(1)) == T(2)
       check raisingAdd(high(T), T(0)) == high(T)
       expect OverflowDefect:
@@ -58,11 +58,23 @@ suite "Raising operations":
 
     testRaisingAdd[uint32]()
     testRaisingAdd[uint64]()
+
+  test "Raising addition, signed":
+    template testRaisingAdd[T: SomeSignedInt]() =
+      check raisingAdd(T(1), T(1)) == T(2)
+      check raisingAdd(high(T), T(0)) == high(T)
+      expect OverflowDefect:
+        discard raisingAdd(high(T), T(1))
+      expect OverflowDefect:
+        discard raisingAdd(high(T) - T(5), T(10))
+      expect OverflowDefect:
+        discard raisingAdd(low(T) + T(5), T(-10))
+
     testRaisingAdd[int32]()
     testRaisingAdd[int64]()
 
-  test "Raising subtraction, unsigned and signed":
-    template testRaisingSub[T: SomeInteger]() =
+  test "Raising subtraction, unsigned":
+    template testRaisingSub[T: SomeUnsignedInt]() =
       check raisingSub(T(5), T(2)) == T(3)
       check raisingSub(low(T), T(0)) == low(T)
       expect OverflowDefect:
@@ -72,6 +84,18 @@ suite "Raising operations":
 
     testRaisingSub[uint32]()
     testRaisingSub[uint64]()
+
+  test "Raising subtraction, signed":
+    template testRaisingSub[T: SomeSignedInt]() =
+      check raisingSub(T(5), T(2)) == T(3)
+      check raisingSub(low(T), T(0)) == low(T)
+      expect OverflowDefect:
+        discard raisingSub(low(T), T(1))
+      expect OverflowDefect:
+        discard raisingSub(low(T) + T(5), T(10))
+      expect OverflowDefect:
+        discard raisingSub(high(T) - T(5), T(-10))
+
     testRaisingSub[int32]()
     testRaisingSub[int64]()
 

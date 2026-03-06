@@ -11,7 +11,8 @@ intops implements the following operations for signed and unsigned 32- and 64-bi
 |             | addition             | subtraction          | multiplication     | division             | muladd             |
 | ----------- | -------------------- | -------------------- | ------------------ | -------------------- | ------------------ |
 | overflowing | Nim, intrinsics      | Nim, intrinsics      |                    |                      |                    |
-| raising     | Nim                  | Nim                  |                    |                      |                    |
+| raising     | Nim, intrinsics      | Nim, intrinsics      |                    |                      |                    |
+| wrapping    | Nim                  | Nim                  |                    |                      |                    |
 | saturating  | Nim, intrinsics, ASM | Nim, intrinsics, ASM |                    |                      |                    |
 | carrying    | Nim, intrinsics, C   |                      |                    |                      |                    |
 | borrowing   |                      | Nim, intrinsics, C   |                    |                      |                    |
@@ -20,7 +21,9 @@ intops implements the following operations for signed and unsigned 32- and 64-bi
 
 _Overflowing_ operations return an explicit `didOverflow` bool flag that tells you if an overflow happened during the operation. These operations wrap for both signed and unsigned integers. Never raises overflow exceptions.
 
-_Raising_ operations are guaranteed to raise an exception if the operation overflows. This is unlike Nim's builtin `+` and `-` for signed ints, which won't raise if overflow checks are disabled during compilation (e.g. when compiled with `-d:danger`), and unlike `+` and `-` for unsigned ints, which silently wraps without raising.
+_Raising_ operations are guaranteed to raise an exception if the operation overflows. This is unlike Nim's builtin `+` and `-` for signed ints, which won't raise if overflow checks are disabled during compilation (e.g. when compiled with `-d:danger`), and unlike `+` and `-` for unsigned ints, which silently wrap without raising.
+
+_Wrapping_ operations are guaranteed to wrap if the operation overflows. This is unlike Nim's builtin `+` and `-` for signed ints, which do not wrap.
 
 _Saturating_ operations do not return an overflow flag but silently return the highest or the lowest available value for a given type if an overflow is to occur.
 

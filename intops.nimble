@@ -28,6 +28,7 @@ task test, "Run tests":
     echo fmt"# Flags: {flags}"
 
     selfExec fmt"r {flags} tests/tintops.nim"
+    selfExec fmt"""r {flags} -d:danger tests/tintops.nim "Raising operations::""""
 
 task bench, "Run benchmarks":
   var

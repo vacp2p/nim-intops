@@ -17,7 +17,7 @@ template overflowingSub*[T: SomeInteger](a, b: T): tuple[res: T, didOverflow: bo
   Takes two integers and returns their difference along with the overflow flag (OF):
   ``true`` means overflow happened, ``false`` means overflow didn't happen.
 
-  Subtraction wraps for both signed and unsigned integers, so this operation never raises.
+  Wraps for both signed and unsigned integers, so this operation never raises.
 
   See also:
   - `overflowingAdd <add.html#overflowingAdd>`_
@@ -30,6 +30,31 @@ template overflowingSub*[T: SomeInteger](a, b: T): tuple[res: T, didOverflow: bo
       intrinsics.gcc.overflowingSub(a, b)
     else:
       pure.overflowingSub(a, b)
+
+template raisingSub*[T: SomeInteger](a, b: T): T =
+  ##[ Raising subtraction.
+
+  _Guaranteed_ to raise `OverflowDefect` if the operation overflows
+  regardless of the compilation flags, e.g. `-d:danger`
+  (unlike Nim's builtin `-` operator for signed ints).
+  ]##
+
+  when nimvm:
+    pure.raisingSub(a, b)
+  else:
+    when compilerGccCompatible and canUseIntrinsics:
+      intrinsics.gcc.raisingSub(a, b)
+    else:
+      pure.raisingSub(a, b)
+
+template wrappingSub*[T: SomeInteger](a, b: T): T =
+  ##[ Wrapping subtraction.
+
+  Silently wraps for both unsigned and signed ints
+  (unlike Nim's builtin `-` operator for signed ints).
+  ]##
+
+  pure.wrappingSub(a, b)
 
 template saturatingSub*[T: SomeInteger](a, b: T): T =
   ##[ Saturating subtraction.
@@ -56,8 +81,9 @@ template borrowingSub*(
 ): tuple[res: uint64, borrowOut: bool] =
   ##[ Borrowing subtraction for unsigned 64-bit integers.
 
-  Takes two integers and returns their difference along with the borrow flag (BF): 
-  ``true`` means the previous subtraction had overflown, ``false`` means it hadn't.
+  Takes two integers and a borrowing flag: ``true`` means the previous subtraction had overflown, ``false`` means it hadn't.
+
+  Returns the difference along with the new borrowing flag.
 
   Useful for chaining operations.
 
@@ -82,8 +108,9 @@ template borrowingSub*(
 ): tuple[res: uint32, borrowOut: bool] =
   ##[ Borrowing subtraction for unsigned 32-bit integers.
 
-  Takes two integers and returns their difference along with the borrow flag (BF): 
-  ``true`` means the previous subtraction had overflown, ``false`` means it hadn't.
+  Takes two integers and a borrowing flag: ``true`` means the previous subtraction had overflown, ``false`` means it hadn't.
+
+  Returns the difference along with the new borrowing flag.
 
   Useful for chaining operations.
 
@@ -106,8 +133,9 @@ template borrowingSub*(
 ): tuple[res: int64, borrowOut: bool] =
   ##[ Borrowing subtraction for signed 64-bit integers.
 
-  Takes two integers and returns their difference along with the borrow flag (BF):
-  ``true`` means the previous subtraction had overflown, ``false`` means it hadn't.
+  Takes two integers and a borrowing flag: ``true`` means the previous subtraction had overflown, ``false`` means it hadn't.
+
+  Returns the difference along with the new borrowing flag.
 
   Useful for chaining operations.
 
@@ -126,8 +154,9 @@ template borrowingSub*(
 template borrowingSub*(a, b: int32, borrowIn: bool): (int32, bool) =
   ##[ Borrowing subtraction for signed 32-bit integers.
 
-  Takes two integers and returns their difference along with the borrow flag (BF): 
-  ``true`` means the previous subtraction had overflown, ``false`` means it hadn't.
+  Takes two integers and a borrowing flag: ``true`` means the previous subtraction had overflown, ``false`` means it hadn't.
+
+  Returns the difference along with the new borrowing flag.
 
   Useful for chaining operations.
 

@@ -17,7 +17,7 @@ template overflowingAdd*[T: SomeInteger](a, b: T): tuple[res: T, didOverflow: bo
   Takes two integers and returns their sum along with the overflow flag (OF):
   ``true`` means overflow happened, ``false`` means overflow didn't happen.
 
-  Addition wraps for both signed and unsigned integers, so this operation never raises.
+  Wraps for both signed and unsigned integers, so this operation never raises.
 
   See also:
   - `overflowingSub <sub.html#overflowingSub>`_
@@ -30,6 +30,31 @@ template overflowingAdd*[T: SomeInteger](a, b: T): tuple[res: T, didOverflow: bo
       intrinsics.gcc.overflowingAdd(a, b)
     else:
       pure.overflowingAdd(a, b)
+
+template raisingAdd*[T: SomeInteger](a, b: T): T =
+  ##[ Raising addition.
+
+  _Guaranteed_ to raise `OverflowDefect` if the operation overflows
+  regardless of the compilation flags, e.g. `-d:danger`
+  (unlike Nim's builtin `+` operator for signed ints).
+  ]##
+
+  when nimvm:
+    pure.raisingAdd(a, b)
+  else:
+    when compilerGccCompatible and canUseIntrinsics:
+      intrinsics.gcc.raisingAdd(a, b)
+    else:
+      pure.raisingAdd(a, b)
+
+template wrappingAdd*[T: SomeInteger](a, b: T): T =
+  ##[ Wrapping addition.
+
+  Silently wraps for both unsigned and signed ints
+  (unlike Nim's builtin `+` operator for signed ints).
+  ]##
+
+  pure.wrappingAdd(a, b)
 
 template saturatingAdd*[T: SomeInteger](a, b: T): T =
   ##[ Saturating addition.
@@ -54,8 +79,9 @@ template saturatingAdd*[T: SomeInteger](a, b: T): T =
 template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut: bool] =
   ##[ Carrying addition for unsigned 64-bit integers.
 
-  Takes two integers and returns their sum along with the carrying flag (CF): 
-  ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+  Takes two integers and a carrying flag: ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+
+  Returns the sum along with the new carrying flag.
 
   Useful for chaining operations.
 
@@ -79,8 +105,9 @@ template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut:
 template carryingAdd*(a, b: uint32, carryIn: bool): tuple[res: uint32, carryOut: bool] =
   ##[ Carrying addition for unsigned 32-bit integers.
 
-  Takes two integers and returns their sum along with the carrying flag (CF): 
-  ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+  Takes two integers and a carrying flag: ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+
+  Returns the sum along with the new carrying flag.
 
   Useful for chaining operations.
 
@@ -101,8 +128,9 @@ template carryingAdd*(a, b: uint32, carryIn: bool): tuple[res: uint32, carryOut:
 template carryingAdd*(a, b: int64, carryIn: bool): tuple[res: int64, carryOut: bool] =
   ##[ Carrying addition for signed 64-bit integers.
 
-  Takes two integers and returns their sum along with the carrying flag (CF): 
-  ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+  Takes two integers and a carrying flag: ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+
+  Returns the sum along with the new carrying flag.
 
   Useful for chaining operations.
 
@@ -121,8 +149,9 @@ template carryingAdd*(a, b: int64, carryIn: bool): tuple[res: int64, carryOut: b
 template carryingAdd*(a, b: int32, carryIn: bool): tuple[res: int32, carryOut: bool] =
   ##[ Carrying addition for signed 32-bit integers.
 
-  Takes two integers and returns their sum along with the carrying flag (CF): 
-  ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+  Takes two integers and a carrying flag: ``true`` means the previous addition had overflown, ``false`` means it hadn't.
+
+  Returns the sum along with the new carrying flag.
 
   Useful for chaining operations.
 

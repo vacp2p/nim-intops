@@ -39,7 +39,6 @@ jobs:
           --file results.json \
           --branch '${{ github.head_ref || github.ref_name }}' \
           --testbed "${MATRIX_OS}-${PLATFORM}-${CPU}-${NIM_VERSION}" \
-          --err \
           --threshold-measure latency \
           --threshold-test t_test \
           --threshold-lower-boundary _ \

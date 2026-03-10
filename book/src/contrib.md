@@ -70,8 +70,6 @@ These are integration tests that emulate real-lfe usage of the library and check
 
 To run the tests locally, use `nimble test` command.
 
-To run a single test, run `nim r tests/tintops.nim "Test name"`.
-
 With this command, the tests are run:
 
 - without compilation flags in runtime mode

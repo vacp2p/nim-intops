@@ -151,7 +151,7 @@ template borrowingSub*(
     else:
       pure.borrowingSub(a, b, borrowIn)
 
-template borrowingSub*(a, b: int32, borrowIn: bool): (int32, bool) =
+template borrowingSub*(a, b: int32, borrowIn: bool): tuple[res: int32, borrowOut: bool] =
   ##[ Borrowing subtraction for signed 32-bit integers.
 
   Takes two integers and a borrowing flag: ``true`` means the previous subtraction had overflown, ``false`` means it hadn't.

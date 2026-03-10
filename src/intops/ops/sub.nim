@@ -171,3 +171,6 @@ template borrowingSub*(a, b: int32, borrowIn: bool): tuple[res: int32, borrowOut
       intrinsics.gcc.borrowingSub(a, b, borrowIn)
     else:
       pure.borrowingSub(a, b, borrowIn)
+
+template getBorrow*[T: SomeInteger](a, b: T, borrowIn: bool): bool =
+  sub.borrowingSub(a, b, borrowIn).borrowOut

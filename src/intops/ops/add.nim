@@ -137,3 +137,6 @@ template carryingAdd*(a, b: int32, carryIn: bool): tuple[res: int32, carryOut: b
       intrinsics.gcc.carryingAdd(a, b, carryIn)
     else:
       pure.carryingAdd(a, b, carryIn)
+
+template getCarry*[T: SomeInteger](a, b: T, carryIn: bool): bool =
+  add.carryingAdd(a, b, carryIn).carryOut

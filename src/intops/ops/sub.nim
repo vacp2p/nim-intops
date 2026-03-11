@@ -123,7 +123,9 @@ template borrowingSub*(
     else:
       pure.borrowingSub(a, b, borrowIn)
 
-template borrowingSub*(a, b: int32, borrowIn: bool): (int32, bool) =
+template borrowingSub*(
+    a, b: int32, borrowIn: bool
+): tuple[res: int32, borrowOut: bool] =
   ##[ Borrowing subtraction for signed 32-bit integers.
 
   Takes two integers and returns their difference along with the borrow flag (BF): 
@@ -142,3 +144,6 @@ template borrowingSub*(a, b: int32, borrowIn: bool): (int32, bool) =
       intrinsics.gcc.borrowingSub(a, b, borrowIn)
     else:
       pure.borrowingSub(a, b, borrowIn)
+
+template getBorrow*[T: SomeInteger](a, b: T, borrowIn: bool): bool =
+  sub.borrowingSub(a, b, borrowIn).borrowOut

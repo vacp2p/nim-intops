@@ -64,7 +64,7 @@ Adding an operation means doing two things:
 1. **Adding a pure Nim implementation for the new operation.** Pure Nim implementations are universal fallbacks for all operations because they are guaranteed to compile everwhere Nim code can compile regardless of the environment. Pure Nim implementations are defined in `intops/impl/pure.nim`.
 1. **Adding a dispatcher that exposes this implementation.** Find the corresponding module in `intops/ops` (or create a new one) and add the dispatcher there.
 
-For example, let's define a new addition flavor called **magic addition** which adds two uint64 integers and adds the number 42 to the sum (this is our magic component).
+For example, let's define a new addition flavor called **magic addition** which adds two uint64 integers and adds the number 42 to the sum (aka the magic component).
 
 1. In `intops/impl/pure.nim`:
 
@@ -77,7 +77,12 @@ func magicAdd*(a, b: uint64): uint64 =
 
 ```nim
 template magicAdd*(a, b: uint64): uint64 =
-  ## Docstring is mandatory for dispatchers.
+  ##[ Magic addition.
+
+  Takes two integers and returns their sum plus a magic value.
+
+  Docstrings are mandatory for dispatchers! This is our public API and it must be documented.
+  ]##
 
   pure.magicAdd(a, b)
 ```

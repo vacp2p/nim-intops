@@ -146,7 +146,7 @@ template borrowingSub*(
       pure.borrowingSub(a, b, borrow)
 
 template borrow*[T: SomeInteger](a, b: T, borrow: bool): bool =
-  ##[ Borrowing subtraction that returns just he borrow flag.
+  ##[ Borrowing subtraction that returns just the borrow flag.
 
   See also:
   - `borrowingSub`_

@@ -211,6 +211,19 @@ template benchLatencyCarrying*(typ: typedesc, op: untyped) =
     do:
       doNotOptimize(flush)
 
+template benchLatencyFlag*(typ: typedesc, op: untyped) =
+  let opName = astToStr(op)
+
+  when not compiles op(default(typ), default(typ), false):
+    echo alignLeft(opName, 35), " -"
+  else:
+    measureLatency(typ, opName):
+      var carry {.inject.}: bool
+    do:
+      carry = op(inputsA[idx], inputsB[idx], carry)
+    do:
+      doNotOptimize(carry)
+
 template benchThroughputOverflowing*(typ: typedesc, op: untyped) =
   let opName = astToStr(op)
 

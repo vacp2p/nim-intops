@@ -64,7 +64,9 @@ when compilerGccCompatible and canUseIntrinsics:
     (final, c1 or c2)
 
   func carry*[T: SomeInteger](a, b: T, carry: bool): bool =
-    let (res, didOverflow) = gcc.overflowingAdd(a, b)
+    var res {.noinit.}: T
+
+    let didOverflow = builtinOverflowingAdd(a, b, res)
 
     didOverflow or (carry and (res == high(T)))
 
@@ -106,3 +108,10 @@ when compilerGccCompatible and canUseIntrinsics:
       b2 = builtinOverflowingSub(t1, T(borrow), final)
 
     (final, b1 or b2)
+
+  func borrow*[T: SomeInteger](a, b: T, borrow: bool): bool =
+    var res {.noinit.}: T
+
+    let didBorrow = builtinOverflowingSub(a, b, res)
+
+    didBorrow or (borrow and (res == low(T)))

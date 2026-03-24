@@ -51,7 +51,7 @@ template saturatingAdd*[T: SomeInteger](a, b: T): T =
     else:
       pure.saturatingAdd(a, b)
 
-template carryingAdd*(a, b: uint64, carry: bool): tuple[res: uint64, carryOut: bool] =
+template carryingAdd*(a, b: uint64, carry: bool): tuple[res: uint64, carry: bool] =
   ##[ Carrying addition for unsigned 64-bit integers.
 
   Takes two integers and returns their sum along with the carrying flag (CF): 
@@ -76,7 +76,7 @@ template carryingAdd*(a, b: uint64, carry: bool): tuple[res: uint64, carryOut: b
       # Universal fallback
       pure.carryingAdd(a, b, carry)
 
-template carryingAdd*(a, b: uint32, carry: bool): tuple[res: uint32, carryOut: bool] =
+template carryingAdd*(a, b: uint32, carry: bool): tuple[res: uint32, carry: bool] =
   ##[ Carrying addition for unsigned 32-bit integers.
 
   Takes two integers and returns their sum along with the carrying flag (CF): 
@@ -98,7 +98,7 @@ template carryingAdd*(a, b: uint32, carry: bool): tuple[res: uint32, carryOut: b
     else:
       pure.carryingAdd(a, b, carry)
 
-template carryingAdd*(a, b: int64, carry: bool): tuple[res: int64, carryOut: bool] =
+template carryingAdd*(a, b: int64, carry: bool): tuple[res: int64, carry: bool] =
   ##[ Carrying addition for signed 64-bit integers.
 
   Takes two integers and returns their sum along with the carrying flag (CF): 
@@ -118,7 +118,7 @@ template carryingAdd*(a, b: int64, carry: bool): tuple[res: int64, carryOut: boo
     else:
       pure.carryingAdd(a, b, carry)
 
-template carryingAdd*(a, b: int32, carry: bool): tuple[res: int32, carryOut: bool] =
+template carryingAdd*(a, b: int32, carry: bool): tuple[res: int32, carry: bool] =
   ##[ Carrying addition for signed 32-bit integers.
 
   Takes two integers and returns their sum along with the carrying flag (CF): 

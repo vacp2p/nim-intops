@@ -30,10 +30,10 @@ when cpuX86 and canUseIntrinsics:
   func carryingAdd*(a, b: uint32, carry: bool): (uint32, bool) =
     var res {.noinit.}: uint32
 
-    let carryOut =
+    let carry =
       builtinCarryingAdd(uint8(carry), cuint(a), cuint(b), cast[ptr cuint](addr res))
 
-    (res, bool(carryOut))
+    (res, bool(carry))
 
   func borrowingSub*(a, b: uint32, borrowIn: bool): (uint32, bool) =
     var res {.noinit.}: uint32
@@ -58,11 +58,11 @@ when cpu64bit and cpuX86 and canUseIntrinsics:
   func carryingAdd*(a, b: uint64, carry: bool): (uint64, bool) =
     var res {.noinit.}: uint64
 
-    let carryOut = builtinCarryingAdd(
+    let carry = builtinCarryingAdd(
       uint8(carry), culonglong(a), culonglong(b), cast[ptr culonglong](addr res)
     )
 
-    (res, bool(carryOut))
+    (res, bool(carry))
 
   func borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) =
     var res {.noinit.}: uint64
@@ -95,14 +95,14 @@ when cpu64bit and cpuX86 and compilerMsvc and canUseIntrinsics:
   func wideningMulAdd*(a, b, c: uint64): (uint64, uint64) =
     var
       hi, lo {.noinit.}: uint64
-      carryOut {.noinit.}: uint8
+      carry {.noinit.}: uint8
 
     lo = builtinWideningMul(culonglong(a), culonglong(b), cast[ptr culonglong](addr hi))
-    carryOut = builtinAddCarry(
+    carry = builtinAddCarry(
       0'u8, culonglong(lo), culongculong(c), cast[prt culonglong](addr lo)
     )
     discard builtinAddCarry(
-      carryOut, culonglong(hi), culonglong(0), cast[ptr culonglong](addr hi)
+      carry, culonglong(hi), culonglong(0), cast[ptr culonglong](addr hi)
     )
 
     (hi, lo)
@@ -110,21 +110,21 @@ when cpu64bit and cpuX86 and compilerMsvc and canUseIntrinsics:
   func wideningMulAdd*(a, b, c, d: uint64): (uint64, uint64) =
     var
       hi, lo {.noinit.}: uint64
-      carryOut1 {.noinit.}: uint8
-      carryOut2 {.noinit.}: uint8
+      carry1 {.noinit.}: uint8
+      carry2 {.noinit.}: uint8
 
     lo = builtinWideningMul(culonglong(a), culonglong(b), cast[ptr culonglong](addr hi))
-    carryOut1 = builtinAddCarry(
+    carry1 = builtinAddCarry(
       0'u8, culonglong(lo), culongculong(c), cast[prt culonglong](addr lo)
     )
     discard builtinAddCarry(
-      carryOut1, culonglong(hi), culonglong(0), cast[ptr culonglong](addr hi)
+      carry1, culonglong(hi), culonglong(0), cast[ptr culonglong](addr hi)
     )
-    carryOut2 = builtinAddCarry(
+    carry2 = builtinAddCarry(
       0'u8, culonglong(lo), culongculong(d), cast[prt culonglong](addr lo)
     )
     discard builtinAddCarry(
-      carryOut2, culonglong(hi), culonglong(0), cast[ptr culonglong](addr hi)
+      carry2, culonglong(hi), culonglong(0), cast[ptr culonglong](addr hi)
     )
 
     (hi, lo)

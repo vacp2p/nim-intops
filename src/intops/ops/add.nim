@@ -51,7 +51,7 @@ template saturatingAdd*[T: SomeInteger](a, b: T): T =
     else:
       pure.saturatingAdd(a, b)
 
-template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut: bool] =
+template carryingAdd*(a, b: uint64, carry: bool): tuple[res: uint64, carryOut: bool] =
   ##[ Carrying addition for unsigned 64-bit integers.
 
   Takes two integers and returns their sum along with the carrying flag (CF): 
@@ -64,19 +64,19 @@ template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut:
   ]##
 
   when nimvm:
-    pure.carryingAdd(a, b, carryIn)
+    pure.carryingAdd(a, b, carry)
   else:
     when cpuX86 and compilerMsvc and canUseIntrinsics:
-      intrinsics.x86.carryingAdd(a, b, carryIn)
+      intrinsics.x86.carryingAdd(a, b, carry)
     elif compilerGccCompatible and canUseIntrinsics:
-      intrinsics.gcc.carryingAdd(a, b, carryIn)
+      intrinsics.gcc.carryingAdd(a, b, carry)
     elif cpu64Bit and compilerGccCompatible and canUseInlineC:
-      inlinec.carryingAdd(a, b, carryIn)
+      inlinec.carryingAdd(a, b, carry)
     else:
       # Universal fallback
-      pure.carryingAdd(a, b, carryIn)
+      pure.carryingAdd(a, b, carry)
 
-template carryingAdd*(a, b: uint32, carryIn: bool): tuple[res: uint32, carryOut: bool] =
+template carryingAdd*(a, b: uint32, carry: bool): tuple[res: uint32, carryOut: bool] =
   ##[ Carrying addition for unsigned 32-bit integers.
 
   Takes two integers and returns their sum along with the carrying flag (CF): 
@@ -89,16 +89,16 @@ template carryingAdd*(a, b: uint32, carryIn: bool): tuple[res: uint32, carryOut:
   ]##
 
   when nimvm:
-    pure.carryingAdd(a, b, carryIn)
+    pure.carryingAdd(a, b, carry)
   else:
     when cpuX86 and compilerMsvc and canUseIntrinsics:
-      intrinsics.x86.carryingAdd(a, b, carryIn)
+      intrinsics.x86.carryingAdd(a, b, carry)
     elif compilerGccCompatible and canUseIntrinsics:
-      intrinsics.gcc.carryingAdd(a, b, carryIn)
+      intrinsics.gcc.carryingAdd(a, b, carry)
     else:
-      pure.carryingAdd(a, b, carryIn)
+      pure.carryingAdd(a, b, carry)
 
-template carryingAdd*(a, b: int64, carryIn: bool): tuple[res: int64, carryOut: bool] =
+template carryingAdd*(a, b: int64, carry: bool): tuple[res: int64, carryOut: bool] =
   ##[ Carrying addition for signed 64-bit integers.
 
   Takes two integers and returns their sum along with the carrying flag (CF): 
@@ -111,14 +111,14 @@ template carryingAdd*(a, b: int64, carryIn: bool): tuple[res: int64, carryOut: b
   ]##
 
   when nimvm:
-    pure.carryingAdd(a, b, carryIn)
+    pure.carryingAdd(a, b, carry)
   else:
     when compilerGccCompatible and canUseIntrinsics:
-      intrinsics.gcc.carryingAdd(a, b, carryIn)
+      intrinsics.gcc.carryingAdd(a, b, carry)
     else:
-      pure.carryingAdd(a, b, carryIn)
+      pure.carryingAdd(a, b, carry)
 
-template carryingAdd*(a, b: int32, carryIn: bool): tuple[res: int32, carryOut: bool] =
+template carryingAdd*(a, b: int32, carry: bool): tuple[res: int32, carryOut: bool] =
   ##[ Carrying addition for signed 32-bit integers.
 
   Takes two integers and returns their sum along with the carrying flag (CF): 
@@ -131,12 +131,12 @@ template carryingAdd*(a, b: int32, carryIn: bool): tuple[res: int32, carryOut: b
   ]##
 
   when nimvm:
-    pure.carryingAdd(a, b, carryIn)
+    pure.carryingAdd(a, b, carry)
   else:
     when compilerGccCompatible and canUseIntrinsics:
-      intrinsics.gcc.carryingAdd(a, b, carryIn)
+      intrinsics.gcc.carryingAdd(a, b, carry)
     else:
-      pure.carryingAdd(a, b, carryIn)
+      pure.carryingAdd(a, b, carry)
 
 template carry*[T: SomeInteger](a, b: T, carry: bool): bool =
   ##[ Carrying addition that returns just the carry flag.

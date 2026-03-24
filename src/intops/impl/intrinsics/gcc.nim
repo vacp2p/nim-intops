@@ -54,12 +54,12 @@ when compilerGccCompatible and canUseIntrinsics:
 
     res
 
-  func carryingAdd*[T: SomeInteger](a, b: T, carryIn: bool): (T, bool) =
+  func carryingAdd*[T: SomeInteger](a, b: T, carry: bool): (T, bool) =
     var t1, final {.noinit.}: T
 
     let
       c1 = builtinOverflowingAdd(a, b, t1)
-      c2 = builtinOverflowingAdd(t1, T(carryIn), final)
+      c2 = builtinOverflowingAdd(t1, T(carry), final)
 
     (final, c1 or c2)
 

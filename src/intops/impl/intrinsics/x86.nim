@@ -18,7 +18,7 @@ when cpuX86 and canUseIntrinsics:
     {.pragma: x86_header, header: "<x86intrin.h>", nodecl.}
 
   func builtinCarryingAdd*(
-    carryIn: uint8, a, b: cuint, res: ptr cuint
+    carry: uint8, a, b: cuint, res: ptr cuint
   ): uint8 {.importc: "_addcarry_u32", x86_header.}
 
   func builtinBorrowingSub*(
@@ -27,11 +27,11 @@ when cpuX86 and canUseIntrinsics:
 
   {.push raises: [], inline, noinit, gcsafe.}
 
-  func carryingAdd*(a, b: uint32, carryIn: bool): (uint32, bool) =
+  func carryingAdd*(a, b: uint32, carry: bool): (uint32, bool) =
     var res {.noinit.}: uint32
 
     let carryOut =
-      builtinCarryingAdd(uint8(carryIn), cuint(a), cuint(b), cast[ptr cuint](addr res))
+      builtinCarryingAdd(uint8(carry), cuint(a), cuint(b), cast[ptr cuint](addr res))
 
     (res, bool(carryOut))
 
@@ -46,7 +46,7 @@ when cpuX86 and canUseIntrinsics:
 
 when cpu64bit and cpuX86 and canUseIntrinsics:
   func builtinCarryingAdd*(
-    carryIn: uint8, a, b: culonglong, res: ptr culonglong
+    carry: uint8, a, b: culonglong, res: ptr culonglong
   ): uint8 {.importc: "_addcarry_u64", x86_header.}
 
   func builtinBorrowingSub*(
@@ -55,11 +55,11 @@ when cpu64bit and cpuX86 and canUseIntrinsics:
 
   {.push raises: [], inline, noinit, gcsafe.}
 
-  func carryingAdd*(a, b: uint64, carryIn: bool): (uint64, bool) =
+  func carryingAdd*(a, b: uint64, carry: bool): (uint64, bool) =
     var res {.noinit.}: uint64
 
     let carryOut = builtinCarryingAdd(
-      uint8(carryIn), culonglong(a), culonglong(b), cast[ptr culonglong](addr res)
+      uint8(carry), culonglong(a), culonglong(b), cast[ptr culonglong](addr res)
     )
 
     (res, bool(carryOut))

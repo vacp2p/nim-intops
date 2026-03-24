@@ -27,19 +27,19 @@ func overflowingAdd*[T: SomeSignedInt](a, b: T): (T, bool) =
 
   (res, didOverflow)
 
-func carryingAdd*[T: SomeUnsignedInt](a, b: T, carryIn: bool): (T, bool) =
+func carryingAdd*[T: SomeUnsignedInt](a, b: T, carry: bool): (T, bool) =
   let
     sum = a + b
     c1 = sum < a
-    res = sum + T(carryIn)
+    res = sum + T(carry)
     c2 = res < sum
 
   (res, c1 or c2)
 
-func carryingAdd*[T: SomeSignedInt](a, b: T, carryIn: bool): (T, bool) =
+func carryingAdd*[T: SomeSignedInt](a, b: T, carry: bool): (T, bool) =
   let
     (sum1, o1) = pure.overflowingAdd(a, b)
-    (final, o2) = pure.overflowingAdd(sum1, T(carryIn))
+    (final, o2) = pure.overflowingAdd(sum1, T(carry))
 
   (final, o1 or o2)
 

@@ -93,11 +93,11 @@ when compilerGccCompatible and canUseIntrinsics:
 
     res
 
-  func borrowingSub*[T: SomeInteger](a, b: T, borrowIn: bool): (T, bool) =
+  func borrowingSub*[T: SomeInteger](a, b: T, borrow: bool): (T, bool) =
     var t1, final {.noinit.}: T
 
     let
       b1 = builtinOverflowingSub(a, b, t1)
-      b2 = builtinOverflowingSub(t1, T(borrowIn), final)
+      b2 = builtinOverflowingSub(t1, T(borrow), final)
 
     (final, b1 or b2)

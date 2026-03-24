@@ -22,7 +22,7 @@ when cpuX86 and canUseIntrinsics:
   ): uint8 {.importc: "_addcarry_u32", x86_header.}
 
   func builtinBorrowingSub*(
-    borrowIn: uint8, a, b: cuint, res: ptr uint32
+    borrow: uint8, a, b: cuint, res: ptr uint32
   ): uint8 {.importc: "_subborrow_u32", x86_header.}
 
   {.push raises: [], inline, noinit, gcsafe.}
@@ -35,12 +35,11 @@ when cpuX86 and canUseIntrinsics:
 
     (res, bool(carry))
 
-  func borrowingSub*(a, b: uint32, borrowIn: bool): (uint32, bool) =
+  func borrowingSub*(a, b: uint32, borrow: bool): (uint32, bool) =
     var res {.noinit.}: uint32
 
-    let borrowOut = builtinBorrowingSub(
-      uint8(borrowIn), cuint(a), cuint(b), cast[ptr cuint](addr res)
-    )
+    let borrowOut =
+      builtinBorrowingSub(uint8(borrow), cuint(a), cuint(b), cast[ptr cuint](addr res))
 
     (res, bool(borrowOut))
 
@@ -50,7 +49,7 @@ when cpu64bit and cpuX86 and canUseIntrinsics:
   ): uint8 {.importc: "_addcarry_u64", x86_header.}
 
   func builtinBorrowingSub*(
-    borrowIn: uint8, a, b: culonglong, res: ptr culonglong
+    borrow: uint8, a, b: culonglong, res: ptr culonglong
   ): uint8 {.importc: "_subborrow_u64", x86_header.}
 
   {.push raises: [], inline, noinit, gcsafe.}
@@ -64,11 +63,11 @@ when cpu64bit and cpuX86 and canUseIntrinsics:
 
     (res, bool(carry))
 
-  func borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) =
+  func borrowingSub*(a, b: uint64, borrow: bool): (uint64, bool) =
     var res {.noinit.}: uint64
 
     let borrowOut = builtinBorrowingSub(
-      uint8(borrowIn), culonglong(a), culonglong(b), cast[ptr culonglong](addr res)
+      uint8(borrow), culonglong(a), culonglong(b), cast[ptr culonglong](addr res)
     )
 
     (res, bool(borrowOut))

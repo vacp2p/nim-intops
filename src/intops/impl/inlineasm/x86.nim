@@ -48,11 +48,11 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
     """
     (sum, didOverflow > 0)
 
-  func borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) =
+  func borrowingSub*(a, b: uint64, borrow: bool): (uint64, bool) =
     var
       diff = a
       bOut {.noinit.}: uint8
-      bInVal = if borrowIn: 1'u64 else: 0'u64
+      bInVal = if borrow: 1'u64 else: 0'u64
 
     asm """
       negq %[bInVal]      /* Sets CF=1 if bInVal==1, CF=0 if bInVal==0 */
@@ -65,14 +65,14 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
     """
     (diff, bOut > 0)
 
-  func borrowingSub*(a, b: int64, borrowIn: bool): (int64, bool) =
+  func borrowingSub*(a, b: int64, borrow: bool): (int64, bool) =
     var
       diff = a
       didOverflow {.noinit.}: uint8
-      bInVal = if borrowIn: 1'u64 else: 0'u64
+      bInVal = if borrow: 1'u64 else: 0'u64
 
     asm """
-      negq %[bInVal]      /* Prime CF based on borrowIn */
+      negq %[bInVal]      /* Prime CF based on borrow */
       sbbq %[b], %[diff]  /* Signed subtraction is binary-identical to unsigned */
       seto %[didOverflow] /* Check OVERFLOW Flag (OF) for signed result validity */
 
@@ -138,11 +138,11 @@ when cpuX86 and compilerGccCompatible and canUseInlineAsm:
     """
     (sum, didOverflow > 0)
 
-  func borrowingSub*(a, b: uint32, borrowIn: bool): (uint32, bool) =
+  func borrowingSub*(a, b: uint32, borrow: bool): (uint32, bool) =
     var
       diff = a
       bOut {.noinit.}: uint8
-      bInVal = if borrowIn: 1'u32 else: 0'u32
+      bInVal = if borrow: 1'u32 else: 0'u32
 
     asm """
       negl %[bInVal]      /* 32-bit Negate to set CF */
@@ -155,11 +155,11 @@ when cpuX86 and compilerGccCompatible and canUseInlineAsm:
     """
     (diff, bOut > 0)
 
-  func borrowingSub*(a, b: int32, borrowIn: bool): (int32, bool) =
+  func borrowingSub*(a, b: int32, borrow: bool): (int32, bool) =
     var
       diff = a
       didOverflow {.noinit.}: uint8
-      bInVal = if borrowIn: 1'u32 else: 0'u32
+      bInVal = if borrow: 1'u32 else: 0'u32
 
     asm """
       negl %[bInVal]

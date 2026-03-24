@@ -52,7 +52,7 @@ template saturatingSub*[T: SomeInteger](a, b: T): T =
       pure.saturatingSub(a, b)
 
 template borrowingSub*(
-    a, b: uint64, borrowIn: bool
+    a, b: uint64, borrow: bool
 ): tuple[res: uint64, borrowOut: bool] =
   ##[ Borrowing subtraction for unsigned 64-bit integers.
 
@@ -66,19 +66,19 @@ template borrowingSub*(
   ]##
 
   when nimvm:
-    pure.borrowingSub(a, b, borrowIn)
+    pure.borrowingSub(a, b, borrow)
   else:
     when cpuX86 and compilerMsvc and canUseIntrinsics:
-      intrinsics.x86.borrowingSub(a, b, borrowIn)
+      intrinsics.x86.borrowingSub(a, b, borrow)
     elif compilerGccCompatible and canUseIntrinsics:
-      intrinsics.gcc.borrowingSub(a, b, borrowIn)
+      intrinsics.gcc.borrowingSub(a, b, borrow)
     elif cpu64Bit and compilerGccCompatible and canUseInlineC:
-      inlinec.borrowingSub(a, b, borrowIn)
+      inlinec.borrowingSub(a, b, borrow)
     else:
-      pure.borrowingSub(a, b, borrowIn)
+      pure.borrowingSub(a, b, borrow)
 
 template borrowingSub*(
-    a, b: uint32, borrowIn: bool
+    a, b: uint32, borrow: bool
 ): tuple[res: uint32, borrowOut: bool] =
   ##[ Borrowing subtraction for unsigned 32-bit integers.
 
@@ -92,17 +92,17 @@ template borrowingSub*(
   ]##
 
   when nimvm:
-    pure.borrowingSub(a, b, borrowIn)
+    pure.borrowingSub(a, b, borrow)
   else:
     when cpuX86 and compilerMsvc and canUseIntrinsics:
-      intrinsics.x86.borrowingSub(a, b, borrowIn)
+      intrinsics.x86.borrowingSub(a, b, borrow)
     elif compilerGccCompatible and canUseIntrinsics:
-      intrinsics.gcc.borrowingSub(a, b, borrowIn)
+      intrinsics.gcc.borrowingSub(a, b, borrow)
     else:
-      pure.borrowingSub(a, b, borrowIn)
+      pure.borrowingSub(a, b, borrow)
 
 template borrowingSub*(
-    a, b: int64, borrowIn: bool
+    a, b: int64, borrow: bool
 ): tuple[res: int64, borrowOut: bool] =
   ##[ Borrowing subtraction for signed 64-bit integers.
 
@@ -116,15 +116,15 @@ template borrowingSub*(
   ]##
 
   when nimvm:
-    pure.borrowingSub(a, b, borrowIn)
+    pure.borrowingSub(a, b, borrow)
   else:
     when compilerGccCompatible and canUseIntrinsics:
-      intrinsics.gcc.borrowingSub(a, b, borrowIn)
+      intrinsics.gcc.borrowingSub(a, b, borrow)
     else:
-      pure.borrowingSub(a, b, borrowIn)
+      pure.borrowingSub(a, b, borrow)
 
 template borrowingSub*(
-    a, b: int32, borrowIn: bool
+    a, b: int32, borrow: bool
 ): tuple[res: int32, borrowOut: bool] =
   ##[ Borrowing subtraction for signed 32-bit integers.
 
@@ -138,12 +138,12 @@ template borrowingSub*(
   ]##
 
   when nimvm:
-    pure.borrowingSub(a, b, borrowIn)
+    pure.borrowingSub(a, b, borrow)
   else:
     when compilerGccCompatible and canUseIntrinsics:
-      intrinsics.gcc.borrowingSub(a, b, borrowIn)
+      intrinsics.gcc.borrowingSub(a, b, borrow)
     else:
-      pure.borrowingSub(a, b, borrowIn)
+      pure.borrowingSub(a, b, borrow)
 
 template borrow*[T: SomeInteger](a, b: T, borrow: bool): bool =
   ##[ Borrowing subtraction that returns just he borrow flag.

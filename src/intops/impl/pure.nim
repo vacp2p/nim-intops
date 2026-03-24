@@ -79,19 +79,19 @@ func overflowingSub*[T: SomeSignedInt](a, b: T): (T, bool) =
 
   (res, didOverflow)
 
-func borrowingSub*[T: SomeUnsignedInt](a, b: T, borrowIn: bool): (T, bool) =
+func borrowingSub*[T: SomeUnsignedInt](a, b: T, borrow: bool): (T, bool) =
   let
     diff = a - b
     b1 = a < b
-    res = diff - T(borrowIn)
-    b2 = diff < T(borrowIn)
+    res = diff - T(borrow)
+    b2 = diff < T(borrow)
 
   (res, b1 or b2)
 
-func borrowingSub*[T: SomeSignedInt](a, b: T, borrowIn: bool): (T, bool) =
+func borrowingSub*[T: SomeSignedInt](a, b: T, borrow: bool): (T, bool) =
   let
     (diff1, o1) = pure.overflowingSub(a, b)
-    (final, o2) = pure.overflowingSub(diff1, T(borrowIn))
+    (final, o2) = pure.overflowingSub(diff1, T(borrow))
 
   (final, o1 or o2)
 

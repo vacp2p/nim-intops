@@ -37,11 +37,11 @@ when cpu64Bit and compilerGccCompatible and canUseInlineC:
 
     (sum, cOut > 0)
 
-  func borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) =
+  func borrowingSub*(a, b: uint64, borrow: bool): (uint64, bool) =
     var
       diff {.noinit.}: uint64
       bOut {.noinit.}: uint64
-      bInVal = if borrowIn: 1'u64 else: 0'u64
+      bInVal = if borrow: 1'u64 else: 0'u64
 
     {.
       emit: """

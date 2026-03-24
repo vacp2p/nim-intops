@@ -43,8 +43,9 @@ func carryingAdd*[T: SomeSignedInt](a, b: T, carry: bool): (T, bool) =
 
   (final, o1 or o2)
 
-func carry*(a, b: SomeInteger, carry: bool): bool =
-  pure.carryingAdd(a, b, carry)[1]
+func carry*[T: SomeInteger](a, b: T, carry: bool): bool =
+  let (sum, o1) = pure.overflowingAdd(a, b)
+  o1 or (carry and (sum == high(T)))
 
 func saturatingAdd*[T: SomeUnsignedInt](a, b: T): T =
   let (res, didOverflow) = pure.overflowingAdd(a, b)
@@ -95,8 +96,9 @@ func borrowingSub*[T: SomeSignedInt](a, b: T, borrow: bool): (T, bool) =
 
   (final, o1 or o2)
 
-func borrow*(a, b: SomeInteger, borrow: bool): bool =
-  pure.borrowingSub(a, b, borrow)[1]
+func borrow*[T: SomeInteger](a, b: T, borrow: bool): bool =
+  let (diff, o1) = pure.overflowingSub(a, b)
+  o1 or (borrow and (diff == low(T)))
 
 func saturatingSub*[T: SomeUnsignedInt](a, b: T): T =
   let (res, didBorrow) = pure.overflowingSub(a, b)

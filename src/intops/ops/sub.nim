@@ -145,5 +145,11 @@ template borrowingSub*(
     else:
       pure.borrowingSub(a, b, borrowIn)
 
-template getBorrow*[T: SomeInteger](a, b: T, borrowIn: bool): bool =
-  sub.borrowingSub(a, b, borrowIn).borrowOut
+template borrow*[T: SomeInteger](a, b: T, borrow: bool): bool =
+  ##[ Borrowing subtraction that returns just he borrow flag.
+
+  See also:
+  - `borrowingSub`_
+  ]##
+
+  pure.borrow(a, b, borrow)

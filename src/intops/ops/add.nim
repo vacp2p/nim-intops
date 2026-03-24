@@ -138,5 +138,11 @@ template carryingAdd*(a, b: int32, carryIn: bool): tuple[res: int32, carryOut: b
     else:
       pure.carryingAdd(a, b, carryIn)
 
-template getCarry*[T: SomeInteger](a, b: T, carryIn: bool): bool =
-  add.carryingAdd(a, b, carryIn).carryOut
+template carry*[T: SomeInteger](a, b: T, carry: bool): bool =
+  ##[ Carrying addition that returns just the carry flag.
+
+  See also:
+  - `carryingAdd`_
+  ]##
+
+  pure.carry(a, b, carry)

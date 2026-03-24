@@ -59,15 +59,7 @@ template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut:
 
 ## Adding New Operations
 
-### Proxy Operations
-
-Proxy operation is an operation that offers an alternative interface for another operation. For example, [`getCarry`](/apidocs/intops/ops/add.html#getCarry.t,T,T,bool) is just sugar around [`carryingAdd`](/apidocs/intops/ops/add.html#carryingAdd.t,int32,int32,bool).
-
-To add a proxy operation, just add a dispatcher for it and put its logic right into it. Since this logic is trivial, it doesn't break our architecture of splitting implementations from dispatching.
-
-### Independent Operations
-
-Adding an independent operation means doing two things:
+Adding an operation means doing two things:
 
 1. **Adding a pure Nim implementation for the new operation.** Pure Nim implementations are universal fallbacks for all operations because they are guaranteed to compile everwhere Nim code can compile regardless of the environment. Pure Nim implementations are defined in `intops/impl/pure.nim`.
 1. **Adding a dispatcher that exposes this implementation.** Find the corresponding module in `intops/ops` (or create a new one) and add the dispatcher there.

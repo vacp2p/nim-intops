@@ -11,9 +11,13 @@ proc runLatencySaturating() {.noinline.} =
 proc runLatencyCarrying() {.noinline.} =
   benchTypesAndImpls(benchLatencyCarrying, borrowingSub)
 
+proc runLatencyFlag() {.noinline.} =
+  benchTypesAndImpls(benchLatencyFlag, borrow)
+
 when isMainModule:
   echo "\n# Latency, Subtraction"
 
   runLatencyOverflowing()
   runLatencySaturating()
   runLatencyCarrying()
+  runLatencyFlag()

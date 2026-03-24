@@ -53,7 +53,7 @@ template saturatingSub*[T: SomeInteger](a, b: T): T =
 
 template borrowingSub*(
     a, b: uint64, borrow: bool
-): tuple[res: uint64, borrowOut: bool] =
+): tuple[res: uint64, borrow: bool] =
   ##[ Borrowing subtraction for unsigned 64-bit integers.
 
   Takes two integers and returns their difference along with the borrow flag (BF): 
@@ -79,7 +79,7 @@ template borrowingSub*(
 
 template borrowingSub*(
     a, b: uint32, borrow: bool
-): tuple[res: uint32, borrowOut: bool] =
+): tuple[res: uint32, borrow: bool] =
   ##[ Borrowing subtraction for unsigned 32-bit integers.
 
   Takes two integers and returns their difference along with the borrow flag (BF): 
@@ -103,7 +103,7 @@ template borrowingSub*(
 
 template borrowingSub*(
     a, b: int64, borrow: bool
-): tuple[res: int64, borrowOut: bool] =
+): tuple[res: int64, borrow: bool] =
   ##[ Borrowing subtraction for signed 64-bit integers.
 
   Takes two integers and returns their difference along with the borrow flag (BF):
@@ -125,7 +125,7 @@ template borrowingSub*(
 
 template borrowingSub*(
     a, b: int32, borrow: bool
-): tuple[res: int32, borrowOut: bool] =
+): tuple[res: int32, borrow: bool] =
   ##[ Borrowing subtraction for signed 32-bit integers.
 
   Takes two integers and returns their difference along with the borrow flag (BF): 

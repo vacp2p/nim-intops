@@ -38,10 +38,10 @@ when cpuX86 and canUseIntrinsics:
   func borrowingSub*(a, b: uint32, borrow: bool): (uint32, bool) =
     var res {.noinit.}: uint32
 
-    let borrowOut =
+    let borrow =
       builtinBorrowingSub(uint8(borrow), cuint(a), cuint(b), cast[ptr cuint](addr res))
 
-    (res, bool(borrowOut))
+    (res, bool(borrow))
 
 when cpu64bit and cpuX86 and canUseIntrinsics:
   func builtinCarryingAdd*(
@@ -66,11 +66,11 @@ when cpu64bit and cpuX86 and canUseIntrinsics:
   func borrowingSub*(a, b: uint64, borrow: bool): (uint64, bool) =
     var res {.noinit.}: uint64
 
-    let borrowOut = builtinBorrowingSub(
+    let borrow = builtinBorrowingSub(
       uint8(borrow), culonglong(a), culonglong(b), cast[ptr culonglong](addr res)
     )
 
-    (res, bool(borrowOut))
+    (res, bool(borrow))
 
 when cpu64bit and cpuX86 and compilerMsvc and canUseIntrinsics:
   func builtinWideningMul*(

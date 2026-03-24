@@ -137,11 +137,34 @@ template carryingAdd*(a, b: int32, carry: bool): tuple[res: int32, carry: bool] 
     else:
       pure.carryingAdd(a, b, carry)
 
-template carry*[T: SomeInteger](a, b: T, carry: bool): bool =
-  ##[ Carrying addition that returns just the carry flag.
+template carry*(a, b: SomeUnsignedInt, carry: bool): bool =
+  ##[ Carrying addition that returns just the carry flag for unsigned integers.
 
   See also:
   - `carryingAdd`_
   ]##
 
-  pure.carry(a, b, carry)
+  when nimvm:
+    pure.carry(a, b, carry)
+  else:
+    when cpuX86 and compilerMsvc and canUseIntrinsics:
+      intrinsics.x86.carry(a, b, carry)
+    elif compilerGccCompatible and canUseIntrinsics:
+      intrinsics.gcc.carry(a, b, carry)
+    else:
+      pure.carry(a, b, carry)
+
+template carry*(a, b: SomeSignedInt, carry: bool): bool =
+  ##[ Carrying addition that returns just the carry flag for signed integers.
+
+  See also:
+  - `carryingAdd`_
+  ]##
+
+  when nimvm:
+    pure.carry(a, b, carry)
+  else:
+    when compilerGccCompatible and canUseIntrinsics:
+      intrinsics.gcc.carry(a, b, carry)
+    else:
+      pure.carry(a, b, carry)

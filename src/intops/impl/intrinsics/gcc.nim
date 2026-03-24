@@ -63,6 +63,11 @@ when compilerGccCompatible and canUseIntrinsics:
 
     (final, c1 or c2)
 
+  func carry*[T: SomeInteger](a, b: T, carry: bool): bool =
+    let (res, didOverflow) = gcc.overflowingAdd(a, b)
+
+    didOverflow or (carry and (res == high(T)))
+
   func overflowingSub*[T: SomeInteger](a, b: T): (T, bool) =
     var res {.noinit.}: T
 

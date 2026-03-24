@@ -35,6 +35,13 @@ when cpuX86 and canUseIntrinsics:
 
     (res, bool(carry))
 
+  func carry*(a, b: uint32, carry: bool): bool =
+    var res {.noinit.}: cuint
+
+    let carry = builtinCarryingAdd(uint8(carry), cuint(a), cuint(b), addr res)
+
+    bool(carry)
+
   func borrowingSub*(a, b: uint32, borrow: bool): (uint32, bool) =
     var res {.noinit.}: uint32
 
@@ -42,6 +49,13 @@ when cpuX86 and canUseIntrinsics:
       builtinBorrowingSub(uint8(borrow), cuint(a), cuint(b), cast[ptr cuint](addr res))
 
     (res, bool(borrow))
+
+  func borrow*(a, b: uint32, borrow: bool): bool =
+    var res {.noinit.}: cuint
+
+    let borrow = builtinBorrowingSub(uint8(borrow), cuint(a), cuint(b), addr res)
+
+    bool(borrow)
 
 when cpu64bit and cpuX86 and canUseIntrinsics:
   func builtinCarryingAdd*(
@@ -63,6 +77,13 @@ when cpu64bit and cpuX86 and canUseIntrinsics:
 
     (res, bool(carry))
 
+  func carry*(a, b: uint64, carry: bool): bool =
+    var res {.noinit.}: culonglong
+
+    let carry = builtinCarryingAdd(uint8(carry), culonglong(a), culonglong(b), addr res)
+
+    bool(carry)
+
   func borrowingSub*(a, b: uint64, borrow: bool): (uint64, bool) =
     var res {.noinit.}: uint64
 
@@ -71,6 +92,14 @@ when cpu64bit and cpuX86 and canUseIntrinsics:
     )
 
     (res, bool(borrow))
+
+  func borrow*(a, b: uint64, borrow: bool): bool =
+    var res {.noinit.}: culonglong
+
+    let borrow =
+      builtinBorrowingSub(uint8(borrow), culonglong(a), culonglong(b), addr res)
+
+    bool(borrow)
 
 when cpu64bit and cpuX86 and compilerMsvc and canUseIntrinsics:
   func builtinWideningMul*(

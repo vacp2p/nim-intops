@@ -11,18 +11,18 @@ For example, `carryingAdd` mentioned in [Quickstart](../quickstart.html) is a di
 Let's examine the code of this dispatcher:
 
 ```nim
-template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut: bool] =
+template carryingAdd*(a, b: uint64, carry: bool): tuple[res: uint64, carry: bool] =
   when nimvm:
-    pure.carryingAdd(a, b, carryIn)
+    pure.carryingAdd(a, b, carry)
   else:
     when cpuX86 and compilerMsvc and canUseIntrinsics:
-      intrinsics.x86.carryingAdd(a, b, carryIn)
+      intrinsics.x86.carryingAdd(a, b, carry)
     elif compilerGccCompatible and canUseIntrinsics:
-      intrinsics.gcc.carryingAdd(a, b, carryIn)
+      intrinsics.gcc.carryingAdd(a, b, carry)
     elif cpu64Bit and compilerGccCompatible and canUseInlineC:
-      inlinec.carryingAdd(a, b, carryIn)
+      inlinec.carryingAdd(a, b, carry)
     else:
-      pure.carryingAdd(a, b, carryIn)
+      pure.carryingAdd(a, b, carry)
 ```
 
 As you can see, this dispatcher is just a nested `when`-condition that checks if:
@@ -40,21 +40,21 @@ In the dispatchers, you can use the global constants defined in `intops/consts.n
 For example, if you want to prioritize inline C implementation over intrinsics, you could modify the dispatcher like so:
 
 ```diff
-template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut: bool] =
+template carryingAdd*(a, b: uint64, carry: bool): tuple[res: uint64, carry: bool] =
   when nimvm:
-    pure.carryingAdd(a, b, carryIn)
+    pure.carryingAdd(a, b, carry)
   else:
 -   when cpuX86 and compilerMsvc and canUseIntrinsics:
 +   when cpu64Bit and compilerGccCompatible and canUseInlineC:
-+     inlinec.carryingAdd(a, b, carryIn)
++     inlinec.carryingAdd(a, b, carry)
 +   elif cpuX86 and compilerMsvc and canUseIntrinsics:
-      intrinsics.x86.carryingAdd(a, b, carryIn)
+      intrinsics.x86.carryingAdd(a, b, carry)
     elif compilerGccCompatible and canUseIntrinsics:
-      intrinsics.gcc.carryingAdd(a, b, carryIn)
+      intrinsics.gcc.carryingAdd(a, b, carry)
 -   elif cpu64Bit and compilerGccCompatible and canUseInlineC:
--     inlinec.carryingAdd(a, b, carryIn)
+-     inlinec.carryingAdd(a, b, carry)
     else:
-      pure.carryingAdd(a, b, carryIn)
+      pure.carryingAdd(a, b, carry)
 ```
 
 ## Adding New Operations

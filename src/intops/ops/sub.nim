@@ -137,11 +137,34 @@ template borrowingSub*(a, b: int32, borrow: bool): tuple[res: int32, borrow: boo
     else:
       pure.borrowingSub(a, b, borrow)
 
-template borrow*[T: SomeInteger](a, b: T, borrow: bool): bool =
-  ##[ Borrowing subtraction that returns just the borrow flag.
+template borrow*(a, b: SomeUnsignedInt, borrow: bool): bool =
+  ##[ Borrowing subtraction that returns just the borrow flag for unsigned integers.
 
   See also:
   - `borrowingSub`_
   ]##
 
-  pure.borrow(a, b, borrow)
+  when nimvm:
+    pure.borrow(a, b, borrow)
+  else:
+    when cpuX86 and compilerMsvc and canUseIntrinsics:
+      intrinsics.x86.borrow(a, b, borrow)
+    elif compilerGccCompatible and canUseIntrinsics:
+      intrinsics.gcc.borrow(a, b, borrow)
+    else:
+      pure.borrow(a, b, borrow)
+
+template borrow*(a, b: SomeSignedInt, borrow: bool): bool =
+  ##[ Borrowing subtraction that returns just the borrow flag for signed integers.
+
+  See also:
+  - `borrowingSub`_
+  ]##
+
+  when nimvm:
+    pure.borrow(a, b, borrow)
+  else:
+    when compilerGccCompatible and canUseIntrinsics:
+      intrinsics.gcc.borrow(a, b, borrow)
+    else:
+      pure.borrow(a, b, borrow)

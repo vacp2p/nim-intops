@@ -73,7 +73,6 @@ template carryingAdd*(a, b: uint64, carry: bool): tuple[res: uint64, carry: bool
     elif cpu64Bit and compilerGccCompatible and canUseInlineC:
       inlinec.carryingAdd(a, b, carry)
     else:
-      # Universal fallback
       pure.carryingAdd(a, b, carry)
 
 template carryingAdd*(a, b: uint32, carry: bool): tuple[res: uint32, carry: bool] =

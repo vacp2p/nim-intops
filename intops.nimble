@@ -1,6 +1,6 @@
 # Package
 
-version = "1.0.7"
+version = "1.0.8"
 author = "Constantine Molchanov"
 description = "Core arithmetic operations for CPU-sized integers."
 license = "MIT or Apache License 2.0"

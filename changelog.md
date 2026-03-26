@@ -7,7 +7,7 @@
 - [t]—test suite improvement
 - [d]—docs improvement
 
-## 1.0.8 (WIP)
+## 1.0.8 (March 26, 2026)
 
 - [+] Ops: add: Added `carry` operation that does carrying addition but returns only the carry flag (#22).
 - [+] Ops: sub: Added `borrow` operation that does borrowing subtraction but returns only the borrow flag (#22).

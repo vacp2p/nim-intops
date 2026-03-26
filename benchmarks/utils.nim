@@ -211,6 +211,19 @@ template benchLatencyCarrying*(typ: typedesc, op: untyped) =
     do:
       doNotOptimize(flush)
 
+template benchLatencyFlag*(typ: typedesc, op: untyped) =
+  let opName = astToStr(op)
+
+  when not compiles op(default(typ), default(typ), false):
+    echo alignLeft(opName, 35), " -"
+  else:
+    measureLatency(typ, opName):
+      var carry {.inject.}: bool
+    do:
+      carry = op(inputsA[idx], inputsB[idx], carry)
+    do:
+      doNotOptimize(carry)
+
 template benchThroughputOverflowing*(typ: typedesc, op: untyped) =
   let opName = astToStr(op)
 
@@ -254,7 +267,21 @@ template benchThroughputCarrying*(typ: typedesc, op: untyped) =
     measureThroughput(typ, opName):
       var flush {.inject.}: typ
     do:
-      let (res, _) = op(inputsA[idx], inputsB[idx], boolInputs[idx])
-      flush = flush xor res
+      let (res, carry) = op(inputsA[idx], inputsB[idx], boolInputs[idx])
+      flush = flush xor res xor typ(carry)
+    do:
+      doNotOptimize(flush)
+
+template benchThroughputFlag*(typ: typedesc, op: untyped) =
+  let opName = astToStr(op)
+
+  when not compiles op(default(typ), default(typ), false):
+    echo alignLeft(opName, 35), " -"
+  else:
+    measureThroughput(typ, opName):
+      var flush {.inject.}: bool
+    do:
+      let carry = op(inputsA[idx], inputsB[idx], boolInputs[idx])
+      flush = flush xor carry
     do:
       doNotOptimize(flush)

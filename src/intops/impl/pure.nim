@@ -27,21 +27,25 @@ func overflowingAdd*[T: SomeSignedInt](a, b: T): (T, bool) =
 
   (res, didOverflow)
 
-func carryingAdd*[T: SomeUnsignedInt](a, b: T, carryIn: bool): (T, bool) =
+func carryingAdd*[T: SomeUnsignedInt](a, b: T, carry: bool): (T, bool) =
   let
     sum = a + b
     c1 = sum < a
-    res = sum + T(carryIn)
+    res = sum + T(carry)
     c2 = res < sum
 
   (res, c1 or c2)
 
-func carryingAdd*[T: SomeSignedInt](a, b: T, carryIn: bool): (T, bool) =
+func carryingAdd*[T: SomeSignedInt](a, b: T, carry: bool): (T, bool) =
   let
     (sum1, o1) = pure.overflowingAdd(a, b)
-    (final, o2) = pure.overflowingAdd(sum1, T(carryIn))
+    (final, o2) = pure.overflowingAdd(sum1, T(carry))
 
   (final, o1 or o2)
+
+func carry*[T: SomeInteger](a, b: T, carry: bool): bool =
+  let (res, didOverflow) = pure.overflowingAdd(a, b)
+  didOverflow or (carry and (res == high(T)))
 
 func saturatingAdd*[T: SomeUnsignedInt](a, b: T): T =
   let (res, didOverflow) = pure.overflowingAdd(a, b)
@@ -76,21 +80,25 @@ func overflowingSub*[T: SomeSignedInt](a, b: T): (T, bool) =
 
   (res, didOverflow)
 
-func borrowingSub*[T: SomeUnsignedInt](a, b: T, borrowIn: bool): (T, bool) =
+func borrowingSub*[T: SomeUnsignedInt](a, b: T, borrow: bool): (T, bool) =
   let
     diff = a - b
     b1 = a < b
-    res = diff - T(borrowIn)
-    b2 = diff < T(borrowIn)
+    res = diff - T(borrow)
+    b2 = diff < T(borrow)
 
   (res, b1 or b2)
 
-func borrowingSub*[T: SomeSignedInt](a, b: T, borrowIn: bool): (T, bool) =
+func borrowingSub*[T: SomeSignedInt](a, b: T, borrow: bool): (T, bool) =
   let
     (diff1, o1) = pure.overflowingSub(a, b)
-    (final, o2) = pure.overflowingSub(diff1, T(borrowIn))
+    (final, o2) = pure.overflowingSub(diff1, T(borrow))
 
   (final, o1 or o2)
+
+func borrow*[T: SomeInteger](a, b: T, borrow: bool): bool =
+  let (res, didOverflow) = pure.overflowingSub(a, b)
+  didOverflow or (borrow and (res == low(T)))
 
 func saturatingSub*[T: SomeUnsignedInt](a, b: T): T =
   let (res, didBorrow) = pure.overflowingSub(a, b)
@@ -197,7 +205,7 @@ func wideningMulAdd*(a, b, c: uint64): (uint64, uint64) =
     (prodHi, prodLo) = wideningMul(a, b)
     (sumLo, carry) = carryingAdd(prodLo, c, false)
     lo = sumLo
-    hi = prodHi + (if carry: 1'u64 else: 0'u64)
+    hi = prodHi + uint64(carry)
 
   (hi, lo)
 
@@ -221,7 +229,7 @@ func wideningMulAdd*(a, b, c, d: uint64): (uint64, uint64) =
     (sumLo1, carry1) = carryingAdd(prodLo, c, false)
     (sumLo2, carry2) = carryingAdd(sumLo1, d, false)
     lo = sumLo2
-    hi = prodHi + (if carry1: 1'u64 else: 0'u64) + (if carry2: 1'u64 else: 0'u64)
+    hi = prodHi + uint64(carry1) + uint64(carry2)
 
   (hi, lo)
 

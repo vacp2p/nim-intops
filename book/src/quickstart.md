@@ -57,7 +57,7 @@ echo carryingAdd(12'u64, 34'u64, false)
 Output:
 
 ```nim
-(res: 46, carryOut: false)
+(res: 46, carry: false)
 ```
 
 `intops.carryingAdd` is a _dispatcher_. When invoked, it calls the best implementation of this operation out of the available ones for the given environment.

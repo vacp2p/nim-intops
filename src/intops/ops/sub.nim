@@ -51,9 +51,7 @@ template saturatingSub*[T: SomeInteger](a, b: T): T =
     else:
       pure.saturatingSub(a, b)
 
-template borrowingSub*(
-    a, b: uint64, borrowIn: bool
-): tuple[res: uint64, borrowOut: bool] =
+template borrowingSub*(a, b: uint64, borrow: bool): tuple[res: uint64, borrow: bool] =
   ##[ Borrowing subtraction for unsigned 64-bit integers.
 
   Takes two integers and returns their difference along with the borrow flag (BF): 
@@ -66,20 +64,18 @@ template borrowingSub*(
   ]##
 
   when nimvm:
-    pure.borrowingSub(a, b, borrowIn)
+    pure.borrowingSub(a, b, borrow)
   else:
     when cpuX86 and compilerMsvc and canUseIntrinsics:
-      intrinsics.x86.borrowingSub(a, b, borrowIn)
+      intrinsics.x86.borrowingSub(a, b, borrow)
     elif compilerGccCompatible and canUseIntrinsics:
-      intrinsics.gcc.borrowingSub(a, b, borrowIn)
+      intrinsics.gcc.borrowingSub(a, b, borrow)
     elif cpu64Bit and compilerGccCompatible and canUseInlineC:
-      inlinec.borrowingSub(a, b, borrowIn)
+      inlinec.borrowingSub(a, b, borrow)
     else:
-      pure.borrowingSub(a, b, borrowIn)
+      pure.borrowingSub(a, b, borrow)
 
-template borrowingSub*(
-    a, b: uint32, borrowIn: bool
-): tuple[res: uint32, borrowOut: bool] =
+template borrowingSub*(a, b: uint32, borrow: bool): tuple[res: uint32, borrow: bool] =
   ##[ Borrowing subtraction for unsigned 32-bit integers.
 
   Takes two integers and returns their difference along with the borrow flag (BF): 
@@ -92,18 +88,16 @@ template borrowingSub*(
   ]##
 
   when nimvm:
-    pure.borrowingSub(a, b, borrowIn)
+    pure.borrowingSub(a, b, borrow)
   else:
     when cpuX86 and compilerMsvc and canUseIntrinsics:
-      intrinsics.x86.borrowingSub(a, b, borrowIn)
+      intrinsics.x86.borrowingSub(a, b, borrow)
     elif compilerGccCompatible and canUseIntrinsics:
-      intrinsics.gcc.borrowingSub(a, b, borrowIn)
+      intrinsics.gcc.borrowingSub(a, b, borrow)
     else:
-      pure.borrowingSub(a, b, borrowIn)
+      pure.borrowingSub(a, b, borrow)
 
-template borrowingSub*(
-    a, b: int64, borrowIn: bool
-): tuple[res: int64, borrowOut: bool] =
+template borrowingSub*(a, b: int64, borrow: bool): tuple[res: int64, borrow: bool] =
   ##[ Borrowing subtraction for signed 64-bit integers.
 
   Takes two integers and returns their difference along with the borrow flag (BF):
@@ -116,14 +110,14 @@ template borrowingSub*(
   ]##
 
   when nimvm:
-    pure.borrowingSub(a, b, borrowIn)
+    pure.borrowingSub(a, b, borrow)
   else:
     when compilerGccCompatible and canUseIntrinsics:
-      intrinsics.gcc.borrowingSub(a, b, borrowIn)
+      intrinsics.gcc.borrowingSub(a, b, borrow)
     else:
-      pure.borrowingSub(a, b, borrowIn)
+      pure.borrowingSub(a, b, borrow)
 
-template borrowingSub*(a, b: int32, borrowIn: bool): (int32, bool) =
+template borrowingSub*(a, b: int32, borrow: bool): tuple[res: int32, borrow: bool] =
   ##[ Borrowing subtraction for signed 32-bit integers.
 
   Takes two integers and returns their difference along with the borrow flag (BF): 
@@ -136,9 +130,41 @@ template borrowingSub*(a, b: int32, borrowIn: bool): (int32, bool) =
   ]##
 
   when nimvm:
-    pure.borrowingSub(a, b, borrowIn)
+    pure.borrowingSub(a, b, borrow)
   else:
     when compilerGccCompatible and canUseIntrinsics:
-      intrinsics.gcc.borrowingSub(a, b, borrowIn)
+      intrinsics.gcc.borrowingSub(a, b, borrow)
     else:
-      pure.borrowingSub(a, b, borrowIn)
+      pure.borrowingSub(a, b, borrow)
+
+template borrow*(a, b: SomeUnsignedInt, borrow: bool): bool =
+  ##[ Borrowing subtraction that returns just the borrow flag for unsigned integers.
+
+  See also:
+  - `borrowingSub`_
+  ]##
+
+  when nimvm:
+    pure.borrow(a, b, borrow)
+  else:
+    when cpuX86 and compilerMsvc and canUseIntrinsics:
+      intrinsics.x86.borrow(a, b, borrow)
+    elif compilerGccCompatible and canUseIntrinsics:
+      intrinsics.gcc.borrow(a, b, borrow)
+    else:
+      pure.borrow(a, b, borrow)
+
+template borrow*(a, b: SomeSignedInt, borrow: bool): bool =
+  ##[ Borrowing subtraction that returns just the borrow flag for signed integers.
+
+  See also:
+  - `borrowingSub`_
+  ]##
+
+  when nimvm:
+    pure.borrow(a, b, borrow)
+  else:
+    when compilerGccCompatible and canUseIntrinsics:
+      intrinsics.gcc.borrow(a, b, borrow)
+    else:
+      pure.borrow(a, b, borrow)

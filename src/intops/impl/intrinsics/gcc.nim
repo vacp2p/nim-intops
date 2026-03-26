@@ -54,14 +54,21 @@ when compilerGccCompatible and canUseIntrinsics:
 
     res
 
-  func carryingAdd*[T: SomeInteger](a, b: T, carryIn: bool): (T, bool) =
+  func carryingAdd*[T: SomeInteger](a, b: T, carry: bool): (T, bool) =
     var t1, final {.noinit.}: T
 
     let
       c1 = builtinOverflowingAdd(a, b, t1)
-      c2 = builtinOverflowingAdd(t1, T(carryIn), final)
+      c2 = builtinOverflowingAdd(t1, T(carry), final)
 
     (final, c1 or c2)
+
+  func carry*[T: SomeInteger](a, b: T, carry: bool): bool =
+    var res {.noinit.}: T
+
+    let didOverflow = builtinOverflowingAdd(a, b, res)
+
+    didOverflow or (carry and (res == high(T)))
 
   func overflowingSub*[T: SomeInteger](a, b: T): (T, bool) =
     var res {.noinit.}: T
@@ -93,11 +100,18 @@ when compilerGccCompatible and canUseIntrinsics:
 
     res
 
-  func borrowingSub*[T: SomeInteger](a, b: T, borrowIn: bool): (T, bool) =
+  func borrowingSub*[T: SomeInteger](a, b: T, borrow: bool): (T, bool) =
     var t1, final {.noinit.}: T
 
     let
       b1 = builtinOverflowingSub(a, b, t1)
-      b2 = builtinOverflowingSub(t1, T(borrowIn), final)
+      b2 = builtinOverflowingSub(t1, T(borrow), final)
 
     (final, b1 or b2)
+
+  func borrow*[T: SomeInteger](a, b: T, borrow: bool): bool =
+    var res {.noinit.}: T
+
+    let didBorrow = builtinOverflowingSub(a, b, res)
+
+    didBorrow or (borrow and (res == low(T)))

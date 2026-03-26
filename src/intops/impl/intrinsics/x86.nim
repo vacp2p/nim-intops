@@ -18,60 +18,88 @@ when cpuX86 and canUseIntrinsics:
     {.pragma: x86_header, header: "<x86intrin.h>", nodecl.}
 
   func builtinCarryingAdd*(
-    carryIn: uint8, a, b: cuint, res: ptr cuint
+    carry: uint8, a, b: cuint, res: ptr cuint
   ): uint8 {.importc: "_addcarry_u32", x86_header.}
 
   func builtinBorrowingSub*(
-    borrowIn: uint8, a, b: cuint, res: ptr uint32
+    borrow: uint8, a, b: cuint, res: ptr uint32
   ): uint8 {.importc: "_subborrow_u32", x86_header.}
 
   {.push raises: [], inline, noinit, gcsafe.}
 
-  func carryingAdd*(a, b: uint32, carryIn: bool): (uint32, bool) =
+  func carryingAdd*(a, b: uint32, carry: bool): (uint32, bool) =
     var res {.noinit.}: uint32
 
-    let carryOut =
-      builtinCarryingAdd(uint8(carryIn), cuint(a), cuint(b), cast[ptr cuint](addr res))
+    let carry =
+      builtinCarryingAdd(uint8(carry), cuint(a), cuint(b), cast[ptr cuint](addr res))
 
-    (res, bool(carryOut))
+    (res, bool(carry))
 
-  func borrowingSub*(a, b: uint32, borrowIn: bool): (uint32, bool) =
+  func carry*(a, b: uint32, carry: bool): bool =
+    var res {.noinit.}: cuint
+
+    let carry = builtinCarryingAdd(uint8(carry), cuint(a), cuint(b), addr res)
+
+    bool(carry)
+
+  func borrowingSub*(a, b: uint32, borrow: bool): (uint32, bool) =
     var res {.noinit.}: uint32
 
-    let borrowOut = builtinBorrowingSub(
-      uint8(borrowIn), cuint(a), cuint(b), cast[ptr cuint](addr res)
-    )
+    let borrow =
+      builtinBorrowingSub(uint8(borrow), cuint(a), cuint(b), cast[ptr cuint](addr res))
 
-    (res, bool(borrowOut))
+    (res, bool(borrow))
+
+  func borrow*(a, b: uint32, borrow: bool): bool =
+    var res {.noinit.}: cuint
+
+    let borrow = builtinBorrowingSub(uint8(borrow), cuint(a), cuint(b), addr res)
+
+    bool(borrow)
 
 when cpu64bit and cpuX86 and canUseIntrinsics:
   func builtinCarryingAdd*(
-    carryIn: uint8, a, b: culonglong, res: ptr culonglong
+    carry: uint8, a, b: culonglong, res: ptr culonglong
   ): uint8 {.importc: "_addcarry_u64", x86_header.}
 
   func builtinBorrowingSub*(
-    borrowIn: uint8, a, b: culonglong, res: ptr culonglong
+    borrow: uint8, a, b: culonglong, res: ptr culonglong
   ): uint8 {.importc: "_subborrow_u64", x86_header.}
 
   {.push raises: [], inline, noinit, gcsafe.}
 
-  func carryingAdd*(a, b: uint64, carryIn: bool): (uint64, bool) =
+  func carryingAdd*(a, b: uint64, carry: bool): (uint64, bool) =
     var res {.noinit.}: uint64
 
-    let carryOut = builtinCarryingAdd(
-      uint8(carryIn), culonglong(a), culonglong(b), cast[ptr culonglong](addr res)
+    let carry = builtinCarryingAdd(
+      uint8(carry), culonglong(a), culonglong(b), cast[ptr culonglong](addr res)
     )
 
-    (res, bool(carryOut))
+    (res, bool(carry))
 
-  func borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) =
+  func carry*(a, b: uint64, carry: bool): bool =
+    var res {.noinit.}: culonglong
+
+    let carry = builtinCarryingAdd(uint8(carry), culonglong(a), culonglong(b), addr res)
+
+    bool(carry)
+
+  func borrowingSub*(a, b: uint64, borrow: bool): (uint64, bool) =
     var res {.noinit.}: uint64
 
-    let borrowOut = builtinBorrowingSub(
-      uint8(borrowIn), culonglong(a), culonglong(b), cast[ptr culonglong](addr res)
+    let borrow = builtinBorrowingSub(
+      uint8(borrow), culonglong(a), culonglong(b), cast[ptr culonglong](addr res)
     )
 
-    (res, bool(borrowOut))
+    (res, bool(borrow))
+
+  func borrow*(a, b: uint64, borrow: bool): bool =
+    var res {.noinit.}: culonglong
+
+    let borrow =
+      builtinBorrowingSub(uint8(borrow), culonglong(a), culonglong(b), addr res)
+
+    bool(borrow)
 
 when cpu64bit and cpuX86 and compilerMsvc and canUseIntrinsics:
   func builtinWideningMul*(
@@ -95,14 +123,14 @@ when cpu64bit and cpuX86 and compilerMsvc and canUseIntrinsics:
   func wideningMulAdd*(a, b, c: uint64): (uint64, uint64) =
     var
       hi, lo {.noinit.}: uint64
-      carryOut {.noinit.}: uint8
+      carry {.noinit.}: uint8
 
     lo = builtinWideningMul(culonglong(a), culonglong(b), cast[ptr culonglong](addr hi))
-    carryOut = builtinAddCarry(
+    carry = builtinAddCarry(
       0'u8, culonglong(lo), culongculong(c), cast[prt culonglong](addr lo)
     )
     discard builtinAddCarry(
-      carryOut, culonglong(hi), culonglong(0), cast[ptr culonglong](addr hi)
+      carry, culonglong(hi), culonglong(0), cast[ptr culonglong](addr hi)
     )
 
     (hi, lo)
@@ -110,21 +138,21 @@ when cpu64bit and cpuX86 and compilerMsvc and canUseIntrinsics:
   func wideningMulAdd*(a, b, c, d: uint64): (uint64, uint64) =
     var
       hi, lo {.noinit.}: uint64
-      carryOut1 {.noinit.}: uint8
-      carryOut2 {.noinit.}: uint8
+      carry1 {.noinit.}: uint8
+      carry2 {.noinit.}: uint8
 
     lo = builtinWideningMul(culonglong(a), culonglong(b), cast[ptr culonglong](addr hi))
-    carryOut1 = builtinAddCarry(
+    carry1 = builtinAddCarry(
       0'u8, culonglong(lo), culongculong(c), cast[prt culonglong](addr lo)
     )
     discard builtinAddCarry(
-      carryOut1, culonglong(hi), culonglong(0), cast[ptr culonglong](addr hi)
+      carry1, culonglong(hi), culonglong(0), cast[ptr culonglong](addr hi)
     )
-    carryOut2 = builtinAddCarry(
+    carry2 = builtinAddCarry(
       0'u8, culonglong(lo), culongculong(d), cast[prt culonglong](addr lo)
     )
     discard builtinAddCarry(
-      carryOut2, culonglong(hi), culonglong(0), cast[ptr culonglong](addr hi)
+      carry2, culonglong(hi), culonglong(0), cast[ptr culonglong](addr hi)
     )
 
     (hi, lo)

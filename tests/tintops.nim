@@ -54,6 +54,11 @@ suite "Carrying and borrowing operations":
       check carryingAdd(high(T), high(T), true) == (high(T), true)
       check carryingAdd(high(T), high(T), false) == (high(T) - T(1), true)
 
+      check carry(high(T), low(T), true)
+      check not carry(high(T), low(T), false)
+      check carry(high(T), high(T), true)
+      check carry(high(T), high(T), false)
+
     testCarryingAdd[uint32]()
     testCarryingAdd[uint64]()
 
@@ -61,6 +66,9 @@ suite "Carrying and borrowing operations":
     template testCarryingAdd[T: SomeSignedInt]() =
       check carryingAdd(high(T), T(0), true) == (low(T), true)
       check carryingAdd(high(T), high(T), true) == (T(-1), true)
+
+      check carry(high(T), T(0), true)
+      check carry(high(T), high(T), true)
 
     testCarryingAdd[int32]()
     testCarryingAdd[int64]()
@@ -72,6 +80,11 @@ suite "Carrying and borrowing operations":
       check borrowingSub(low(T), high(T), true) == (low(T), true)
       check borrowingSub(low(T), high(T), false) == (low(T) + T(1), true)
 
+      check borrow(low(T), low(T), true)
+      check not borrow(low(T), low(T), false)
+      check borrow(low(T), high(T), true)
+      check borrow(low(T), high(T), false)
+
     testBorrowingSub[uint32]()
     testBorrowingSub[uint64]()
 
@@ -79,6 +92,9 @@ suite "Carrying and borrowing operations":
     template testBorrowingSub[T: SomeSignedInt]() =
       check borrowingSub(low(T), T(0), true) == (high(T), true)
       check borrowingSub(T(10), T(5), true) == (T(4), false)
+
+      check borrow(low(T), T(0), true)
+      check not borrow(T(10), T(5), true)
 
     testBorrowingSub[int32]()
     testBorrowingSub[int64]()

@@ -14,11 +14,11 @@ import ../../consts
 when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
   {.push raises: [], inline, noinit, gcsafe.}
 
-  func carryingAdd*(a, b: uint64, carryIn: bool): (uint64, bool) =
+  func carryingAdd*(a, b: uint64, carry: bool): (uint64, bool) =
     var
       sum = a
       cOut {.noinit.}: uint8
-      cInVal = if carryIn: 1'u64 else: 0'u64
+      cInVal = uint64(carry)
 
     asm """
       negq %[cInVal]      /* Sets CF=1 if cInVal==1, CF=0 if cInVal==0 */
@@ -31,14 +31,14 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
     """
     (sum, cOut > 0)
 
-  func carryingAdd*(a, b: int64, carryIn: bool): (int64, bool) =
+  func carryingAdd*(a, b: int64, carry: bool): (int64, bool) =
     var
       sum = a
       didOverflow {.noinit.}: uint8
-      cInVal = if carryIn: 1'u64 else: 0'u64
+      cInVal = uint64(carry)
 
     asm """
-      negq %[cInVal]      /* Sets CF based on carryIn (Standard trick) */
+      negq %[cInVal]      /* Sets CF based on carry (Standard trick) */
       adcq %[b], %[sum]   /* Signed addition is binary-identical to unsigned */
       seto %[didOverflow] /* Check OVERFLOW Flag (OF) instead of Carry */
 
@@ -48,11 +48,11 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
     """
     (sum, didOverflow > 0)
 
-  func borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) =
+  func borrowingSub*(a, b: uint64, borrow: bool): (uint64, bool) =
     var
       diff = a
       bOut {.noinit.}: uint8
-      bInVal = if borrowIn: 1'u64 else: 0'u64
+      bInVal = uint64(borrow)
 
     asm """
       negq %[bInVal]      /* Sets CF=1 if bInVal==1, CF=0 if bInVal==0 */
@@ -65,14 +65,14 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
     """
     (diff, bOut > 0)
 
-  func borrowingSub*(a, b: int64, borrowIn: bool): (int64, bool) =
+  func borrowingSub*(a, b: int64, borrow: bool): (int64, bool) =
     var
       diff = a
       didOverflow {.noinit.}: uint8
-      bInVal = if borrowIn: 1'u64 else: 0'u64
+      bInVal = uint64(borrow)
 
     asm """
-      negq %[bInVal]      /* Prime CF based on borrowIn */
+      negq %[bInVal]      /* Prime CF based on borrow */
       sbbq %[b], %[diff]  /* Signed subtraction is binary-identical to unsigned */
       seto %[didOverflow] /* Check OVERFLOW Flag (OF) for signed result validity */
 
@@ -104,11 +104,11 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
 
 when cpuX86 and compilerGccCompatible and canUseInlineAsm:
   {.push raises: [], inline, noinit, gcsafe.}
-  func carryingAdd*(a, b: uint32, carryIn: bool): (uint32, bool) =
+  func carryingAdd*(a, b: uint32, carry: bool): (uint32, bool) =
     var
       sum = a
       cOut {.noinit.}: uint8
-      cInVal = if carryIn: 1'u32 else: 0'u32
+      cInVal = uint32(carry)
 
     asm """
       negl %[cInVal]      /* 32-bit Negate */
@@ -121,11 +121,11 @@ when cpuX86 and compilerGccCompatible and canUseInlineAsm:
     """
     (sum, cOut > 0)
 
-  func carryingAdd*(a, b: int32, carryIn: bool): (int32, bool) =
+  func carryingAdd*(a, b: int32, carry: bool): (int32, bool) =
     var
       sum = a
       didOverflow {.noinit.}: uint8
-      cInVal = if carryIn: 1'u32 else: 0'u32
+      cInVal = uint32(carry)
 
     asm """
       negl %[cInVal]
@@ -138,11 +138,11 @@ when cpuX86 and compilerGccCompatible and canUseInlineAsm:
     """
     (sum, didOverflow > 0)
 
-  func borrowingSub*(a, b: uint32, borrowIn: bool): (uint32, bool) =
+  func borrowingSub*(a, b: uint32, borrow: bool): (uint32, bool) =
     var
       diff = a
       bOut {.noinit.}: uint8
-      bInVal = if borrowIn: 1'u32 else: 0'u32
+      bInVal = uint32(borrow)
 
     asm """
       negl %[bInVal]      /* 32-bit Negate to set CF */
@@ -155,11 +155,11 @@ when cpuX86 and compilerGccCompatible and canUseInlineAsm:
     """
     (diff, bOut > 0)
 
-  func borrowingSub*(a, b: int32, borrowIn: bool): (int32, bool) =
+  func borrowingSub*(a, b: int32, borrow: bool): (int32, bool) =
     var
       diff = a
       didOverflow {.noinit.}: uint8
-      bInVal = if borrowIn: 1'u32 else: 0'u32
+      bInVal = uint32(borrow)
 
     asm """
       negl %[bInVal]

@@ -11,21 +11,21 @@ For example, `carryingAdd` mentioned in [Quickstart](../quickstart.html) is a di
 Let's examine the code of this dispatcher:
 
 ```nim
-template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut: bool] =
+template carryingAdd*(a, b: uint64, carry: bool): tuple[res: uint64, carry: bool] =
   when nimvm:
-    pure.carryingAdd(a, b, carryIn)
+    pure.carryingAdd(a, b, carry)
   else:
     when cpuX86 and compilerMsvc and canUseIntrinsics:
-      intrinsics.x86.carryingAdd(a, b, carryIn)
+      intrinsics.x86.carryingAdd(a, b, carry)
     elif compilerGccCompatible and canUseIntrinsics:
-      intrinsics.gcc.carryingAdd(a, b, carryIn)
+      intrinsics.gcc.carryingAdd(a, b, carry)
     elif cpu64Bit and compilerGccCompatible and canUseInlineC:
-      inlinec.carryingAdd(a, b, carryIn)
+      inlinec.carryingAdd(a, b, carry)
     else:
-      pure.carryingAdd(a, b, carryIn)
+      pure.carryingAdd(a, b, carry)
 ```
 
-As you can see, a dispatcher is just a nested `when`-condition that checks if:
+As you can see, this dispatcher is just a nested `when`-condition that checks if:
 
 1. the operation called during compilation (`when nimvm`)
 1. the code is run on a particular CPU (`when cpuX86`) and with a particular C compiler (`and compilerMsvc`)
@@ -40,21 +40,21 @@ In the dispatchers, you can use the global constants defined in `intops/consts.n
 For example, if you want to prioritize inline C implementation over intrinsics, you could modify the dispatcher like so:
 
 ```diff
-template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut: bool] =
+template carryingAdd*(a, b: uint64, carry: bool): tuple[res: uint64, carry: bool] =
   when nimvm:
-    pure.carryingAdd(a, b, carryIn)
+    pure.carryingAdd(a, b, carry)
   else:
 -   when cpuX86 and compilerMsvc and canUseIntrinsics:
 +   when cpu64Bit and compilerGccCompatible and canUseInlineC:
-+     inlinec.carryingAdd(a, b, carryIn)
++     inlinec.carryingAdd(a, b, carry)
 +   elif cpuX86 and compilerMsvc and canUseIntrinsics:
-      intrinsics.x86.carryingAdd(a, b, carryIn)
+      intrinsics.x86.carryingAdd(a, b, carry)
     elif compilerGccCompatible and canUseIntrinsics:
-      intrinsics.gcc.carryingAdd(a, b, carryIn)
+      intrinsics.gcc.carryingAdd(a, b, carry)
 -   elif cpu64Bit and compilerGccCompatible and canUseInlineC:
--     inlinec.carryingAdd(a, b, carryIn)
+-     inlinec.carryingAdd(a, b, carry)
     else:
-      pure.carryingAdd(a, b, carryIn)
+      pure.carryingAdd(a, b, carry)
 ```
 
 ## Adding New Operations
@@ -64,7 +64,7 @@ Adding an operation means doing two things:
 1. **Adding a pure Nim implementation for the new operation.** Pure Nim implementations are universal fallbacks for all operations because they are guaranteed to compile everwhere Nim code can compile regardless of the environment. Pure Nim implementations are defined in `intops/impl/pure.nim`.
 1. **Adding a dispatcher that exposes this implementation.** Find the corresponding module in `intops/ops` (or create a new one) and add the dispatcher there.
 
-For example, let's define a new addition flavor called **magic addition** which adds two uint64 integers and adds the number 42 to the sum (this is our magic component).
+For example, let's define a new addition flavor called **magic addition** which adds two uint64 integers and adds the number 42 to the sum (aka the magic component).
 
 1. In `intops/impl/pure.nim`:
 
@@ -77,7 +77,12 @@ func magicAdd*(a, b: uint64): uint64 =
 
 ```nim
 template magicAdd*(a, b: uint64): uint64 =
-  ## Docstring is mandatory for dispatchers.
+  ##[ Magic addition.
+
+  Takes two integers and returns their sum plus a magic value.
+
+  Docstrings are mandatory for dispatchers! This is our public API and it must be documented.
+  ]##
 
   pure.magicAdd(a, b)
 ```

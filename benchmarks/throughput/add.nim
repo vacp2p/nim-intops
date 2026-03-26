@@ -11,9 +11,13 @@ proc runThroughputSaturating() {.noinline.} =
 proc runThroughputCarrying() {.noinline.} =
   benchTypesAndImpls(benchThroughputCarrying, carryingAdd)
 
+proc runThroughputFlag() {.noinline.} =
+  benchTypesAndImpls(benchThroughputFlag, carry)
+
 when isMainModule:
   echo "\n# Throughput, Addition"
 
   runThroughputOverflowing()
   runThroughputSaturating()
   runThroughputCarrying()
+  runThroughputFlag()

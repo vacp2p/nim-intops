@@ -14,15 +14,14 @@ import ../consts
 when cpu64Bit and compilerGccCompatible and canUseInlineC:
   {.push raises: [], inline, noinit, gcsafe.}
 
-  func carryingAdd*(a, b: uint64, carryIn: bool): (uint64, bool) =
+  func carryingAdd*(a, b: uint64, carry: bool): (uint64, bool) =
     var
       sum {.noinit.}: uint64
       cOut {.noinit.}: uint64
-      cInVal = if carryIn: 1'u64 else: 0'u64
+      cInVal = uint64(carry)
 
     {.
-      emit:
-        """
+      emit: """
       /* 1. Cast inputs to 128-bit and add */
       unsigned __int128 res = ((unsigned __int128)`a`) + 
                               ((unsigned __int128)`b`) + 
@@ -38,15 +37,14 @@ when cpu64Bit and compilerGccCompatible and canUseInlineC:
 
     (sum, cOut > 0)
 
-  func borrowingSub*(a, b: uint64, borrowIn: bool): (uint64, bool) =
+  func borrowingSub*(a, b: uint64, borrow: bool): (uint64, bool) =
     var
       diff {.noinit.}: uint64
       bOut {.noinit.}: uint64
-      bInVal = if borrowIn: 1'u64 else: 0'u64
+      bInVal = uint64(borrow)
 
     {.
-      emit:
-        """
+      emit: """
         /* 1. Cast inputs to 128-bit and subtract */
         /* If (a < b + borrow), 'res' wraps to a very large value (high bits become 1s) */
         unsigned __int128 res = ((unsigned __int128)`a`) -
@@ -68,8 +66,7 @@ when cpu64Bit and compilerGccCompatible and canUseInlineC:
     var hi, lo {.noinit.}: uint64
 
     {.
-      emit:
-        """
+      emit: """
       /* 1. Cast inputs to 128-bit and multiply */
       unsigned __int128 res = ((unsigned __int128)`a`) * ((unsigned __int128)`b`);
   
@@ -89,8 +86,7 @@ when cpu64Bit and compilerGccCompatible and canUseInlineC:
       lo {.noinit.}: uint64
 
     {.
-      emit:
-        """
+      emit: """
       /* 1. Cast inputs to native C __int128 (Signed) */
       __int128 res = ((__int128)`a`) * ((__int128)`b`);
 
@@ -107,8 +103,7 @@ when cpu64Bit and compilerGccCompatible and canUseInlineC:
   func wideningMulAdd*(a, b, c: uint64): (uint64, uint64) =
     var hi, lo {.noinit.}: uint64
     {.
-      emit:
-        """
+      emit: """
       typedef unsigned __int128 u128;
 
       // Calculate a * b + c using 128-bit precision
@@ -124,8 +119,7 @@ when cpu64Bit and compilerGccCompatible and canUseInlineC:
   func wideningMulAdd*(a, b, c, d: uint64): (uint64, uint64) =
     var hi, lo {.noinit.}: uint64
     {.
-      emit:
-        """
+      emit: """
       typedef unsigned __int128 u128;
 
       // Calculate a * b + c + d using 128-bit precision
@@ -142,8 +136,7 @@ when cpu64Bit and compilerGccCompatible and canUseInlineC:
     var q, r {.noinit.}: uint64
 
     {.
-      emit:
-        """
+      emit: """
       typedef unsigned __int128 u128;
 
       // Construct 128-bit integer from high/low parts

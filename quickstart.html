@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-91a32e5d.js";
+            window.path_to_searchindex_js = "searchindex-b9a5591d.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-03047c10.js"></script>
@@ -220,7 +220,7 @@
 echo carryingAdd(12'u64, 34'u64, false)
 </code></pre>
 <p>Output:</p>
-<pre><code class="language-nim">(res: 46, carryOut: false)
+<pre><code class="language-nim">(res: 46, carry: false)
 </code></pre>
 <p><code>intops.carryingAdd</code> is a <em>dispatcher</em>. When invoked, it calls the best implementation of this operation out of the available ones for the given environment.</p>
 <p>Notice that we call <code>carryingAdd</code> with <code>uint64</code> type set explicitly. This is important because <code>int</code> can mean different things under different circumstances and so intops doesn’t allow this kind of ambiguity.</p>

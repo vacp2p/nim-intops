@@ -1,32 +1,34 @@
 nimTitle	pure	intops/impl/pure.html	module src/intops/impl/pure		0
 nim	overflowingAdd	intops/impl/pure.html#overflowingAdd,T,T	proc overflowingAdd[T: SomeUnsignedInt](a, b: T): (T, bool)		16
 nim	overflowingAdd	intops/impl/pure.html#overflowingAdd,T,T_2	proc overflowingAdd[T: SomeSignedInt](a, b: T): (T, bool)		23
-nim	carryingAdd	intops/impl/pure.html#carryingAdd,T,T,bool	proc carryingAdd[T: SomeUnsignedInt](a, b: T; carryIn: bool): (T, bool)		30
-nim	carryingAdd	intops/impl/pure.html#carryingAdd,T,T,bool_2	proc carryingAdd[T: SomeSignedInt](a, b: T; carryIn: bool): (T, bool)		39
-nim	saturatingAdd	intops/impl/pure.html#saturatingAdd,T,T	proc saturatingAdd[T: SomeUnsignedInt](a, b: T): T		46
-nim	saturatingAdd	intops/impl/pure.html#saturatingAdd,T,T_2	proc saturatingAdd[T: SomeSignedInt](a, b: T): T		54
-nim	overflowingSub	intops/impl/pure.html#overflowingSub,T,T	proc overflowingSub[T: SomeUnsignedInt](a, b: T): (T, bool)		65
-nim	overflowingSub	intops/impl/pure.html#overflowingSub,T,T_2	proc overflowingSub[T: SomeSignedInt](a, b: T): (T, bool)		72
-nim	borrowingSub	intops/impl/pure.html#borrowingSub,T,T,bool	proc borrowingSub[T: SomeUnsignedInt](a, b: T; borrowIn: bool): (T, bool)		79
-nim	borrowingSub	intops/impl/pure.html#borrowingSub,T,T,bool_2	proc borrowingSub[T: SomeSignedInt](a, b: T; borrowIn: bool): (T, bool)		88
-nim	saturatingSub	intops/impl/pure.html#saturatingSub,T,T	proc saturatingSub[T: SomeUnsignedInt](a, b: T): T		95
-nim	saturatingSub	intops/impl/pure.html#saturatingSub,T,T_2	proc saturatingSub[T: SomeSignedInt](a, b: T): T		103
-nim	wideningMul	intops/impl/pure.html#wideningMul,uint64,uint64	proc wideningMul(a, b: uint64): (uint64, uint64)		114
-nim	wideningMul	intops/impl/pure.html#wideningMul,uint32,uint32	proc wideningMul(a, b: uint32): (uint32, uint32)		152
-nim	wideningMul	intops/impl/pure.html#wideningMul,int64,int64	proc wideningMul(a, b: int64): (int64, uint64)		160
-nim	wideningMul	intops/impl/pure.html#wideningMul,int32,int32	proc wideningMul(a, b: int32): (int32, uint32)		187
-nim	wideningMulAdd	intops/impl/pure.html#wideningMulAdd,uint64,uint64,uint64	proc wideningMulAdd(a, b, c: uint64): (uint64, uint64)		195
-nim	wideningMulAdd	intops/impl/pure.html#wideningMulAdd,uint32,uint32,uint32	proc wideningMulAdd(a, b, c: uint32): (uint32, uint32)		204
-nim	wideningMulAdd	intops/impl/pure.html#wideningMulAdd,uint64,uint64,uint64,uint64	proc wideningMulAdd(a, b, c, d: uint64): (uint64, uint64)		218
-nim	wideningMulAdd	intops/impl/pure.html#wideningMulAdd,uint32,uint32,uint32,uint32	proc wideningMulAdd(a, b, c, d: uint32): (uint32, uint32)		228
-nim	narrowingDiv	intops/impl/pure.html#narrowingDiv,uint64,uint64,uint64	proc narrowingDiv(uHi, uLo, v: uint64): (uint64, uint64)		242
-nim	narrowingDiv	intops/impl/pure.html#narrowingDiv,uint32,uint32,uint32	proc narrowingDiv(uHi, uLo, v: uint32): (uint32, uint32)		321
-nimgrp	borrowingsub	intops/impl/pure.html#borrowingSub-procs-all	proc		79
-nimgrp	saturatingadd	intops/impl/pure.html#saturatingAdd-procs-all	proc		46
+nim	carryingAdd	intops/impl/pure.html#carryingAdd,T,T,bool	proc carryingAdd[T: SomeUnsignedInt](a, b: T; carry: bool): (T, bool)		30
+nim	carryingAdd	intops/impl/pure.html#carryingAdd,T,T,bool_2	proc carryingAdd[T: SomeSignedInt](a, b: T; carry: bool): (T, bool)		39
+nim	carry	intops/impl/pure.html#carry,T,T,bool	proc carry[T: SomeInteger](a, b: T; carry: bool): bool		46
+nim	saturatingAdd	intops/impl/pure.html#saturatingAdd,T,T	proc saturatingAdd[T: SomeUnsignedInt](a, b: T): T		50
+nim	saturatingAdd	intops/impl/pure.html#saturatingAdd,T,T_2	proc saturatingAdd[T: SomeSignedInt](a, b: T): T		58
+nim	overflowingSub	intops/impl/pure.html#overflowingSub,T,T	proc overflowingSub[T: SomeUnsignedInt](a, b: T): (T, bool)		69
+nim	overflowingSub	intops/impl/pure.html#overflowingSub,T,T_2	proc overflowingSub[T: SomeSignedInt](a, b: T): (T, bool)		76
+nim	borrowingSub	intops/impl/pure.html#borrowingSub,T,T,bool	proc borrowingSub[T: SomeUnsignedInt](a, b: T; borrow: bool): (T, bool)		83
+nim	borrowingSub	intops/impl/pure.html#borrowingSub,T,T,bool_2	proc borrowingSub[T: SomeSignedInt](a, b: T; borrow: bool): (T, bool)		92
+nim	borrow	intops/impl/pure.html#borrow,T,T,bool	proc borrow[T: SomeInteger](a, b: T; borrow: bool): bool		99
+nim	saturatingSub	intops/impl/pure.html#saturatingSub,T,T	proc saturatingSub[T: SomeUnsignedInt](a, b: T): T		103
+nim	saturatingSub	intops/impl/pure.html#saturatingSub,T,T_2	proc saturatingSub[T: SomeSignedInt](a, b: T): T		111
+nim	wideningMul	intops/impl/pure.html#wideningMul,uint64,uint64	proc wideningMul(a, b: uint64): (uint64, uint64)		122
+nim	wideningMul	intops/impl/pure.html#wideningMul,uint32,uint32	proc wideningMul(a, b: uint32): (uint32, uint32)		160
+nim	wideningMul	intops/impl/pure.html#wideningMul,int64,int64	proc wideningMul(a, b: int64): (int64, uint64)		168
+nim	wideningMul	intops/impl/pure.html#wideningMul,int32,int32	proc wideningMul(a, b: int32): (int32, uint32)		195
+nim	wideningMulAdd	intops/impl/pure.html#wideningMulAdd,uint64,uint64,uint64	proc wideningMulAdd(a, b, c: uint64): (uint64, uint64)		203
+nim	wideningMulAdd	intops/impl/pure.html#wideningMulAdd,uint32,uint32,uint32	proc wideningMulAdd(a, b, c: uint32): (uint32, uint32)		212
+nim	wideningMulAdd	intops/impl/pure.html#wideningMulAdd,uint64,uint64,uint64,uint64	proc wideningMulAdd(a, b, c, d: uint64): (uint64, uint64)		226
+nim	wideningMulAdd	intops/impl/pure.html#wideningMulAdd,uint32,uint32,uint32,uint32	proc wideningMulAdd(a, b, c, d: uint32): (uint32, uint32)		236
+nim	narrowingDiv	intops/impl/pure.html#narrowingDiv,uint64,uint64,uint64	proc narrowingDiv(uHi, uLo, v: uint64): (uint64, uint64)		250
+nim	narrowingDiv	intops/impl/pure.html#narrowingDiv,uint32,uint32,uint32	proc narrowingDiv(uHi, uLo, v: uint32): (uint32, uint32)		329
+nimgrp	borrowingsub	intops/impl/pure.html#borrowingSub-procs-all	proc		83
+nimgrp	saturatingadd	intops/impl/pure.html#saturatingAdd-procs-all	proc		50
 nimgrp	carryingadd	intops/impl/pure.html#carryingAdd-procs-all	proc		30
-nimgrp	overflowingsub	intops/impl/pure.html#overflowingSub-procs-all	proc		65
-nimgrp	wideningmuladd	intops/impl/pure.html#wideningMulAdd-procs-all	proc		195
-nimgrp	wideningmul	intops/impl/pure.html#wideningMul-procs-all	proc		114
-nimgrp	saturatingsub	intops/impl/pure.html#saturatingSub-procs-all	proc		95
-nimgrp	narrowingdiv	intops/impl/pure.html#narrowingDiv-procs-all	proc		242
+nimgrp	overflowingsub	intops/impl/pure.html#overflowingSub-procs-all	proc		69
+nimgrp	wideningmuladd	intops/impl/pure.html#wideningMulAdd-procs-all	proc		203
+nimgrp	wideningmul	intops/impl/pure.html#wideningMul-procs-all	proc		122
+nimgrp	saturatingsub	intops/impl/pure.html#saturatingSub-procs-all	proc		103
+nimgrp	narrowingdiv	intops/impl/pure.html#narrowingDiv-procs-all	proc		250
 nimgrp	overflowingadd	intops/impl/pure.html#overflowingAdd-procs-all	proc		16

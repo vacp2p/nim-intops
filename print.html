@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-91a32e5d.js";
+            window.path_to_searchindex_js = "searchindex-b9a5591d.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-03047c10.js"></script>
@@ -221,7 +221,7 @@
 echo carryingAdd(12'u64, 34'u64, false)
 </code></pre>
 <p>Output:</p>
-<pre><code class="language-nim">(res: 46, carryOut: false)
+<pre><code class="language-nim">(res: 46, carry: false)
 </code></pre>
 <p><code>intops.carryingAdd</code> is a <em>dispatcher</em>. When invoked, it calls the best implementation of this operation out of the available ones for the given environment.</p>
 <p>Notice that we call <code>carryingAdd</code> with <code>uint64</code> type set explicitly. This is important because <code>int</code> can mean different things under different circumstances and so intops doesn’t allow this kind of ambiguity.</p>
@@ -507,20 +507,20 @@ when isMainModule:
 <p>Dispatcher is a Nim template that contains the logic used to select the best available implementation of the given operation for the given environment.</p>
 <p>For example, <code>carryingAdd</code> mentioned in <a href="#quickstart">Quickstart</a> is a dispatcher.</p>
 <p>Let’s examine the code of this dispatcher:</p>
-<pre><code class="language-nim">template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut: bool] =
+<pre><code class="language-nim">template carryingAdd*(a, b: uint64, carry: bool): tuple[res: uint64, carry: bool] =
   when nimvm:
-    pure.carryingAdd(a, b, carryIn)
+    pure.carryingAdd(a, b, carry)
   else:
     when cpuX86 and compilerMsvc and canUseIntrinsics:
-      intrinsics.x86.carryingAdd(a, b, carryIn)
+      intrinsics.x86.carryingAdd(a, b, carry)
     elif compilerGccCompatible and canUseIntrinsics:
-      intrinsics.gcc.carryingAdd(a, b, carryIn)
+      intrinsics.gcc.carryingAdd(a, b, carry)
     elif cpu64Bit and compilerGccCompatible and canUseInlineC:
-      inlinec.carryingAdd(a, b, carryIn)
+      inlinec.carryingAdd(a, b, carry)
     else:
-      pure.carryingAdd(a, b, carryIn)
+      pure.carryingAdd(a, b, carry)
 </code></pre>
-<p>As you can see, a dispatcher is just a nested <code>when</code>-condition that checks if:</p>
+<p>As you can see, this dispatcher is just a nested <code>when</code>-condition that checks if:</p>
 <ol>
 <li>the operation called during compilation (<code>when nimvm</code>)</li>
 <li>the code is run on a particular CPU (<code>when cpuX86</code>) and with a particular C compiler (<code>and compilerMsvc</code>)</li>
@@ -530,21 +530,21 @@ when isMainModule:
 <p>If you want to improve how intops chooses an implementation, find the corresponding dispatcher and modify the branching in it. All dispatchers are defined in <code>intops/ops</code> modules and are grouped by operation. For example, the dispatchers for addition flavors are defined in <code>intops/ops/add.nim</code>.</p>
 <p>In the dispatchers, you can use the global constants defined in <code>intops/consts.nim</code> to check for the CPU architecture, C compiler, etc. If necessary, feel free to define new constants.</p>
 <p>For example, if you want to prioritize inline C implementation over intrinsics, you could modify the dispatcher like so:</p>
-<pre><code class="language-diff">template carryingAdd*(a, b: uint64, carryIn: bool): tuple[res: uint64, carryOut: bool] =
+<pre><code class="language-diff">template carryingAdd*(a, b: uint64, carry: bool): tuple[res: uint64, carry: bool] =
   when nimvm:
-    pure.carryingAdd(a, b, carryIn)
+    pure.carryingAdd(a, b, carry)
   else:
 -   when cpuX86 and compilerMsvc and canUseIntrinsics:
 +   when cpu64Bit and compilerGccCompatible and canUseInlineC:
-+     inlinec.carryingAdd(a, b, carryIn)
++     inlinec.carryingAdd(a, b, carry)
 +   elif cpuX86 and compilerMsvc and canUseIntrinsics:
-      intrinsics.x86.carryingAdd(a, b, carryIn)
+      intrinsics.x86.carryingAdd(a, b, carry)
     elif compilerGccCompatible and canUseIntrinsics:
-      intrinsics.gcc.carryingAdd(a, b, carryIn)
+      intrinsics.gcc.carryingAdd(a, b, carry)
 -   elif cpu64Bit and compilerGccCompatible and canUseInlineC:
--     inlinec.carryingAdd(a, b, carryIn)
+-     inlinec.carryingAdd(a, b, carry)
     else:
-      pure.carryingAdd(a, b, carryIn)
+      pure.carryingAdd(a, b, carry)
 </code></pre>
 <h2 id="adding-new-operations"><a class="header" href="#adding-new-operations">Adding New Operations</a></h2>
 <p>Adding an operation means doing two things:</p>
@@ -552,7 +552,7 @@ when isMainModule:
 <li><strong>Adding a pure Nim implementation for the new operation.</strong> Pure Nim implementations are universal fallbacks for all operations because they are guaranteed to compile everwhere Nim code can compile regardless of the environment. Pure Nim implementations are defined in <code>intops/impl/pure.nim</code>.</li>
 <li><strong>Adding a dispatcher that exposes this implementation.</strong> Find the corresponding module in <code>intops/ops</code> (or create a new one) and add the dispatcher there.</li>
 </ol>
-<p>For example, let’s define a new addition flavor called <strong>magic addition</strong> which adds two uint64 integers and adds the number 42 to the sum (this is our magic component).</p>
+<p>For example, let’s define a new addition flavor called <strong>magic addition</strong> which adds two uint64 integers and adds the number 42 to the sum (aka the magic component).</p>
 <ol>
 <li>In <code>intops/impl/pure.nim</code>:</li>
 </ol>
@@ -563,7 +563,12 @@ when isMainModule:
 <li>In <code>intops/ops/add.nim</code>:</li>
 </ol>
 <pre><code class="language-nim">template magicAdd*(a, b: uint64): uint64 =
-  ## Docstring is mandatory for dispatchers.
+  ##[ Magic addition.
+
+  Takes two integers and returns their sum plus a magic value.
+
+  Docstrings are mandatory for dispatchers! This is our public API and it must be documented.
+  ]##
 
   pure.magicAdd(a, b)
 </code></pre>

@@ -1,8 +1,11 @@
 nimTitle	add	intops/ops/add.html	module src/intops/ops/add		0
 nim	overflowingAdd	intops/ops/add.html#overflowingAdd.t,T,T	template overflowingAdd[T: SomeInteger](a, b: T): tuple[res: T, didOverflow: bool]		14
 nim	saturatingAdd	intops/ops/add.html#saturatingAdd.t,T,T	template saturatingAdd[T: SomeInteger](a, b: T): T		34
-nim	carryingAdd	intops/ops/add.html#carryingAdd.t,uint64,uint64,bool	template carryingAdd(a, b: uint64; carryIn: bool): tuple[res: uint64, carryOut: bool]		54
-nim	carryingAdd	intops/ops/add.html#carryingAdd.t,uint32,uint32,bool	template carryingAdd(a, b: uint32; carryIn: bool): tuple[res: uint32, carryOut: bool]		79
-nim	carryingAdd	intops/ops/add.html#carryingAdd.t,int64,int64,bool	template carryingAdd(a, b: int64; carryIn: bool): tuple[res: int64, carryOut: bool]		101
-nim	carryingAdd	intops/ops/add.html#carryingAdd.t,int32,int32,bool	template carryingAdd(a, b: int32; carryIn: bool): tuple[res: int32, carryOut: bool]		121
+nim	carryingAdd	intops/ops/add.html#carryingAdd.t,uint64,uint64,bool	template carryingAdd(a, b: uint64; carry: bool): tuple[res: uint64, carry: bool]		54
+nim	carryingAdd	intops/ops/add.html#carryingAdd.t,uint32,uint32,bool	template carryingAdd(a, b: uint32; carry: bool): tuple[res: uint32, carry: bool]		78
+nim	carryingAdd	intops/ops/add.html#carryingAdd.t,int64,int64,bool	template carryingAdd(a, b: int64; carry: bool): tuple[res: int64, carry: bool]		100
+nim	carryingAdd	intops/ops/add.html#carryingAdd.t,int32,int32,bool	template carryingAdd(a, b: int32; carry: bool): tuple[res: int32, carry: bool]		120
+nim	carry	intops/ops/add.html#carry.t,SomeUnsignedInt,SomeUnsignedInt,bool	template carry(a, b: SomeUnsignedInt; carry: bool): bool		140
+nim	carry	intops/ops/add.html#carry.t,SomeSignedInt,SomeSignedInt,bool	template carry(a, b: SomeSignedInt; carry: bool): bool		157
 nimgrp	carryingadd	intops/ops/add.html#carryingAdd-templates-all	template		54
+nimgrp	carry	intops/ops/add.html#carry-templates-all	template		140

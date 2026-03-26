@@ -59,11 +59,11 @@
     <summary><a class="reference reference-toplevel" href="#12" id="62">Procs</a></summary>
     <ul class="simple simple-toc-section">
       <ul class="simple nested-toc-section">borrowingSub
-  <li><a class="reference" href="#borrowingSub%2Cuint64%2Cuint64%2Cbool" title="borrowingSub(a, b: uint64; borrowIn: bool): (uint64, bool)">borrowingSub(a, b: uint64; borrowIn: bool): (uint64, bool)</a></li>
+  <li><a class="reference" href="#borrowingSub%2Cuint64%2Cuint64%2Cbool" title="borrowingSub(a, b: uint64; borrow: bool): (uint64, bool)">borrowingSub(a, b: uint64; borrow: bool): (uint64, bool)</a></li>
 
 </ul>
 <ul class="simple nested-toc-section">carryingAdd
-  <li><a class="reference" href="#carryingAdd%2Cuint64%2Cuint64%2Cbool" title="carryingAdd(a, b: uint64; carryIn: bool): (uint64, bool)">carryingAdd(a, b: uint64; carryIn: bool): (uint64, bool)</a></li>
+  <li><a class="reference" href="#carryingAdd%2Cuint64%2Cuint64%2Cbool" title="carryingAdd(a, b: uint64; carry: bool): (uint64, bool)">carryingAdd(a, b: uint64; carry: bool): (uint64, bool)</a></li>
 
 </ul>
 <ul class="simple nested-toc-section">narrowingDiv
@@ -106,13 +106,13 @@
   <dl class="item">
     <div id="borrowingSub-procs-all">
   <div id="borrowingSub,uint64,uint64,bool">
-  <dt><pre><span class="Keyword">func</span> <a href="#borrowingSub%2Cuint64%2Cuint64%2Cbool"><span class="Identifier">borrowingSub</span></a><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">uint64</span><span class="Other">;</span> <span class="Identifier">borrowIn</span><span class="Other">:</span> <span class="Identifier">bool</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">uint64</span><span class="Other">,</span> <span class="Identifier">bool</span><span class="Other">)</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span>
+  <dt><pre><span class="Keyword">func</span> <a href="#borrowingSub%2Cuint64%2Cuint64%2Cbool"><span class="Identifier">borrowingSub</span></a><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">uint64</span><span class="Other">;</span> <span class="Identifier">borrow</span><span class="Other">:</span> <span class="Identifier">bool</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">uint64</span><span class="Other">,</span> <span class="Identifier">bool</span><span class="Other">)</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span>
     </span><span class="Identifier">inline</span><span class="Other">,</span> <span class="Identifier">noinit</span><span class="Other">,</span> <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">gcsafe</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
   <dd>
     
     
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/inlinec.nim#L41" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/inlinec.nim#L41" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/inlinec.nim#L40" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/inlinec.nim#L40" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -120,7 +120,7 @@
 </div>
 <div id="carryingAdd-procs-all">
   <div id="carryingAdd,uint64,uint64,bool">
-  <dt><pre><span class="Keyword">func</span> <a href="#carryingAdd%2Cuint64%2Cuint64%2Cbool"><span class="Identifier">carryingAdd</span></a><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">uint64</span><span class="Other">;</span> <span class="Identifier">carryIn</span><span class="Other">:</span> <span class="Identifier">bool</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">uint64</span><span class="Other">,</span> <span class="Identifier">bool</span><span class="Other">)</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span>
+  <dt><pre><span class="Keyword">func</span> <a href="#carryingAdd%2Cuint64%2Cuint64%2Cbool"><span class="Identifier">carryingAdd</span></a><span class="Other">(</span><span class="Identifier">a</span><span class="Other">,</span> <span class="Identifier">b</span><span class="Other">:</span> <span class="Identifier">uint64</span><span class="Other">;</span> <span class="Identifier">carry</span><span class="Other">:</span> <span class="Identifier">bool</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">uint64</span><span class="Other">,</span> <span class="Identifier">bool</span><span class="Other">)</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span>
     </span><span class="Identifier">inline</span><span class="Other">,</span> <span class="Identifier">noinit</span><span class="Other">,</span> <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">gcsafe</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
   <dd>
     
@@ -139,8 +139,8 @@
   <dd>
     
     
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/inlinec.nim#L141" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/inlinec.nim#L141" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/inlinec.nim#L135" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/inlinec.nim#L135" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -153,8 +153,8 @@
   <dd>
     
     
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/inlinec.nim#L86" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/inlinec.nim#L86" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/inlinec.nim#L83" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/inlinec.nim#L83" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -164,8 +164,8 @@
   <dd>
     
     
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/inlinec.nim#L67" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/inlinec.nim#L67" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/inlinec.nim#L65" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/inlinec.nim#L65" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -178,8 +178,8 @@
   <dd>
     
     
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/inlinec.nim#L124" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/inlinec.nim#L124" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/inlinec.nim#L119" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/inlinec.nim#L119" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -189,8 +189,8 @@
   <dd>
     
     
-    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/inlinec.nim#L107" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/inlinec.nim#L107" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/vacp2p/nim-intops/tree/develop/src/intops/impl/inlinec.nim#L103" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/vacp2p/nim-intops/edit/devel/src/intops/impl/inlinec.nim#L103" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -206,7 +206,7 @@
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2026-03-02 11:52:39 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2026-03-26 10:33:24 UTC</small>
       </div>
     </div>
   </div>

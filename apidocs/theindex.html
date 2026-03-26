@@ -26,47 +26,61 @@
     <div class="container">
       <h1 class="title">Index</h1>
       Modules: <a href="intops.html">intops</a>, <a href="intops/consts.html">intops/consts</a>, <a href="intops/impl/inlineasm.html">intops/impl/inlineasm</a>, <a href="intops/impl/inlineasm/arm64.html">intops/impl/inlineasm/arm64</a>, <a href="intops/impl/inlineasm/x86.html">intops/impl/inlineasm/x86</a>, <a href="intops/impl/inlinec.html">intops/impl/inlinec</a>, <a href="intops/impl/intrinsics.html">intops/impl/intrinsics</a>, <a href="intops/impl/intrinsics/gcc.html">intops/impl/intrinsics/gcc</a>, <a href="intops/impl/intrinsics/x86.html">intops/impl/intrinsics/x86</a>, <a href="intops/impl/pure.html">intops/impl/pure</a>, <a href="intops/ops/add.html">intops/ops/add</a>, <a href="intops/ops/composite.html">intops/ops/composite</a>, <a href="intops/ops/division.html">intops/ops/division</a>, <a href="intops/ops/mul.html">intops/ops/mul</a>, <a href="intops/ops/muladd.html">intops/ops/muladd</a>, <a href="intops/ops/sub.html">intops/ops/sub</a>.<br/><p /><h2>API symbols</h2>
-<dl><dt><a name="borrowingSub" href="#borrowingSub"><span>borrowingSub:</span></a></dt><dd><ul class="simple">
+<dl><dt><a name="borrow" href="#borrow"><span>borrow:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="x86: proc borrowingSub(a, b: int32; borrowIn: bool): (int32, bool)" href="intops/impl/inlineasm/x86.html#borrowingSub%2Cint32%2Cint32%2Cbool">x86: proc borrowingSub(a, b: int32; borrowIn: bool): (int32, bool)</a></li>
+          data-doc-search-tag="gcc: proc borrow[T: SomeInteger](a, b: T; borrow: bool): bool" href="intops/impl/intrinsics/gcc.html#borrow%2CT%2CT%2Cbool">gcc: proc borrow[T: SomeInteger](a, b: T; borrow: bool): bool</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="x86: proc borrowingSub(a, b: int64; borrowIn: bool): (int64, bool)" href="intops/impl/inlineasm/x86.html#borrowingSub%2Cint64%2Cint64%2Cbool">x86: proc borrowingSub(a, b: int64; borrowIn: bool): (int64, bool)</a></li>
+          data-doc-search-tag="x86: proc borrow(a, b: uint32; borrow: bool): bool" href="intops/impl/intrinsics/x86.html#borrow%2Cuint32%2Cuint32%2Cbool">x86: proc borrow(a, b: uint32; borrow: bool): bool</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="x86: proc borrowingSub(a, b: uint32; borrowIn: bool): (uint32, bool)" href="intops/impl/inlineasm/x86.html#borrowingSub%2Cuint32%2Cuint32%2Cbool">x86: proc borrowingSub(a, b: uint32; borrowIn: bool): (uint32, bool)</a></li>
+          data-doc-search-tag="x86: proc borrow(a, b: uint64; borrow: bool): bool" href="intops/impl/intrinsics/x86.html#borrow%2Cuint64%2Cuint64%2Cbool">x86: proc borrow(a, b: uint64; borrow: bool): bool</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="x86: proc borrowingSub(a, b: uint64; borrowIn: bool): (uint64, bool)" href="intops/impl/inlineasm/x86.html#borrowingSub%2Cuint64%2Cuint64%2Cbool">x86: proc borrowingSub(a, b: uint64; borrowIn: bool): (uint64, bool)</a></li>
+          data-doc-search-tag="pure: proc borrow[T: SomeInteger](a, b: T; borrow: bool): bool" href="intops/impl/pure.html#borrow%2CT%2CT%2Cbool">pure: proc borrow[T: SomeInteger](a, b: T; borrow: bool): bool</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="inlinec: proc borrowingSub(a, b: uint64; borrowIn: bool): (uint64, bool)" href="intops/impl/inlinec.html#borrowingSub%2Cuint64%2Cuint64%2Cbool">inlinec: proc borrowingSub(a, b: uint64; borrowIn: bool): (uint64, bool)</a></li>
+          data-doc-search-tag="sub: template borrow(a, b: SomeSignedInt; borrow: bool): bool" href="intops/ops/sub.html#borrow.t%2CSomeSignedInt%2CSomeSignedInt%2Cbool">sub: template borrow(a, b: SomeSignedInt; borrow: bool): bool</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="gcc: proc borrowingSub[T: SomeInteger](a, b: T; borrowIn: bool): (T, bool)" href="intops/impl/intrinsics/gcc.html#borrowingSub%2CT%2CT%2Cbool">gcc: proc borrowingSub[T: SomeInteger](a, b: T; borrowIn: bool): (T, bool)</a></li>
+          data-doc-search-tag="sub: template borrow(a, b: SomeUnsignedInt; borrow: bool): bool" href="intops/ops/sub.html#borrow.t%2CSomeUnsignedInt%2CSomeUnsignedInt%2Cbool">sub: template borrow(a, b: SomeUnsignedInt; borrow: bool): bool</a></li>
+          </ul></dd>
+<dt><a name="borrowingSub" href="#borrowingSub"><span>borrowingSub:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="x86: proc borrowingSub(a, b: int32; borrow: bool): (int32, bool)" href="intops/impl/inlineasm/x86.html#borrowingSub%2Cint32%2Cint32%2Cbool">x86: proc borrowingSub(a, b: int32; borrow: bool): (int32, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="x86: proc borrowingSub(a, b: uint32; borrowIn: bool): (uint32, bool)" href="intops/impl/intrinsics/x86.html#borrowingSub%2Cuint32%2Cuint32%2Cbool">x86: proc borrowingSub(a, b: uint32; borrowIn: bool): (uint32, bool)</a></li>
+          data-doc-search-tag="x86: proc borrowingSub(a, b: int64; borrow: bool): (int64, bool)" href="intops/impl/inlineasm/x86.html#borrowingSub%2Cint64%2Cint64%2Cbool">x86: proc borrowingSub(a, b: int64; borrow: bool): (int64, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="x86: proc borrowingSub(a, b: uint64; borrowIn: bool): (uint64, bool)" href="intops/impl/intrinsics/x86.html#borrowingSub%2Cuint64%2Cuint64%2Cbool">x86: proc borrowingSub(a, b: uint64; borrowIn: bool): (uint64, bool)</a></li>
+          data-doc-search-tag="x86: proc borrowingSub(a, b: uint32; borrow: bool): (uint32, bool)" href="intops/impl/inlineasm/x86.html#borrowingSub%2Cuint32%2Cuint32%2Cbool">x86: proc borrowingSub(a, b: uint32; borrow: bool): (uint32, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="pure: proc borrowingSub[T: SomeUnsignedInt](a, b: T; borrowIn: bool): (T, bool)" href="intops/impl/pure.html#borrowingSub%2CT%2CT%2Cbool">pure: proc borrowingSub[T: SomeUnsignedInt](a, b: T; borrowIn: bool): (T, bool)</a></li>
+          data-doc-search-tag="x86: proc borrowingSub(a, b: uint64; borrow: bool): (uint64, bool)" href="intops/impl/inlineasm/x86.html#borrowingSub%2Cuint64%2Cuint64%2Cbool">x86: proc borrowingSub(a, b: uint64; borrow: bool): (uint64, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="pure: proc borrowingSub[T: SomeSignedInt](a, b: T; borrowIn: bool): (T, bool)" href="intops/impl/pure.html#borrowingSub%2CT%2CT%2Cbool_2">pure: proc borrowingSub[T: SomeSignedInt](a, b: T; borrowIn: bool): (T, bool)</a></li>
+          data-doc-search-tag="inlinec: proc borrowingSub(a, b: uint64; borrow: bool): (uint64, bool)" href="intops/impl/inlinec.html#borrowingSub%2Cuint64%2Cuint64%2Cbool">inlinec: proc borrowingSub(a, b: uint64; borrow: bool): (uint64, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="sub: template borrowingSub(a, b: int32; borrowIn: bool): (int32, bool)" href="intops/ops/sub.html#borrowingSub.t%2Cint32%2Cint32%2Cbool">sub: template borrowingSub(a, b: int32; borrowIn: bool): (int32, bool)</a></li>
+          data-doc-search-tag="gcc: proc borrowingSub[T: SomeInteger](a, b: T; borrow: bool): (T, bool)" href="intops/impl/intrinsics/gcc.html#borrowingSub%2CT%2CT%2Cbool">gcc: proc borrowingSub[T: SomeInteger](a, b: T; borrow: bool): (T, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="sub: template borrowingSub(a, b: int64; borrowIn: bool): tuple[res: int64, borrowOut: bool]" href="intops/ops/sub.html#borrowingSub.t%2Cint64%2Cint64%2Cbool">sub: template borrowingSub(a, b: int64; borrowIn: bool): tuple[res: int64, borrowOut: bool]</a></li>
+          data-doc-search-tag="x86: proc borrowingSub(a, b: uint32; borrow: bool): (uint32, bool)" href="intops/impl/intrinsics/x86.html#borrowingSub%2Cuint32%2Cuint32%2Cbool">x86: proc borrowingSub(a, b: uint32; borrow: bool): (uint32, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="sub: template borrowingSub(a, b: uint32; borrowIn: bool): tuple[res: uint32, borrowOut: bool]" href="intops/ops/sub.html#borrowingSub.t%2Cuint32%2Cuint32%2Cbool">sub: template borrowingSub(a, b: uint32; borrowIn: bool): tuple[res: uint32, borrowOut: bool]</a></li>
+          data-doc-search-tag="x86: proc borrowingSub(a, b: uint64; borrow: bool): (uint64, bool)" href="intops/impl/intrinsics/x86.html#borrowingSub%2Cuint64%2Cuint64%2Cbool">x86: proc borrowingSub(a, b: uint64; borrow: bool): (uint64, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="sub: template borrowingSub(a, b: uint64; borrowIn: bool): tuple[res: uint64, borrowOut: bool]" href="intops/ops/sub.html#borrowingSub.t%2Cuint64%2Cuint64%2Cbool">sub: template borrowingSub(a, b: uint64; borrowIn: bool): tuple[res: uint64, borrowOut: bool]</a></li>
+          data-doc-search-tag="pure: proc borrowingSub[T: SomeUnsignedInt](a, b: T; borrow: bool): (T, bool)" href="intops/impl/pure.html#borrowingSub%2CT%2CT%2Cbool">pure: proc borrowingSub[T: SomeUnsignedInt](a, b: T; borrow: bool): (T, bool)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="pure: proc borrowingSub[T: SomeSignedInt](a, b: T; borrow: bool): (T, bool)" href="intops/impl/pure.html#borrowingSub%2CT%2CT%2Cbool_2">pure: proc borrowingSub[T: SomeSignedInt](a, b: T; borrow: bool): (T, bool)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="sub: template borrowingSub(a, b: int32; borrow: bool): tuple[res: int32, borrow: bool]" href="intops/ops/sub.html#borrowingSub.t%2Cint32%2Cint32%2Cbool">sub: template borrowingSub(a, b: int32; borrow: bool): tuple[res: int32, borrow: bool]</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="sub: template borrowingSub(a, b: int64; borrow: bool): tuple[res: int64, borrow: bool]" href="intops/ops/sub.html#borrowingSub.t%2Cint64%2Cint64%2Cbool">sub: template borrowingSub(a, b: int64; borrow: bool): tuple[res: int64, borrow: bool]</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="sub: template borrowingSub(a, b: uint32; borrow: bool): tuple[res: uint32, borrow: bool]" href="intops/ops/sub.html#borrowingSub.t%2Cuint32%2Cuint32%2Cbool">sub: template borrowingSub(a, b: uint32; borrow: bool): tuple[res: uint32, borrow: bool]</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="sub: template borrowingSub(a, b: uint64; borrow: bool): tuple[res: uint64, borrow: bool]" href="intops/ops/sub.html#borrowingSub.t%2Cuint64%2Cuint64%2Cbool">sub: template borrowingSub(a, b: uint64; borrow: bool): tuple[res: uint64, borrow: bool]</a></li>
           </ul></dd>
 <dt><a name="builtinBorrowingSub" href="#builtinBorrowingSub"><span>builtinBorrowingSub:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="x86: proc builtinBorrowingSub(borrowIn: uint8; a, b: cuint; res: ptr uint32): uint8" href="intops/impl/intrinsics/x86.html#builtinBorrowingSub%2Cuint8%2Ccuint%2Ccuint%2Cptr.uint32">x86: proc builtinBorrowingSub(borrowIn: uint8; a, b: cuint; res: ptr uint32): uint8</a></li>
+          data-doc-search-tag="x86: proc builtinBorrowingSub(borrow: uint8; a, b: cuint; res: ptr uint32): uint8" href="intops/impl/intrinsics/x86.html#builtinBorrowingSub%2Cuint8%2Ccuint%2Ccuint%2Cptr.uint32">x86: proc builtinBorrowingSub(borrow: uint8; a, b: cuint; res: ptr uint32): uint8</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="x86: proc builtinBorrowingSub(borrowIn: uint8; a, b: culonglong; res: ptr culonglong): uint8" href="intops/impl/intrinsics/x86.html#builtinBorrowingSub%2Cuint8%2Cculonglong%2Cculonglong%2Cptr.culonglong">x86: proc builtinBorrowingSub(borrowIn: uint8; a, b: culonglong; res: ptr culonglong): uint8</a></li>
+          data-doc-search-tag="x86: proc builtinBorrowingSub(borrow: uint8; a, b: culonglong; res: ptr culonglong): uint8" href="intops/impl/intrinsics/x86.html#builtinBorrowingSub%2Cuint8%2Cculonglong%2Cculonglong%2Cptr.culonglong">x86: proc builtinBorrowingSub(borrow: uint8; a, b: culonglong; res: ptr culonglong): uint8</a></li>
           </ul></dd>
 <dt><a name="builtinCarryingAdd" href="#builtinCarryingAdd"><span>builtinCarryingAdd:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="x86: proc builtinCarryingAdd(carryIn: uint8; a, b: cuint; res: ptr cuint): uint8" href="intops/impl/intrinsics/x86.html#builtinCarryingAdd%2Cuint8%2Ccuint%2Ccuint%2Cptr.cuint">x86: proc builtinCarryingAdd(carryIn: uint8; a, b: cuint; res: ptr cuint): uint8</a></li>
+          data-doc-search-tag="x86: proc builtinCarryingAdd(carry: uint8; a, b: cuint; res: ptr cuint): uint8" href="intops/impl/intrinsics/x86.html#builtinCarryingAdd%2Cuint8%2Ccuint%2Ccuint%2Cptr.cuint">x86: proc builtinCarryingAdd(carry: uint8; a, b: cuint; res: ptr cuint): uint8</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="x86: proc builtinCarryingAdd(carryIn: uint8; a, b: culonglong; res: ptr culonglong): uint8" href="intops/impl/intrinsics/x86.html#builtinCarryingAdd%2Cuint8%2Cculonglong%2Cculonglong%2Cptr.culonglong">x86: proc builtinCarryingAdd(carryIn: uint8; a, b: culonglong; res: ptr culonglong): uint8</a></li>
+          data-doc-search-tag="x86: proc builtinCarryingAdd(carry: uint8; a, b: culonglong; res: ptr culonglong): uint8" href="intops/impl/intrinsics/x86.html#builtinCarryingAdd%2Cuint8%2Cculonglong%2Cculonglong%2Cptr.culonglong">x86: proc builtinCarryingAdd(carry: uint8; a, b: culonglong; res: ptr culonglong): uint8</a></li>
           </ul></dd>
 <dt><a name="builtinOverflowingAdd" href="#builtinOverflowingAdd"><span>builtinOverflowingAdd:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -88,35 +102,49 @@
 <li><a class="reference external"
           data-doc-search-tag="consts: const canUseIntrinsics" href="intops/consts.html#canUseIntrinsics">consts: const canUseIntrinsics</a></li>
           </ul></dd>
+<dt><a name="carry" href="#carry"><span>carry:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="gcc: proc carry[T: SomeInteger](a, b: T; carry: bool): bool" href="intops/impl/intrinsics/gcc.html#carry%2CT%2CT%2Cbool">gcc: proc carry[T: SomeInteger](a, b: T; carry: bool): bool</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="x86: proc carry(a, b: uint32; carry: bool): bool" href="intops/impl/intrinsics/x86.html#carry%2Cuint32%2Cuint32%2Cbool">x86: proc carry(a, b: uint32; carry: bool): bool</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="x86: proc carry(a, b: uint64; carry: bool): bool" href="intops/impl/intrinsics/x86.html#carry%2Cuint64%2Cuint64%2Cbool">x86: proc carry(a, b: uint64; carry: bool): bool</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="pure: proc carry[T: SomeInteger](a, b: T; carry: bool): bool" href="intops/impl/pure.html#carry%2CT%2CT%2Cbool">pure: proc carry[T: SomeInteger](a, b: T; carry: bool): bool</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="add: template carry(a, b: SomeSignedInt; carry: bool): bool" href="intops/ops/add.html#carry.t%2CSomeSignedInt%2CSomeSignedInt%2Cbool">add: template carry(a, b: SomeSignedInt; carry: bool): bool</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="add: template carry(a, b: SomeUnsignedInt; carry: bool): bool" href="intops/ops/add.html#carry.t%2CSomeUnsignedInt%2CSomeUnsignedInt%2Cbool">add: template carry(a, b: SomeUnsignedInt; carry: bool): bool</a></li>
+          </ul></dd>
 <dt><a name="carryingAdd" href="#carryingAdd"><span>carryingAdd:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="x86: proc carryingAdd(a, b: int32; carryIn: bool): (int32, bool)" href="intops/impl/inlineasm/x86.html#carryingAdd%2Cint32%2Cint32%2Cbool">x86: proc carryingAdd(a, b: int32; carryIn: bool): (int32, bool)</a></li>
+          data-doc-search-tag="x86: proc carryingAdd(a, b: int32; carry: bool): (int32, bool)" href="intops/impl/inlineasm/x86.html#carryingAdd%2Cint32%2Cint32%2Cbool">x86: proc carryingAdd(a, b: int32; carry: bool): (int32, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="x86: proc carryingAdd(a, b: int64; carryIn: bool): (int64, bool)" href="intops/impl/inlineasm/x86.html#carryingAdd%2Cint64%2Cint64%2Cbool">x86: proc carryingAdd(a, b: int64; carryIn: bool): (int64, bool)</a></li>
+          data-doc-search-tag="x86: proc carryingAdd(a, b: int64; carry: bool): (int64, bool)" href="intops/impl/inlineasm/x86.html#carryingAdd%2Cint64%2Cint64%2Cbool">x86: proc carryingAdd(a, b: int64; carry: bool): (int64, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="x86: proc carryingAdd(a, b: uint32; carryIn: bool): (uint32, bool)" href="intops/impl/inlineasm/x86.html#carryingAdd%2Cuint32%2Cuint32%2Cbool">x86: proc carryingAdd(a, b: uint32; carryIn: bool): (uint32, bool)</a></li>
+          data-doc-search-tag="x86: proc carryingAdd(a, b: uint32; carry: bool): (uint32, bool)" href="intops/impl/inlineasm/x86.html#carryingAdd%2Cuint32%2Cuint32%2Cbool">x86: proc carryingAdd(a, b: uint32; carry: bool): (uint32, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="x86: proc carryingAdd(a, b: uint64; carryIn: bool): (uint64, bool)" href="intops/impl/inlineasm/x86.html#carryingAdd%2Cuint64%2Cuint64%2Cbool">x86: proc carryingAdd(a, b: uint64; carryIn: bool): (uint64, bool)</a></li>
+          data-doc-search-tag="x86: proc carryingAdd(a, b: uint64; carry: bool): (uint64, bool)" href="intops/impl/inlineasm/x86.html#carryingAdd%2Cuint64%2Cuint64%2Cbool">x86: proc carryingAdd(a, b: uint64; carry: bool): (uint64, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="inlinec: proc carryingAdd(a, b: uint64; carryIn: bool): (uint64, bool)" href="intops/impl/inlinec.html#carryingAdd%2Cuint64%2Cuint64%2Cbool">inlinec: proc carryingAdd(a, b: uint64; carryIn: bool): (uint64, bool)</a></li>
+          data-doc-search-tag="inlinec: proc carryingAdd(a, b: uint64; carry: bool): (uint64, bool)" href="intops/impl/inlinec.html#carryingAdd%2Cuint64%2Cuint64%2Cbool">inlinec: proc carryingAdd(a, b: uint64; carry: bool): (uint64, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="gcc: proc carryingAdd[T: SomeInteger](a, b: T; carryIn: bool): (T, bool)" href="intops/impl/intrinsics/gcc.html#carryingAdd%2CT%2CT%2Cbool">gcc: proc carryingAdd[T: SomeInteger](a, b: T; carryIn: bool): (T, bool)</a></li>
+          data-doc-search-tag="gcc: proc carryingAdd[T: SomeInteger](a, b: T; carry: bool): (T, bool)" href="intops/impl/intrinsics/gcc.html#carryingAdd%2CT%2CT%2Cbool">gcc: proc carryingAdd[T: SomeInteger](a, b: T; carry: bool): (T, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="x86: proc carryingAdd(a, b: uint32; carryIn: bool): (uint32, bool)" href="intops/impl/intrinsics/x86.html#carryingAdd%2Cuint32%2Cuint32%2Cbool">x86: proc carryingAdd(a, b: uint32; carryIn: bool): (uint32, bool)</a></li>
+          data-doc-search-tag="x86: proc carryingAdd(a, b: uint32; carry: bool): (uint32, bool)" href="intops/impl/intrinsics/x86.html#carryingAdd%2Cuint32%2Cuint32%2Cbool">x86: proc carryingAdd(a, b: uint32; carry: bool): (uint32, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="x86: proc carryingAdd(a, b: uint64; carryIn: bool): (uint64, bool)" href="intops/impl/intrinsics/x86.html#carryingAdd%2Cuint64%2Cuint64%2Cbool">x86: proc carryingAdd(a, b: uint64; carryIn: bool): (uint64, bool)</a></li>
+          data-doc-search-tag="x86: proc carryingAdd(a, b: uint64; carry: bool): (uint64, bool)" href="intops/impl/intrinsics/x86.html#carryingAdd%2Cuint64%2Cuint64%2Cbool">x86: proc carryingAdd(a, b: uint64; carry: bool): (uint64, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="pure: proc carryingAdd[T: SomeUnsignedInt](a, b: T; carryIn: bool): (T, bool)" href="intops/impl/pure.html#carryingAdd%2CT%2CT%2Cbool">pure: proc carryingAdd[T: SomeUnsignedInt](a, b: T; carryIn: bool): (T, bool)</a></li>
+          data-doc-search-tag="pure: proc carryingAdd[T: SomeUnsignedInt](a, b: T; carry: bool): (T, bool)" href="intops/impl/pure.html#carryingAdd%2CT%2CT%2Cbool">pure: proc carryingAdd[T: SomeUnsignedInt](a, b: T; carry: bool): (T, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="pure: proc carryingAdd[T: SomeSignedInt](a, b: T; carryIn: bool): (T, bool)" href="intops/impl/pure.html#carryingAdd%2CT%2CT%2Cbool_2">pure: proc carryingAdd[T: SomeSignedInt](a, b: T; carryIn: bool): (T, bool)</a></li>
+          data-doc-search-tag="pure: proc carryingAdd[T: SomeSignedInt](a, b: T; carry: bool): (T, bool)" href="intops/impl/pure.html#carryingAdd%2CT%2CT%2Cbool_2">pure: proc carryingAdd[T: SomeSignedInt](a, b: T; carry: bool): (T, bool)</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="add: template carryingAdd(a, b: int32; carryIn: bool): tuple[res: int32, carryOut: bool]" href="intops/ops/add.html#carryingAdd.t%2Cint32%2Cint32%2Cbool">add: template carryingAdd(a, b: int32; carryIn: bool): tuple[res: int32, carryOut: bool]</a></li>
+          data-doc-search-tag="add: template carryingAdd(a, b: int32; carry: bool): tuple[res: int32, carry: bool]" href="intops/ops/add.html#carryingAdd.t%2Cint32%2Cint32%2Cbool">add: template carryingAdd(a, b: int32; carry: bool): tuple[res: int32, carry: bool]</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="add: template carryingAdd(a, b: int64; carryIn: bool): tuple[res: int64, carryOut: bool]" href="intops/ops/add.html#carryingAdd.t%2Cint64%2Cint64%2Cbool">add: template carryingAdd(a, b: int64; carryIn: bool): tuple[res: int64, carryOut: bool]</a></li>
+          data-doc-search-tag="add: template carryingAdd(a, b: int64; carry: bool): tuple[res: int64, carry: bool]" href="intops/ops/add.html#carryingAdd.t%2Cint64%2Cint64%2Cbool">add: template carryingAdd(a, b: int64; carry: bool): tuple[res: int64, carry: bool]</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="add: template carryingAdd(a, b: uint32; carryIn: bool): tuple[res: uint32, carryOut: bool]" href="intops/ops/add.html#carryingAdd.t%2Cuint32%2Cuint32%2Cbool">add: template carryingAdd(a, b: uint32; carryIn: bool): tuple[res: uint32, carryOut: bool]</a></li>
+          data-doc-search-tag="add: template carryingAdd(a, b: uint32; carry: bool): tuple[res: uint32, carry: bool]" href="intops/ops/add.html#carryingAdd.t%2Cuint32%2Cuint32%2Cbool">add: template carryingAdd(a, b: uint32; carry: bool): tuple[res: uint32, carry: bool]</a></li>
           <li><a class="reference external"
-          data-doc-search-tag="add: template carryingAdd(a, b: uint64; carryIn: bool): tuple[res: uint64, carryOut: bool]" href="intops/ops/add.html#carryingAdd.t%2Cuint64%2Cuint64%2Cbool">add: template carryingAdd(a, b: uint64; carryIn: bool): tuple[res: uint64, carryOut: bool]</a></li>
+          data-doc-search-tag="add: template carryingAdd(a, b: uint64; carry: bool): tuple[res: uint64, carry: bool]" href="intops/ops/add.html#carryingAdd.t%2Cuint64%2Cuint64%2Cbool">add: template carryingAdd(a, b: uint64; carry: bool): tuple[res: uint64, carry: bool]</a></li>
           </ul></dd>
 <dt><a name="compilerGccCompatible" href="#compilerGccCompatible"><span>compilerGccCompatible:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -252,7 +280,7 @@
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2026-03-02 11:52:39 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2026-03-26 10:33:24 UTC</small>
       </div>
     </div>
   </div>

@@ -18,7 +18,7 @@ when cpu64Bit and compilerGccCompatible and canUseInlineC:
     var
       sum {.noinit.}: uint64
       cOut {.noinit.}: uint64
-      cInVal = if carry: 1'u64 else: 0'u64
+      cInVal = uint64(carry)
 
     {.
       emit: """
@@ -41,7 +41,7 @@ when cpu64Bit and compilerGccCompatible and canUseInlineC:
     var
       diff {.noinit.}: uint64
       bOut {.noinit.}: uint64
-      bInVal = if borrow: 1'u64 else: 0'u64
+      bInVal = uint64(borrow)
 
     {.
       emit: """

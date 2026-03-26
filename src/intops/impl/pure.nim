@@ -205,7 +205,7 @@ func wideningMulAdd*(a, b, c: uint64): (uint64, uint64) =
     (prodHi, prodLo) = wideningMul(a, b)
     (sumLo, carry) = carryingAdd(prodLo, c, false)
     lo = sumLo
-    hi = prodHi + (if carry: 1'u64 else: 0'u64)
+    hi = prodHi + uint64(carry)
 
   (hi, lo)
 
@@ -229,7 +229,7 @@ func wideningMulAdd*(a, b, c, d: uint64): (uint64, uint64) =
     (sumLo1, carry1) = carryingAdd(prodLo, c, false)
     (sumLo2, carry2) = carryingAdd(sumLo1, d, false)
     lo = sumLo2
-    hi = prodHi + (if carry1: 1'u64 else: 0'u64) + (if carry2: 1'u64 else: 0'u64)
+    hi = prodHi + uint64(carry1) + uint64(carry2)
 
   (hi, lo)
 

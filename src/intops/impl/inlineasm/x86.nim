@@ -35,7 +35,7 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
     var
       sum = a
       didOverflow {.noinit.}: uint8
-      cInVal = if carry: 1'u64 else: 0'u64
+      cInVal = uint64(carry)
 
     asm """
       negq %[cInVal]      /* Sets CF based on carry (Standard trick) */
@@ -52,7 +52,7 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
     var
       diff = a
       bOut {.noinit.}: uint8
-      bInVal = if borrow: 1'u64 else: 0'u64
+      bInVal = uint64(borrow)
 
     asm """
       negq %[bInVal]      /* Sets CF=1 if bInVal==1, CF=0 if bInVal==0 */
@@ -69,7 +69,7 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
     var
       diff = a
       didOverflow {.noinit.}: uint8
-      bInVal = if borrow: 1'u64 else: 0'u64
+      bInVal = uint64(borrow)
 
     asm """
       negq %[bInVal]      /* Prime CF based on borrow */
@@ -108,7 +108,7 @@ when cpuX86 and compilerGccCompatible and canUseInlineAsm:
     var
       sum = a
       cOut {.noinit.}: uint8
-      cInVal = if carry: 1'u32 else: 0'u32
+      cInVal = uint32(carry)
 
     asm """
       negl %[cInVal]      /* 32-bit Negate */
@@ -125,7 +125,7 @@ when cpuX86 and compilerGccCompatible and canUseInlineAsm:
     var
       sum = a
       didOverflow {.noinit.}: uint8
-      cInVal = if carry: 1'u32 else: 0'u32
+      cInVal = uint32(carry)
 
     asm """
       negl %[cInVal]
@@ -142,7 +142,7 @@ when cpuX86 and compilerGccCompatible and canUseInlineAsm:
     var
       diff = a
       bOut {.noinit.}: uint8
-      bInVal = if borrow: 1'u32 else: 0'u32
+      bInVal = uint32(borrow)
 
     asm """
       negl %[bInVal]      /* 32-bit Negate to set CF */
@@ -159,7 +159,7 @@ when cpuX86 and compilerGccCompatible and canUseInlineAsm:
     var
       diff = a
       didOverflow {.noinit.}: uint8
-      bInVal = if borrow: 1'u32 else: 0'u32
+      bInVal = uint32(borrow)
 
     asm """
       negl %[bInVal]

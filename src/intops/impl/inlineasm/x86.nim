@@ -18,7 +18,7 @@ when cpu64Bit and cpuX86 and compilerGccCompatible and canUseInlineAsm:
     var
       sum = a
       cOut {.noinit.}: uint8
-      cInVal = if carry: 1'u64 else: 0'u64
+      cInVal = uint64(carry)
 
     asm """
       negq %[cInVal]      /* Sets CF=1 if cInVal==1, CF=0 if cInVal==0 */

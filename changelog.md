@@ -9,8 +9,8 @@
 
 ## 1.0.8 (WIP)
 
-- [+] Ops: add: Added getCarry operation that does carrying addition but returns only the carry flag (#22).
-- [+] Ops: sub: Added borrowingSub operation that does borrowing subtraction but returns only the borrow flag (#22).
+- [+] Ops: add: Added `carry` operation that does carrying addition but returns only the carry flag (#22).
+- [+] Ops: sub: Added `borrow` operation that does borrowing subtraction but returns only the borrow flag (#22).
 
 ## 1.0.7 (February 2, 2026)
 

@@ -5,9 +5,9 @@ intops is a Nim library that implements multi-precision arithmetic operations fo
 intops is designed for Nim developers working on bigint-related projects, e.g. crypto libraries.
 
 - [Repository →](https://github.com/vacp2p/nim-intops)
-- [API Index →](https://vacp2p.github.io/nim-intops/apidocs/theindex.html)
+- [API Index →](/apidocs/theindex.html)
 - [Issues →](https://github.com/vacp2p/nim-intops/issues)
-- [Contributor's Guide →](https://vacp2p.github.io/nim-intops/contrib.html)
+- [Contributor's Guide →](/contrib.html)
 - [Benchmark Stats →](https://bencher.dev/console/projects/nim-intops/perf)
 
 ## What's included in the package
